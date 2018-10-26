@@ -1,0 +1,18 @@
+<resources>
+    <string name="facebook_app_id" translatable="false">245836276287371</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb245836276287371</string>
+    <string name="app_name">Augusta</string>
+    <string name="Tell_us">Tell us who you are ...</string>
+    <string name="your_name">Your Name</string>
+    <string name="your_lastname">Your LastName</string>
+    <string name="your_address">Your Address</string>
+    <string name="your_location">Your Location</string>
+    <string name="your_mail">Your Mail</string>
+    <string name="your_facebook">Your Facebook</string>
+    <string name="your_google">Your Google</string>
+    <string name="sing_in">Sing In</string>
+    <string name="title_activity_menu">Menu</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+</resources>

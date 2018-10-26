@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Augusta</string>
+    <string name="Tell_us">Cuentanos acerca de ti ...</string>
+    <string name="your_name">Tu Nombre</string>
+    <string name="your_lastname">Tu Apellido</string>
+    <string name="your_address">Tu Direccion</string>
+    <string name="your_location">Tu Ubicacion</string>
+    <string name="your_mail">Tu Email</string>
+    <string name="your_facebook">Tu Facebook</string>
+    <string name="your_google">Tu Google</string>
+    <string name="sing_in">Registrate</string>
+    <string name="title_activity_menu">Menu</string>
+    <string name="title_home">Principal</string>
+    <string name="title_dashboard">Tablero</string>
+    <string name="title_notifications">Notificaciones</string>
+</resources>
