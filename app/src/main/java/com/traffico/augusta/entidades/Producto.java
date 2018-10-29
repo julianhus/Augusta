@@ -1,8 +1,9 @@
 package com.traffico.augusta.entidades;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Producto {
+public class Producto implements Serializable {
 
     private int id;
     private String barCode;
@@ -73,14 +74,7 @@ public class Producto {
 
     @Override
     public String toString() {
-        return "Producto{" +
-                "id=" + id +
-                ", barCode='" + barCode + '\'' +
-                ", marca='" + marca + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                ", medida='" + medida + '\'' +
-                ", valorMedida=" + valorMedida +
-                ", tiendaProductos=" + tiendaProductos +
-                '}';
+        return marca+"\n"+descripcion+"\n"+valorMedida+" "+medida+"\n"+barCode;
+
     }
 }

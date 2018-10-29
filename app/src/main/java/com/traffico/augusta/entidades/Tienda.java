@@ -74,14 +74,6 @@ public class Tienda implements Serializable {
 
     @Override
     public String toString() {
-        return "Tienda{" +
-                "id=" + id +
-                ", descripcion='" + descripcion + '\'' +
-                ", direccion='" + direccion + '\'' +
-                ", coordenadas='" + coordenadas + '\'' +
-                ", municipio=" + municipio +
-                ", tiendaProductos=" + tiendaProductos +
-                ", mercados=" + mercados +
-                '}';
+        return descripcion +", "+ direccion +", "+ municipio;
     }
 }

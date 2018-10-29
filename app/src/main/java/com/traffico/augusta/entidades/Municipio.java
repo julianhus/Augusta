@@ -14,6 +14,11 @@ public class Municipio implements Serializable {
     public Municipio() {
     }
 
+    public Municipio(int id, String descripcion) {
+        this.id = id;
+        this.descripcion = descripcion;
+    }
+
     public int getId() {
         return id;
     }
@@ -56,12 +61,6 @@ public class Municipio implements Serializable {
 
     @Override
     public String toString() {
-        return "Municipio{" +
-                "id=" + id +
-                ", descripcion='" + descripcion + '\'' +
-                ", departamento=" + departamento +
-                ", tiendas=" + tiendas +
-                ", usuarios=" + usuarios +
-                '}';
+        return descripcion;
     }
 }

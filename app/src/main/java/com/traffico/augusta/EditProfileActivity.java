@@ -22,6 +22,7 @@ public class EditProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+        getSupportActionBar().setTitle(R.string.profile);
         MyOpenHelper dbHelper = new MyOpenHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         if (db != null) {
@@ -66,7 +67,7 @@ public class EditProfileActivity extends AppCompatActivity {
             MyOpenHelper dbHelper = new MyOpenHelper(this);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             if (db != null) {
-                dbHelper.updateUser(db, usuario);
+                dbHelper.updateUsuario(db, usuario);
                 Toast toast = Toast.makeText(getApplicationContext(), R.string.updated, Toast.LENGTH_SHORT);
                 toast.show();
                 final Intent mainActivity = new Intent(this, MainActivity.class);

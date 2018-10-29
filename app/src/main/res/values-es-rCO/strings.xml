@@ -24,4 +24,19 @@
     <string name="location">Ubicacion</string>
     <string name="address">Direccion</string>
     <string name="description">Nombre</string>
+    <string name="stores">Tiendas</string>
+    <string name="empty_stores">Tiendas Vacias</string>
+    <string name="create">Crear</string>
+    <string name="select">"Seleccione ... "</string>
+    <string name="redInfo">Revisa los campos en rojo</string>
+    <string name="created">Creado</string>
+    <string name="update_store">Actualizar Tienda</string>
+    <string name="products">Productos</string>
+    <string name="empty_products">Productos Vacios</string>
+    <string name="bar_code">Codigo de Barras</string>
+    <string name="trademark">Marca</string>
+    <string name="measure">Medida</string>
+    <string name="weight_size">Peso/Tamaño</string>
+    <string name="update_product">Actualizar Producto</string>
+    <string name="already_assigned">Codigo de barras ya asignado</string>
 </resources>

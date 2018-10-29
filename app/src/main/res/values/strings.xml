@@ -17,6 +17,7 @@
     <string name="title_notifications">Notifications</string>
     <string name="profile">Profile</string>
     <string name="store">Store</string>
+    <string name="stores">Stores</string>
     <string name="product">Product</string>
     <string name="update">Update</string>
     <string name="updated">Updated</string>
@@ -25,4 +26,18 @@
     <string name="location">Location</string>
     <string name="address">Address</string>
     <string name="description">Description</string>
+    <string name="empty_stores">Empty Stores</string>
+    <string name="create">Create</string>
+    <string name="select">Select ...</string>
+    <string name="redInfo">Check the fields in red</string>
+    <string name="created">Created</string>
+    <string name="update_store">Update Store</string>
+    <string name="products">Products</string>
+    <string name="empty_products">Empty Products</string>
+    <string name="bar_code">Bar Code</string>
+    <string name="trademark">Trademark</string>
+    <string name="measure">Measure</string>
+    <string name="weight_size">Weight/Size</string>
+    <string name="update_product">Update Product</string>
+    <string name="already_assigned">Barcode already assigned</string>
 </resources>

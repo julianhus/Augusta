@@ -47,7 +47,48 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MenuActivity" />
         </activity>
-        <activity android:name=".StoreActivity"></activity>
+        <activity
+            android:name=".StoreActivity"
+            android:parentActivityName=".StoreListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".StoreListActivity" />
+        </activity>
+        <activity
+            android:name=".StoreListActivity"
+            android:parentActivityName=".MenuActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MenuActivity" />
+        </activity>
+        <activity
+            android:name=".UpdateStoreActivity"
+            android:parentActivityName=".StoreListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".StoreListActivity" />
+        </activity>
+        <activity
+            android:name=".ProductListActivity"
+            android:parentActivityName=".MenuActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MenuActivity" />
+        </activity>
+        <activity
+            android:name=".ProductActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:parentActivityName=".ProductListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ProductListActivity" />
+        </activity>
+        <activity android:name=".UpdateProductActivity"
+            android:parentActivityName=".ProductListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ProductListActivity" />
+        </activity>
     </application>
 
 </manifest>

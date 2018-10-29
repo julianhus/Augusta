@@ -1,15 +1,20 @@
 package com.traffico.augusta.entidades;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
 
 public class Departamento implements Serializable {
 
     private int id;
     private String descripcion;
-    private List<Municipio> municipios;
+    private ArrayList<Municipio> municipios;
 
     public Departamento() {
+    }
+
+    public Departamento(int id, String descripcion) {
+        this.id = id;
+        this.descripcion = descripcion;
     }
 
     public int getId() {
@@ -28,20 +33,16 @@ public class Departamento implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public List<Municipio> getMunicipios() {
+    public ArrayList<Municipio> getMunicipios() {
         return municipios;
     }
 
-    public void setMunicipios(List<Municipio> municipios) {
+    public void setMunicipios(ArrayList<Municipio> municipios) {
         this.municipios = municipios;
     }
 
     @Override
     public String toString() {
-        return "Departamento{" +
-                "id=" + id +
-                ", descripcion='" + descripcion + '\'' +
-                ", municipios=" + municipios +
-                '}';
+        return descripcion;
     }
 }

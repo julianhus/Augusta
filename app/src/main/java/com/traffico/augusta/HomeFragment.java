@@ -14,6 +14,7 @@ public class HomeFragment extends Fragment {
     View view;
     Button bProfile;
     Button bStore;
+    Button bProduct;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,8 +34,17 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getActivity(), R.string.store, Toast.LENGTH_LONG).show();
-                Intent iStore = new Intent(getActivity(),StoreActivity.class);
+                Intent iStore = new Intent(getActivity(),StoreListActivity.class);
                 getActivity().startActivity(iStore);
+            }
+        });
+        bProduct = view.findViewById(R.id.bProduct);
+        bProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(), R.string.product, Toast.LENGTH_LONG).show();
+                Intent iProduct = new Intent(getActivity(),ProductListActivity.class);
+                getActivity().startActivity(iProduct);
             }
         });
         return view;
