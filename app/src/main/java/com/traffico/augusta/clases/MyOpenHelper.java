@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.traffico.augusta.entidades.Municipio;
 import com.traffico.augusta.entidades.Usuario;
 import com.traffico.augusta.interfaces.StringCreacion;
 
@@ -78,5 +79,34 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
             Log.e("Error", "insertUsuario: " + e.getMessage(), null);
             return (long) -1;
         }
+    }
+
+    public Usuario getUsuario(SQLiteDatabase db) {
+        Usuario usuario = new Usuario();
+        Cursor cUsuario = db.rawQuery(QRY_USUARIO,null);
+        while (cUsuario.moveToNext()){
+            usuario.setId(cUsuario.getInt(0));
+            usuario.setNombre(cUsuario.getString(1));
+            usuario.setApellido(cUsuario.getString(2));
+            usuario.setDireccion(cUsuario.getString(3));
+            usuario.setCoordenadas(cUsuario.getString(4));
+            usuario.setEmail(cUsuario.getString(5));
+            usuario.setFacebook(cUsuario.getString(6));
+            usuario.setGoogle(cUsuario.getString(7));
+            Municipio municipio = new Municipio();
+            municipio.setId(cUsuario.getInt(8));
+            usuario.setMunicipio(municipio);
+        }
+        return usuario;
+    }
+
+    public void updateUser(SQLiteDatabase db, Usuario usuario) {
+        ContentValues cv = new ContentValues();
+        cv.put("nombre", usuario.getNombre());
+        cv.put("apellido", usuario.getApellido());
+        cv.put("direccion", usuario.getDireccion());
+        cv.put("coordenadas", usuario.getCoordenadas());
+        cv.put("email", usuario.getEmail());
+        db.update("usuario", cv, "id = " + usuario.getId(), null);
     }
 }

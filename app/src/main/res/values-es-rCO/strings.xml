@@ -14,4 +14,14 @@
     <string name="title_home">Principal</string>
     <string name="title_dashboard">Tablero</string>
     <string name="title_notifications">Notificaciones</string>
+    <string name="profile">Perfil</string>
+    <string name="store">Tienda</string>
+    <string name="product">Producto</string>
+    <string name="update">Actualizar</string>
+    <string name="updated">Actualizado</string>
+    <string name="state">Departamento</string>
+    <string name="city">Ciudad</string>
+    <string name="location">Ubicacion</string>
+    <string name="address">Direccion</string>
+    <string name="description">Nombre</string>
 </resources>

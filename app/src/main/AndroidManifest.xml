@@ -39,7 +39,15 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".MenuActivity"></activity>
+        <activity android:name=".MenuActivity" />
+        <activity
+            android:name=".EditProfileActivity"
+            android:parentActivityName=".MenuActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MenuActivity" />
+        </activity>
+        <activity android:name=".StoreActivity"></activity>
     </application>
 
 </manifest>

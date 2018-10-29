@@ -103,12 +103,12 @@ public class MainActivity extends AppCompatActivity {
                                         String firstName = response.getJSONObject().getString("first_name");
                                         String lastName = response.getJSONObject().getString("last_name");
                                         Profile profile = Profile.getCurrentProfile();
-                                        //String id = profile.getId();
+                                        /*String id = profile.getId();
                                         String link = profile.getLinkUri().toString();
                                         Log.i("Link", link);
                                         if (Profile.getCurrentProfile() != null) {
                                             Log.i("Login", "ProfilePic" + Profile.getCurrentProfile().getProfilePictureUri(200, 200));
-                                        }
+                                        }*/
                                         Log.i("Login" + "Email", email);
                                         EditText eTEMail = findViewById(R.id.etMail);
                                         eTEMail.setText(email);

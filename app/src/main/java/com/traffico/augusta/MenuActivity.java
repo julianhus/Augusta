@@ -1,7 +1,12 @@
 package com.traffico.augusta;
 
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 public class MenuActivity extends AppCompatActivity {
 
@@ -9,5 +14,36 @@ public class MenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        loadFragment(new HomeFragment());
+    }
+
+    @Override
+    public void onBackPressed() {
+    }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+            switch (menuItem.getItemId()){
+                case R.id.navigation_home:
+                    loadFragment(new HomeFragment());
+                    return true;
+                case R.id.navigation_dashboard:
+                    return true;
+                case R.id.navigation_notifications:
+                    return true;
+            }
+            return false;
+        }
+    };
+
+    private void loadFragment(HomeFragment fragment) {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.frameLayout,fragment);
+        ft.commit();
     }
 }
