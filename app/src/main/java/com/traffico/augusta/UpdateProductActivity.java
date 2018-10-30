@@ -55,6 +55,17 @@ public class UpdateProductActivity extends AppCompatActivity {
                 if (!flagCheck) {
                     Toast.makeText(getBaseContext(), R.string.redInfo, Toast.LENGTH_SHORT).show();
                 } else {
+                    producto.setBarCode(etBarCode.getText().toString());
+                    producto.setMarca(ettrademark.getText().toString());
+                    producto.setDescripcion(etProduct.getText().toString());
+                    producto.setMedida(etMeasure.getText().toString());
+                    producto.setValorMedida(Float.parseFloat(etWeight.getText().toString()));
+                    if (db != null) {
+                        int flagInsert = dbHelper.updateProducto(db, producto);
+                        Toast.makeText(getBaseContext(), R.string.update, Toast.LENGTH_SHORT).show();
+                        Intent iProductListActivity = new Intent(UpdateProductActivity.this,ProductListActivity.class);
+                        startActivity(iProductListActivity);
+                    }
                 }
             }
         }

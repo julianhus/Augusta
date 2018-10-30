@@ -40,4 +40,7 @@
     <string name="weight_size">Weight/Size</string>
     <string name="update_product">Update Product</string>
     <string name="already_assigned">Barcode already assigned</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="shopping">Shopping</string>
 </resources>

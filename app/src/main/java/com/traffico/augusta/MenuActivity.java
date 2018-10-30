@@ -1,5 +1,6 @@
 package com.traffico.augusta;
 
+import android.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.app.FragmentManager;
@@ -32,6 +33,7 @@ public class MenuActivity extends AppCompatActivity {
                     loadFragment(new HomeFragment());
                     return true;
                 case R.id.navigation_dashboard:
+                    loadFragment(new DashboardFragment());
                     return true;
                 case R.id.navigation_notifications:
                     return true;
@@ -40,7 +42,7 @@ public class MenuActivity extends AppCompatActivity {
         }
     };
 
-    private void loadFragment(HomeFragment fragment) {
+    private void loadFragment(Fragment fragment) {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.frameLayout,fragment);

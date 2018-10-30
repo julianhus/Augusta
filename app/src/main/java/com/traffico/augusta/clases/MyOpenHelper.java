@@ -245,4 +245,15 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
         cv.put("valor_medida", producto.getValorMedida());
         return db.insert("producto", null, cv);
     }
+
+    public int updateProducto(SQLiteDatabase db, Producto producto) {
+        ContentValues cv = new ContentValues();
+        cv.put("barcode", producto.getBarCode());
+        cv.put("marca", producto.getMarca());
+        cv.put("descripcion", producto.getDescripcion());
+        cv.put("medida", producto.getMedida());
+        cv.put("valor_medida", producto.getValorMedida());
+        String[] arg = new String[]{String.valueOf(producto.getId())};
+        return db.update("producto", cv, " id = ?", arg);
+    }
 }

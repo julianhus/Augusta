@@ -39,4 +39,5 @@
     <string name="weight_size">Peso/Tamaño</string>
     <string name="update_product">Actualizar Producto</string>
     <string name="already_assigned">Codigo de barras ya asignado</string>
+    <string name="shopping">Compras</string>
 </resources>
