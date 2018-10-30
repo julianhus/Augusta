@@ -3,6 +3,7 @@ package com.traffico.augusta.clases;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -11,10 +12,16 @@ import com.traffico.augusta.entidades.Departamento;
 import com.traffico.augusta.entidades.Municipio;
 import com.traffico.augusta.entidades.Producto;
 import com.traffico.augusta.entidades.Tienda;
+import com.traffico.augusta.entidades.TiendaProducto;
 import com.traffico.augusta.entidades.Usuario;
+import com.traffico.augusta.entidades.ValorProducto;
 import com.traffico.augusta.interfaces.StringCreacion;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
@@ -255,5 +262,77 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
         cv.put("valor_medida", producto.getValorMedida());
         String[] arg = new String[]{String.valueOf(producto.getId())};
         return db.update("producto", cv, " id = ?", arg);
+    }
+
+    public ArrayList<ValorProducto> getValorProductos(SQLiteDatabase db, Tienda tienda, Producto producto) {
+        ArrayList<ValorProducto> valorProductoList = new ArrayList<>();
+        String arg[] = new String[]{String.valueOf(tienda.getId()), String.valueOf(producto.getId())};
+        Cursor cValorProducto = db.rawQuery(QRY_VALOR_PRODUCTO_TIENDA_PRODUCTO, arg);
+        while (cValorProducto.moveToNext()) {
+            ValorProducto valorProducto = new ValorProducto();
+            valorProducto.setId(cValorProducto.getInt(0));
+            valorProducto.setValor(cValorProducto.getFloat(1));
+            valorProducto.setValorEquivalente(cValorProducto.getFloat(2));
+            //
+            String dtStart = cValorProducto.getString(3);
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss");
+            try {
+                Date date = format.parse(dtStart);
+                System.out.println(date);
+                valorProducto.setFechaRegistro(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            //
+            TiendaProducto tiendaProducto = new TiendaProducto();
+            tiendaProducto.setId(cValorProducto.getInt(4));
+            tiendaProducto.setTienda(tienda);
+            tiendaProducto.setProducto(producto);
+            valorProducto.setIdTiendaProducto(tiendaProducto);
+            valorProductoList.add(valorProducto);
+        }
+        return valorProductoList;
+    }
+
+    public TiendaProducto getTiendaProducto(SQLiteDatabase db, Tienda tienda, Producto producto) {
+        TiendaProducto tiendaProducto = new TiendaProducto();
+        String[] arg = new String[]{String.valueOf(tienda.getId()), String.valueOf(producto.getId())};
+        Cursor ctiendaProducto = db.rawQuery(QRY_TIENDA_PRODUCTO_TIENDA_PRODUCTO, arg);
+        while (ctiendaProducto.moveToNext()) {
+            tiendaProducto.setId(ctiendaProducto.getInt(0));
+            tiendaProducto.setTienda(tienda);
+            tiendaProducto.setProducto(producto);
+        }
+        if (ctiendaProducto.getCount() == 0) {
+            ContentValues cv = new ContentValues();
+            cv.put("id_tienda", tienda.getId());
+            cv.put("id_producto", producto.getId());
+            db.insert("tienda_producto", null, cv);
+            tiendaProducto = getTiendaProducto(db, tienda, producto);
+        }
+        return tiendaProducto;
+    }
+
+    public long insertValorProducto(SQLiteDatabase db, ValorProducto valorProducto) {
+        long flagInsert = 0;
+        try {
+            ContentValues cv = new ContentValues();
+            cv.put("valor", valorProducto.getValor());
+            cv.put("valor_equivalente", valorProducto.getValorEquivalente());
+            //
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss");
+            Date date = new Date();
+            String fecha = dateFormat.format(date);
+            //
+            cv.put("fecha_registro", fecha + "");
+            cv.put("id_tienda_producto", valorProducto.getIdTiendaProducto().getId());
+            flagInsert = db.insert("valor_producto", null, cv);
+        } catch (SQLException e) {
+            Log.e("MyOpenHelper", "insertValorProducto: " + e.getMessage(), null);
+        } catch (Exception e) {
+            Log.e("MyOpenHelper", "insertValorProducto: " + e.getMessage(), null);
+        } finally {
+            return flagInsert;
+        }
     }
 }

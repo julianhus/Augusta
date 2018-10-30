@@ -40,4 +40,12 @@
     <string name="update_product">Actualizar Producto</string>
     <string name="already_assigned">Codigo de barras ya asignado</string>
     <string name="shopping">Compras</string>
+    <string name="record_price">Registrar Valor</string>
+    <string name="record_price_store">Registrar Valor/Tienda</string>
+    <string name="record_price_product">Registrar Valor/Producto</string>
+    <string name="price">Precio</string>
+    <string name="equivalent_price">Precio Equivalente</string>
+    <string name="product_without_price">Producto sin Precios</string>
+    <string name="fail">Fallo</string>
+    <string name="total_purchase" translatable="false">Total Compra</string>
 </resources>

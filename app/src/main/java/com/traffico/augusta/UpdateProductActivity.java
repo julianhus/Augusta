@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -44,30 +45,38 @@ public class UpdateProductActivity extends AppCompatActivity {
     }
 
     public void updateProduct(View view) {
-        MyOpenHelper dbHelper = new MyOpenHelper(this);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        if (db != null) {
-            Producto producto = dbHelper.getProducto(db, etBarCode.getText().toString());
-            if (producto.getId() != 0 && producto.getId() != this.producto.getId()) {
-                Toast.makeText(getBaseContext(), R.string.already_assigned, Toast.LENGTH_SHORT).show();
-            } else {
-                boolean flagCheck = validate(true);
-                if (!flagCheck) {
-                    Toast.makeText(getBaseContext(), R.string.redInfo, Toast.LENGTH_SHORT).show();
+        try {
+            MyOpenHelper dbHelper = new MyOpenHelper(this);
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            if (db != null) {
+                Producto producto = dbHelper.getProducto(db, etBarCode.getText().toString());
+                if (producto.getId() != 0 && producto.getId() != this.producto.getId()) {
+                    Toast.makeText(getBaseContext(), R.string.already_assigned, Toast.LENGTH_SHORT).show();
                 } else {
-                    producto.setBarCode(etBarCode.getText().toString());
-                    producto.setMarca(ettrademark.getText().toString());
-                    producto.setDescripcion(etProduct.getText().toString());
-                    producto.setMedida(etMeasure.getText().toString());
-                    producto.setValorMedida(Float.parseFloat(etWeight.getText().toString()));
-                    if (db != null) {
-                        int flagInsert = dbHelper.updateProducto(db, producto);
-                        Toast.makeText(getBaseContext(), R.string.update, Toast.LENGTH_SHORT).show();
-                        Intent iProductListActivity = new Intent(UpdateProductActivity.this,ProductListActivity.class);
-                        startActivity(iProductListActivity);
+                    boolean flagCheck = validate(true);
+                    if (!flagCheck) {
+                        Toast.makeText(getBaseContext(), R.string.redInfo, Toast.LENGTH_SHORT).show();
+                    } else {
+                        producto.setBarCode(etBarCode.getText().toString());
+                        producto.setMarca(ettrademark.getText().toString());
+                        producto.setDescripcion(etProduct.getText().toString());
+                        producto.setMedida(etMeasure.getText().toString());
+                        if (etWeight.getText().toString().isEmpty()) {
+                            producto.setValorMedida(0);
+                        } else {
+                            producto.setValorMedida(Float.parseFloat(etWeight.getText().toString()));
+                        }
+                        if (db != null) {
+                            int flagInsert = dbHelper.updateProducto(db, producto);
+                            Toast.makeText(getBaseContext(), R.string.update, Toast.LENGTH_SHORT).show();
+                            Intent iProductListActivity = new Intent(UpdateProductActivity.this, ProductListActivity.class);
+                            startActivity(iProductListActivity);
+                        }
                     }
                 }
             }
+        } catch (Exception e) {
+            Log.e("UpdateProductActivity", "updateProduct: ", null);
         }
     }
 
@@ -78,19 +87,19 @@ public class UpdateProductActivity extends AppCompatActivity {
         if (etBarCode.getText().toString().isEmpty()) {
             tvBarCode.setTextColor(Color.rgb(200, 0, 0));
             flagCheck = false;
-        }else{
+        } else {
             tvBarCode.setTextColor(-1979711488);
         }
         if (ettrademark.getText().toString().isEmpty()) {
             tvTrademark.setTextColor(Color.rgb(200, 0, 0));
             flagCheck = false;
-        }else{
+        } else {
             tvTrademark.setTextColor(-1979711488);
         }
         if (etProduct.getText().toString().isEmpty()) {
             tvProduct.setTextColor(Color.rgb(200, 0, 0));
             flagCheck = false;
-        }else{
+        } else {
             tvProduct.setTextColor(-1979711488);
         }
         return flagCheck;

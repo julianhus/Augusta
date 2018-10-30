@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.traffico.augusta.clases.MyOpenHelper;
 import com.traffico.augusta.entidades.Producto;
-import com.traffico.augusta.entidades.Tienda;
 
 import java.util.ArrayList;
 
@@ -30,7 +29,7 @@ public class ProductListActivity extends AppCompatActivity {
         if (db != null) {
             loadProduct(db, dbHelper);
         }
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAddProduct);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

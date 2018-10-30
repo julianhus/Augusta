@@ -1,25 +1,28 @@
 package com.traffico.augusta.entidades;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 public class ValorProducto {
 
-    private TiendaProducto idTiendaProducto;
+    private int id;
     private float valor;
     private float valorEquivalente;
     private Date fechaRegistro;
+    private TiendaProducto idTiendaProducto;
     private List<MercadoProducto> mercadoProductos;
 
     public ValorProducto() {
     }
 
-    public TiendaProducto getIdTiendaProducto() {
-        return idTiendaProducto;
+    public int getId() {
+        return id;
     }
 
-    public void setIdTiendaProducto(TiendaProducto idTiendaProducto) {
-        this.idTiendaProducto = idTiendaProducto;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public float getValor() {
@@ -46,6 +49,14 @@ public class ValorProducto {
         this.fechaRegistro = fechaRegistro;
     }
 
+    public TiendaProducto getIdTiendaProducto() {
+        return idTiendaProducto;
+    }
+
+    public void setIdTiendaProducto(TiendaProducto idTiendaProducto) {
+        this.idTiendaProducto = idTiendaProducto;
+    }
+
     public List<MercadoProducto> getMercadoProductos() {
         return mercadoProductos;
     }
@@ -56,12 +67,13 @@ public class ValorProducto {
 
     @Override
     public String toString() {
-        return "ValorProducto{" +
-                "idTiendaProducto=" + idTiendaProducto +
-                ", valor=" + valor +
-                ", valorEquivalente=" + valorEquivalente +
-                ", fechaRegistro=" + fechaRegistro +
-                ", mercadoProductos=" + mercadoProductos +
-                '}';
+        //
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss");
+        String dateTime = dateFormat.format(fechaRegistro);
+        System.out.println("Current Date Time : " + dateTime);
+        //
+        return "Valor " + valor + "\n"
+                + idTiendaProducto.getProducto().getMedida() + " " + valorEquivalente +
+                "\n Fecha " + dateTime;
     }
 }

@@ -83,11 +83,40 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ProductListActivity" />
         </activity>
-        <activity android:name=".UpdateProductActivity"
+        <activity
+            android:name=".UpdateProductActivity"
             android:parentActivityName=".ProductListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ProductListActivity" />
+        </activity>
+        <activity
+            android:name=".RecordPriceStoreActivity"
+            android:parentActivityName=".MenuActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MenuActivity" />
+        </activity>
+        <activity
+            android:name=".RecordPriceProductActivity"
+            android:parentActivityName=".RecordPriceStoreActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".RecordPriceStoreActivity" />
+        </activity>
+        <activity android:name=".RecordPriceActivity" />
+        <activity
+            android:name=".ShoppingStoreActivity"
+            android:parentActivityName=".MenuActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MenuActivity" />
+        </activity>
+        <activity android:name=".ShoppingActivity"
+            android:parentActivityName=".ShoppingStoreActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ShoppingStoreActivity" />
         </activity>
     </application>
 

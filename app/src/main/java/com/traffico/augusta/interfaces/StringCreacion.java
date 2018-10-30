@@ -20,7 +20,7 @@ public interface StringCreacion {
     public static final String TIENDA_PRODUCTO_INDEX_TIENDA = "CREATE INDEX 'fk_tienda_producto_tienda_idx' ON tienda_producto('id_tienda' ASC)";
     public static final String TIENDA_PRODUCTO_INDEX_PRODUCTO = "CREATE INDEX 'fk_tienda_producto_producto_idx' ON tienda_producto('id_producto' ASC)";
     public static final String TIENDA_PRODUCTO_UNIQUE = "CREATE UNIQUE INDEX 'id_tienda_producto_UNIQUE' ON tienda_producto  ('id_tienda' ASC, 'id_producto' ASC)";
-    public static final String VALOR_PRODUCTO_TABLE = "CREATE TABLE IF NOT EXISTS 'valor_producto' (  'id_tienda_producto' INTEGER PRIMARY KEY NOT NULL,  'valor' FLOAT NOT NULL,  'valor_equivalente' FLOAT NULL,  'fecha_registro' DATE NOT NULL,      CONSTRAINT 'fk_valor_producto_tienda_producto'    FOREIGN KEY ('id_tienda_producto')    REFERENCES 'tienda_producto' ('id')    ON DELETE NO ACTION    ON UPDATE NO ACTION)";
+    public static final String VALOR_PRODUCTO_TABLE = "CREATE TABLE IF NOT EXISTS 'valor_producto' ('id' INTEGER PRIMARY KEY NOT NULL, 'id_tienda_producto' INTEGER NOT NULL,  'valor' FLOAT NOT NULL,  'valor_equivalente' FLOAT NULL,  'fecha_registro' DATE NOT NULL,      CONSTRAINT 'fk_valor_producto_tienda_producto'    FOREIGN KEY ('id_tienda_producto')    REFERENCES 'tienda_producto' ('id')    ON DELETE NO ACTION    ON UPDATE NO ACTION)";
     public static final String VALOR_PRODUCTO_INDEX = "CREATE INDEX 'fk_valor_producto_tienda_producto_idx' ON valor_producto('id_tienda_producto' ASC)";
     public static final String MERCADO_PRODUCTO_TABLE = "CREATE TABLE IF NOT EXISTS 'mercado_producto' (  'id' INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,  'id_mercado' INT NOT NULL,  'valor_producto_id' INT NOT NULL,  'cantidad' INT NOT NULL,  'total' INT NOT NULL,    CONSTRAINT 'fk_mercado_producto_mercado'    FOREIGN KEY ('id_mercado')    REFERENCES 'mercado' ('id')    ON DELETE NO ACTION    ON UPDATE NO ACTION,  CONSTRAINT 'fk_mercado_producto_valor_producto'    FOREIGN KEY ('valor_producto_id')    REFERENCES 'valor_producto' ('id_tienda_producto')    ON DELETE NO ACTION    ON UPDATE NO ACTION)";
     public static final String MERCADO_PRODUCTO_INDEX_MERCADO = "CREATE INDEX 'fk_mercado_producto_mercado_idx' ON mercado_producto('id_mercado' ASC)";
@@ -39,16 +39,19 @@ public interface StringCreacion {
     public static final String QRY_MUNICIPIO_ID_DEPARTAMENTO = "select m.id, m.descripcion, m.id_departamento, d.descripcion where municipio m left outer join departamento d on d.id = m.id_departamento where m.id_departamento = ?";
     public static final String QRY_USUARIOS = "select id, nombre, apellido, direccion, coordenadas, email, facebook, google, id_municipio from usuario";
     public static final String QRY_TIENDAS = "select t.id, t.descripcion, t.direccion, t.coordenadas, t.id_municipio, " +
-                                             "m.descripcion, m.id_departamento, " +
-                                             "d.descripcion " +
-                                             "from tienda t " +
-                                             "left outer join municipio m on m.id = t.id_municipio " +
-                                             "left outer join departamento d on d.id = m.id_departamento ";
+            "m.descripcion, m.id_departamento, " +
+            "d.descripcion " +
+            "from tienda t " +
+            "left outer join municipio m on m.id = t.id_municipio " +
+            "left outer join departamento d on d.id = m.id_departamento ";
     public static final String QRY_MERCADO = "select id, fecha_registro estado_mercado, id_tienda, id_usuario from mercado";
     public static final String QRY_PRODUCTO = "select id, barcode, marca, descripcion, medida, valor_medida from producto";
     public static final String QRY_PRODUCTO_BARCODE = "select id, barcode, marca, descripcion, medida, valor_medida from producto where barcode = ?";
     public static final String QRY_TIENDA_PRODUCTO = "select id, id_tienda, id_producto from tienda_producto";
+    public static final String QRY_TIENDA_PRODUCTO_TIENDA_PRODUCTO = "select tp.id, tp.id_tienda, tp.id_producto from tienda_producto tp where tp.id_tienda = ? and tp.id_producto = ?";
+    public static final String QRY_TIENDA_PRODUCTO_VALOR_PRODUCTO = "select tp.id, tp.id_tienda, tp.id_producto vp.id, vp.valor, vp.valor_equivalente, vp.fecha_registro from tienda_producto tp left outer join valor_producto vp on vp.id_tienda_producto = tp.id";
     public static final String QRY_VALOR_PRODUCTO = "select id_tienda_producto, valor, valor_equivalente, fecha_registro from valor_producto";
+    public static final String QRY_VALOR_PRODUCTO_TIENDA_PRODUCTO = "select vp.id, vp.valor, vp.valor_equivalente, vp.fecha_registro, vp.id_tienda_producto from valor_producto vp left outer join tienda_producto tp on tp.id = vp.id_tienda_producto where tp.id_tienda = ? and tp.id_producto = ?";
     public static final String QRY_MERCADO_PRODUCTO = "select id, cantidad, total, id_mercado, valor_producto_id";
 
 }

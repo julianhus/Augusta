@@ -40,7 +40,13 @@
     <string name="weight_size">Weight/Size</string>
     <string name="update_product">Update Product</string>
     <string name="already_assigned">Barcode already assigned</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="shopping">Shopping</string>
+    <string name="record_price">Record Price</string>
+    <string name="record_price_store">Record Price/Store</string>
+    <string name="record_price_product">Record Price/Product</string>
+    <string name="price">Price</string>
+    <string name="equivalent_price">Equivalent Price</string>
+    <string name="product_without_price">Product without price</string>
+    <string name="fail">Fail</string>
+    <string name="total_purchase">Total Purchase</string>
 </resources>

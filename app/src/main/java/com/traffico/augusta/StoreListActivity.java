@@ -29,7 +29,7 @@ public class StoreListActivity extends AppCompatActivity {
         if (db != null) {
             loadStores(db, dbHelper);
         }
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAddProduct);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
