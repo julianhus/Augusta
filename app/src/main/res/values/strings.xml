@@ -49,4 +49,8 @@
     <string name="product_without_price">Product without price</string>
     <string name="fail">Fail</string>
     <string name="total_purchase">Total Purchase</string>
+    <string name="do_you_want">Do you want ...</string>
+    <string name="choose_how">Choose how to read the barcode</string>
+    <string name="scanner" translatable="false">Scanner</string>
+    <string name="type">Type</string>
 </resources>
