@@ -112,7 +112,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MenuActivity" />
         </activity>
-        <activity android:name=".ShoppingActivity"
+        <activity
+            android:name=".ShoppingActivity"
             android:parentActivityName=".ShoppingStoreActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

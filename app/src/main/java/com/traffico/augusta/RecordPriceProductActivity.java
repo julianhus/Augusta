@@ -49,8 +49,8 @@ public class RecordPriceProductActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent iRecordPriceStore = new Intent(RecordPriceProductActivity.this, RecordPriceStoreActivity.class);
-        startActivity(iRecordPriceStore);
+        Intent iMenu = new Intent(this, MenuActivity.class);
+        startActivity(iMenu);
     }
 
     private void loadProduct(SQLiteDatabase db, MyOpenHelper dbHelper) {

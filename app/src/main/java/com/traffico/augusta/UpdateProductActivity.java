@@ -44,6 +44,12 @@ public class UpdateProductActivity extends AppCompatActivity {
         etWeight.setText(producto.getValorMedida() + "");
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent iMenu = new Intent(this, MenuActivity.class);
+        startActivity(iMenu);
+    }
+
     public void updateProduct(View view) {
         try {
             MyOpenHelper dbHelper = new MyOpenHelper(this);

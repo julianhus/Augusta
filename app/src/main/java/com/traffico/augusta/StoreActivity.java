@@ -39,8 +39,8 @@ public class StoreActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent iStoreList = new Intent(StoreActivity.this, StoreListActivity.class);
-        startActivity(iStoreList);
+        Intent iMenu = new Intent(this, MenuActivity.class);
+        startActivity(iMenu);
     }
 
     private void loadSpinners(SQLiteDatabase db, MyOpenHelper dbHelper) {

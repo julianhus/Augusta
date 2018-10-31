@@ -66,8 +66,8 @@ public class UpdateStoreActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent iStoreListActivity = new Intent(UpdateStoreActivity.this, StoreListActivity.class);
-        startActivity(iStoreListActivity);
+        Intent iMenu = new Intent(this, MenuActivity.class);
+        startActivity(iMenu);
     }
 
     private void loadSpinners(SQLiteDatabase db, MyOpenHelper dbHelper) {

@@ -45,6 +45,12 @@ public class ShoppingActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent iMenu = new Intent(this, MenuActivity.class);
+        startActivity(iMenu);
+    }
+
     private void dialogOptions() {
         AlertDialog.Builder optionsforCodebar = new AlertDialog.Builder(ShoppingActivity.this);
         optionsforCodebar.setTitle(R.string.do_you_want);

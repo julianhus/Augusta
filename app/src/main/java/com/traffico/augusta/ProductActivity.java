@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,8 +33,8 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onBackPressed() {
-        Intent iProductList = new Intent(ProductActivity.this, ProductListActivity.class);
-        startActivity(iProductList);
+        Intent iMenu = new Intent(ProductActivity.this, MenuActivity.class);
+        startActivity(iMenu);
     }
 
     public void onClick(View view) {

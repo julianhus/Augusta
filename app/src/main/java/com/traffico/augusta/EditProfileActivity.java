@@ -45,6 +45,12 @@ public class EditProfileActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent iMenu = new Intent(EditProfileActivity.this, MenuActivity.class);
+        startActivity(iMenu);
+    }
+
     public void upDate (View view){
         TextView tVName = findViewById(R.id.tvName);
         TextView tVLastName = findViewById(R.id.tvLastName);
