@@ -114,6 +114,7 @@
         </activity>
         <activity
             android:name=".ShoppingActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:parentActivityName=".ShoppingStoreActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.traffico.augusta.entidades.Departamento;
+import com.traffico.augusta.entidades.Mercado;
+import com.traffico.augusta.entidades.MercadoProducto;
 import com.traffico.augusta.entidades.Municipio;
 import com.traffico.augusta.entidades.Producto;
 import com.traffico.augusta.entidades.Tienda;
@@ -28,6 +30,7 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
 
     private static final String DB_NAME = "augusta.sqlite";
     private static final int DB_VERSION = 1;
+    private static final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss");
 
     public MyOpenHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -275,7 +278,6 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
             valorProducto.setValorEquivalente(cValorProducto.getFloat(2));
             //
             String dtStart = cValorProducto.getString(3);
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss");
             try {
                 Date date = format.parse(dtStart);
                 System.out.println(date);
@@ -320,9 +322,8 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
             cv.put("valor", valorProducto.getValor());
             cv.put("valor_equivalente", valorProducto.getValorEquivalente());
             //
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss");
             Date date = new Date();
-            String fecha = dateFormat.format(date);
+            String fecha = format.format(date);
             //
             cv.put("fecha_registro", fecha + "");
             cv.put("id_tienda_producto", valorProducto.getIdTiendaProducto().getId());
@@ -334,5 +335,38 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
         } finally {
             return flagInsert;
         }
+    }
+
+    public ArrayList<MercadoProducto> getMercadoProducto(SQLiteDatabase db, Tienda tienda) {
+        ArrayList<MercadoProducto> mercadoProductoList = new ArrayList<>();
+        String[] arg = new String[]{String.valueOf(tienda.getId())};
+        Cursor cMercadoProducto = db.rawQuery(QRY_MERCADO_PRODUCTO_TIENDA, arg);
+        while (cMercadoProducto.moveToNext()){
+            Mercado mercado = new Mercado();
+            mercado.setId(cMercadoProducto.getInt(0));
+            mercado.setTienda(tienda);
+            Usuario usuario = new Usuario();
+            usuario.setId(cMercadoProducto.getInt(2));
+            mercado.setUsuario(usuario);
+            mercado.setTotal(cMercadoProducto.getInt(3));
+            //
+            String dtStart = cMercadoProducto.getString(4);
+            try {
+                Date date = format.parse(dtStart);
+                mercado.setFechaRegistro(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            //
+            mercado.setEstadoMercado(cMercadoProducto.getInt(5));
+            MercadoProducto mercadoProducto = new MercadoProducto();
+            mercadoProducto.setId(cMercadoProducto.getInt(6));
+            ValorProducto valorProducto = new ValorProducto();
+            valorProducto.setId(cMercadoProducto.getInt(7));
+            mercadoProducto.setCantidad(cMercadoProducto.getInt(8));
+            mercadoProducto.setTotal(cMercadoProducto.getFloat(9));
+            mercadoProductoList.add(mercadoProducto);
+        }
+        return mercadoProductoList;
     }
 }

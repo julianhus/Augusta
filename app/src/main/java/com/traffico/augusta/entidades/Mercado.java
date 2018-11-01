@@ -6,7 +6,8 @@ import java.util.List;
 public class Mercado {
 
     private int id;
-    private boolean estadoMercado;
+    private int total;
+    private int estadoMercado;
     private Date fechaRegistro;
     private Tienda tienda;
     private Usuario usuario;
@@ -23,11 +24,19 @@ public class Mercado {
         this.id = id;
     }
 
-    public boolean isEstadoMercado() {
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public int getEstadoMercado() {
         return estadoMercado;
     }
 
-    public void setEstadoMercado(boolean estadoMercado) {
+    public void setEstadoMercado(int estadoMercado) {
         this.estadoMercado = estadoMercado;
     }
 
@@ -67,6 +76,7 @@ public class Mercado {
     public String toString() {
         return "Mercado{" +
                 "id=" + id +
+                ", total=" + total +
                 ", estadoMercado=" + estadoMercado +
                 ", fechaRegistro=" + fechaRegistro +
                 ", tienda=" + tienda +

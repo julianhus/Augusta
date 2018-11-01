@@ -51,4 +51,7 @@
     <string name="do_you_want">"Quieres ... "</string>
     <string name="choose_how">Elige como leer el codigo de barras</string>
     <string name="type">Escribir</string>
+    <string name="empty_shopping">Mercado Vacio</string>
+    <string name="use_this_price">Usar este precio para la compra?</string>
+    <string name="yes">Si</string>
 </resources>

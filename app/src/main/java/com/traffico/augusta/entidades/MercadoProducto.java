@@ -4,7 +4,7 @@ public class MercadoProducto {
 
     private int id;
     private int cantidad;
-    private int total;
+    private float total;
     private Mercado mercado;
     private ValorProducto valorProducto;
 
@@ -27,11 +27,11 @@ public class MercadoProducto {
         this.cantidad = cantidad;
     }
 
-    public int getTotal() {
+    public float getTotal() {
         return total;
     }
 
-    public void setTotal(int total) {
+    public void setTotal(float total) {
         this.total = total;
     }
 
