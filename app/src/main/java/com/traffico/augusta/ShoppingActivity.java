@@ -1,5 +1,8 @@
 package com.traffico.augusta;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -40,7 +43,9 @@ public class ShoppingActivity extends AppCompatActivity {
         fabAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogOptions();
+                //
+                loadFragment(new ProductFragment());
+                //
             }
         });
     }
@@ -51,43 +56,11 @@ public class ShoppingActivity extends AppCompatActivity {
         startActivity(iMenu);
     }
 
-    private void dialogOptions() {
-        AlertDialog.Builder optionsforCodebar = new AlertDialog.Builder(ShoppingActivity.this);
-        optionsforCodebar.setTitle(R.string.do_you_want);
-        optionsforCodebar.setMessage(R.string.choose_how);
-        optionsforCodebar.setPositiveButton(R.string.scanner, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                ScannCodeBar();
-            }
-        });
-        optionsforCodebar.setNegativeButton(R.string.type, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        });
-        optionsforCodebar.show();
-
+    private void loadFragment(Fragment fragment) {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.frameLayout,fragment);
+        ft.commit();
     }
 
-    private void ScannCodeBar() {
-        IntentIntegrator scanIntegrator = new IntentIntegrator(ShoppingActivity.this);
-        scanIntegrator.initiateScan();
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        if (scanningResult != null) {
-            //we have a result
-            String scanContent = scanningResult.getContents();
-            String scanFormat = scanningResult.getFormatName();
-            Toast.makeText(getApplicationContext(), "" + scanContent, Toast.LENGTH_SHORT).show();
-            //etBarCode.setText(scanContent);
-            //loadProduct();
-        } else {
-            Toast.makeText(getApplicationContext(), "No scan data received!", Toast.LENGTH_SHORT).show();
-        }
-
-    }
 }
