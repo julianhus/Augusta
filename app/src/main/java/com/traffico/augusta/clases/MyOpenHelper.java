@@ -7,6 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.EditText;
 
 import com.traffico.augusta.entidades.Departamento;
 import com.traffico.augusta.entidades.Mercado;
@@ -19,7 +20,6 @@ import com.traffico.augusta.entidades.Usuario;
 import com.traffico.augusta.entidades.ValorProducto;
 import com.traffico.augusta.interfaces.StringCreacion;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -337,36 +337,120 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
         }
     }
 
-    public ArrayList<MercadoProducto> getMercadoProducto(SQLiteDatabase db, Tienda tienda) {
+    public Mercado getMercadoActivo(SQLiteDatabase db, Tienda tienda) {
+        Mercado mercado = null;
         ArrayList<MercadoProducto> mercadoProductoList = new ArrayList<>();
+        //
         String[] arg = new String[]{String.valueOf(tienda.getId())};
         Cursor cMercadoProducto = db.rawQuery(QRY_MERCADO_PRODUCTO_TIENDA, arg);
-        while (cMercadoProducto.moveToNext()){
-            Mercado mercado = new Mercado();
-            mercado.setId(cMercadoProducto.getInt(0));
-            mercado.setTienda(tienda);
-            Usuario usuario = new Usuario();
-            usuario.setId(cMercadoProducto.getInt(2));
-            mercado.setUsuario(usuario);
-            mercado.setTotal(cMercadoProducto.getInt(3));
-            //
-            String dtStart = cMercadoProducto.getString(4);
-            try {
-                Date date = format.parse(dtStart);
-                mercado.setFechaRegistro(date);
-            } catch (ParseException e) {
-                e.printStackTrace();
+        //
+        if (cMercadoProducto.getCount() > 0) {
+            while (cMercadoProducto.moveToNext()) {
+                if (mercado == null) {
+                    mercado = new Mercado();
+                    mercado.setId(cMercadoProducto.getInt(0));
+                    mercado.setTienda(tienda);
+                    mercado.setTotal(cMercadoProducto.getInt(1));
+                    //
+                    String dtStart = cMercadoProducto.getString(2);
+                    try {
+                        Date date = format.parse(dtStart);
+                        mercado.setFechaRegistro(date);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    //
+                    mercado.setEstadoMercado(cMercadoProducto.getInt(3));
+                }
+                MercadoProducto mercadoProducto = new MercadoProducto();
+                mercadoProducto.setId(cMercadoProducto.getInt(4));
+                mercadoProducto.setCantidad(cMercadoProducto.getInt(5));
+                //mercadoProducto.setTotal(cMercadoProducto.getFloat(6));
+                mercadoProducto.setTotal(cMercadoProducto.getFloat(cMercadoProducto.getColumnIndex("total")));
+                //
+                ValorProducto valorProducto = new ValorProducto();
+                //valorProducto.setId(cMercadoProducto.getInt(7));
+                valorProducto.setId(cMercadoProducto.getInt(cMercadoProducto.getColumnIndex("valor_producto_id")));
+                //
+                TiendaProducto tiendaProducto = new TiendaProducto();
+                //tiendaProducto.setId(cMercadoProducto.getInt(8));
+                tiendaProducto.setId(cMercadoProducto.getInt(cMercadoProducto.getColumnIndex("id_tienda_producto")));
+                //
+                Producto producto = new Producto();
+                //producto.setId(cMercadoProducto.getInt(9));
+                producto.setId(cMercadoProducto.getInt(cMercadoProducto.getColumnIndex("id_producto")));
+                //producto.setBarCode(cMercadoProducto.getString(10));
+                producto.setBarCode(cMercadoProducto.getString(cMercadoProducto.getColumnIndex("barcode")));
+                //producto.setMarca(cMercadoProducto.getString(11));
+                producto.setMarca(cMercadoProducto.getString(cMercadoProducto.getColumnIndex("marca")));
+                //producto.setDescripcion(cMercadoProducto.getString(12));
+                producto.setDescripcion(cMercadoProducto.getString(cMercadoProducto.getColumnIndex("descripcion")));
+                //producto.setMedida(cMercadoProducto.getString(13));
+                producto.setMedida(cMercadoProducto.getString(cMercadoProducto.getColumnIndex("medida")));
+                //producto.setValorMedida(cMercadoProducto.getFloat(14));
+                producto.setValorMedida(cMercadoProducto.getFloat(cMercadoProducto.getColumnIndex("valor_medida")));
+                tiendaProducto.setProducto(producto);
+                //
+                mercadoProducto.setMercado(mercado);
+                tiendaProducto.setProducto(producto);
+                valorProducto.setIdTiendaProducto(tiendaProducto);
+                mercadoProducto.setValorProducto(valorProducto);
+                //
+                mercadoProductoList.add(mercadoProducto);
             }
-            //
-            mercado.setEstadoMercado(cMercadoProducto.getInt(5));
-            MercadoProducto mercadoProducto = new MercadoProducto();
-            mercadoProducto.setId(cMercadoProducto.getInt(6));
-            ValorProducto valorProducto = new ValorProducto();
-            valorProducto.setId(cMercadoProducto.getInt(7));
-            mercadoProducto.setCantidad(cMercadoProducto.getInt(8));
-            mercadoProducto.setTotal(cMercadoProducto.getFloat(9));
-            mercadoProductoList.add(mercadoProducto);
+            mercado.setMercadoProductos(mercadoProductoList);
         }
-        return mercadoProductoList;
+        //
+        return mercado;
+    }
+
+    public long insertMercadoProducto(SQLiteDatabase db, Tienda tienda, ValorProducto valorProducto, EditText etTotal) {
+        long flagInsert = 0;
+        try {
+            if (tienda.getMercadoActivo() != null) {
+                ContentValues cvMP = new ContentValues();
+                cvMP.put("id_mercado", tienda.getMercadoActivo().getId());
+                cvMP.put("valor_producto_id", valorProducto.getId());
+                //
+                int cantidad = Integer.parseInt(etTotal.getText().toString());
+                cvMP.put("cantidad", cantidad);
+                //
+                float total = valorProducto.getValor() * cantidad;
+                cvMP.put("total", total);
+                //
+                flagInsert = db.insert("mercado_producto", null, cvMP);
+                if (flagInsert > 0) {
+                    ContentValues cvM = new ContentValues();
+                    cvM.put("total", tienda.getMercadoActivo().getTotal() + total);
+                    String[] arg = new String[]{String.valueOf(tienda.getMercadoActivo().getId())};
+                    int flagUpdate = db.update("mercado", cvM, "id = ?", arg);
+                    Log.d("MyOpenHelper", "insertMercadoProducto: " + flagUpdate);
+                }
+            } else {
+                ContentValues cv = new ContentValues();
+                cv.put("id_tienda", tienda.getId());
+                Usuario usuario = getUsuario(db);
+                cv.put("id_usuario", usuario.getId());
+                //
+                Date date = new Date();
+                String fecha = format.format(date);
+                //
+                cv.put("total", 0);
+                //
+                cv.put("fecha_registro", String.valueOf(fecha));
+                cv.put("estado_mercado", 1);
+                if (db.insert("mercado", null, cv) > 0) {
+                    tienda.setMercadoActivo(getMercadoActivo(db, tienda));
+                    insertMercadoProducto(db, tienda, valorProducto, etTotal);
+                }
+
+            }
+        } catch (SQLException e) {
+            Log.e("MyOpenHelper", "insertMercadoProducto: " + e.getMessage(), null);
+        } catch (Exception e) {
+            Log.e("MyOpenHelper", "insertMercadoProducto: " + e.getMessage(), null);
+        } finally {
+            return flagInsert;
+        }
     }
 }

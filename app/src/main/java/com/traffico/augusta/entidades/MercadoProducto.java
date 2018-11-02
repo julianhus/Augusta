@@ -57,8 +57,8 @@ public class MercadoProducto {
                 "id=" + id +
                 ", cantidad=" + cantidad +
                 ", total=" + total +
-                ", mercado=" + mercado +
-                ", valorProducto=" + valorProducto +
+                //", mercado=" + mercado +
+                //", valorProducto=" + valorProducto +
                 '}';
     }
 }

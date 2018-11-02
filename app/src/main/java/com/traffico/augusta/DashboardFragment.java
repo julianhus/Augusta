@@ -24,7 +24,7 @@ public class DashboardFragment extends Fragment {
         bRecordPrice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), R.string.record_price, Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), R.string.record_price, Toast.LENGTH_SHORT).show();
                 Intent iRecordPrice = new Intent(getActivity(), RecordPriceStoreActivity.class);
                 getActivity().startActivity(iRecordPrice);
             }
@@ -33,7 +33,7 @@ public class DashboardFragment extends Fragment {
         bShopping.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), R.string.shopping, Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), R.string.shopping, Toast.LENGTH_SHORT).show();
                 Intent iShopping = new Intent(getActivity(), ShoppingStoreActivity.class);
                 getActivity().startActivity(iShopping);
             }

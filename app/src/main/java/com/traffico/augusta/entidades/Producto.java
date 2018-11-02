@@ -77,4 +77,8 @@ public class Producto implements Serializable {
         return marca+"\n"+descripcion+"\n"+valorMedida+" "+medida+"\n"+barCode;
 
     }
+
+    public String toDescripcion(){
+        return marca + "/" + descripcion + " x " + valorMedida + " " + medida;
+    }
 }

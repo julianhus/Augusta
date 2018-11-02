@@ -79,9 +79,9 @@ public class Mercado {
                 ", total=" + total +
                 ", estadoMercado=" + estadoMercado +
                 ", fechaRegistro=" + fechaRegistro +
-                ", tienda=" + tienda +
-                ", usuario=" + usuario +
-                ", mercadoProductos=" + mercadoProductos +
+                //", tienda=" + tienda +
+                //", usuario=" + usuario +
+                //", mercadoProductos=" + mercadoProductos +
                 '}';
     }
 }

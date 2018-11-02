@@ -34,7 +34,9 @@ public class ShoppingActivity extends AppCompatActivity {
         if (db != null) {
             usuario = dbHelper.getUsuario(db);
         }
+        //
         loadFragment(new ShoppingProductPriceFragment());
+        //
         FloatingActionButton fabAddProduct = findViewById(R.id.fabAddProduct);
         fabAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override

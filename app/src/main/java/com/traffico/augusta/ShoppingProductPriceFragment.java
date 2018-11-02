@@ -37,7 +37,9 @@ public class ShoppingProductPriceFragment extends Fragment {
 
     private void loadShoppingProductPrice(SQLiteDatabase db, MyOpenHelper dbHelper) {
         try {
-            ArrayList<MercadoProducto> mercadoProductoList = dbHelper.getMercadoProducto(db, ((ShoppingActivity) getActivity()).tienda);
+            //
+            ((ShoppingActivity) getActivity()).tienda.setMercadoActivo(dbHelper.getMercadoActivo(db, ((ShoppingActivity) getActivity()).tienda));
+            ArrayList<MercadoProducto> mercadoProductoList = (ArrayList<MercadoProducto>) ((ShoppingActivity) getActivity()).tienda.getMercadoActivo().getMercadoProductos();
             ListView lvMercadoProducto = view.findViewById(R.id.lvShoppingProductPrice);
             ArrayAdapter<MercadoProducto> aMercadoProducto = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, mercadoProductoList);
             lvMercadoProducto.setAdapter(aMercadoProducto);

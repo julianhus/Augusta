@@ -49,7 +49,7 @@ public class ShoppingRecordPriceFragment extends Fragment {
         tvProduct = view.findViewById(R.id.tvProduct);
         producto = new Producto();
         producto = getArguments() != null ? (Producto) getArguments().getSerializable("Producto") : producto;
-        tvProduct.setText(producto.getMarca() + "/" + producto.getDescripcion());
+        tvProduct.setText(producto.toDescripcion());
         tienda = ((ShoppingActivity) getActivity()).tienda;
 
         MyOpenHelper dbHelper = new MyOpenHelper(getApplicationContext());
@@ -94,24 +94,21 @@ public class ShoppingRecordPriceFragment extends Fragment {
     private void loadProductPrice(SQLiteDatabase db, MyOpenHelper dbHelper) {
         try {
             ArrayList<ValorProducto> valorProductoList = dbHelper.getValorProductos(db, tienda, producto);
-            ListView lvValorProducto = view.findViewById(R.id.lvProductPrice);
+            final ListView lvValorProducto = view.findViewById(R.id.lvProductPrice);
             ArrayAdapter<ValorProducto> aValorProducto = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, valorProductoList);
             lvValorProducto.setAdapter(aValorProducto);
             lvValorProducto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                    final ValorProducto valorProducto = (ValorProducto) lvValorProducto.getItemAtPosition(position);
                     AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-
-
                     dialog.setTitle(R.string.do_you_want);
-                    //dialog.setMessage(R.string.use_this_price);
-
-                    final EditText etTotal = (EditText) view.findViewById(R.id.etTotal);
-
                     dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            aceptar(etTotal);
+                            EditText etTotal = (EditText) vAlertDialog.findViewById(R.id.etTotal);
+                            aceptar(etTotal, valorProducto);
+
                         }
                     });
                     dialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -133,7 +130,20 @@ public class ShoppingRecordPriceFragment extends Fragment {
         }
     }
 
-    private void aceptar(EditText etTotal) {
+    private void aceptar(EditText etTotal, ValorProducto valorProducto) {
+        MyOpenHelper dbHelper = new MyOpenHelper(getApplicationContext());
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        if (db != null) {
+            long flagVP = dbHelper.insertMercadoProducto(db, tienda, valorProducto, etTotal);
+            if (flagVP > 0) {
+                Toast.makeText(getApplicationContext(), R.string.created, Toast.LENGTH_SHORT).show();
+                //
+                ((ShoppingActivity) getActivity()).loadFragment(new ShoppingProductPriceFragment());
+                //
+            }else{
+                Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     public void recordPrice() {
@@ -160,7 +170,7 @@ public class ShoppingRecordPriceFragment extends Fragment {
                     etEquivalentPrice.setText(String.valueOf(0));
                     //
                     Toast.makeText(getApplicationContext(), R.string.created, Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT).show();
                 }
             }

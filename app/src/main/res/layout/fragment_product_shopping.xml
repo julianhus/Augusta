@@ -190,6 +190,6 @@
         app:layout_constraintEnd_toStartOf="@+id/ibForward"
         app:layout_constraintStart_toEndOf="@+id/ibBack"
         app:layout_constraintTop_toBottomOf="@+id/etWeight"
-        app:srcCompat="@android:drawable/ic_media_play" />
+        app:srcCompat="@android:drawable/ic_menu_add" />
 
 </android.support.constraint.ConstraintLayout>

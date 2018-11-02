@@ -10,6 +10,7 @@ public class Tienda implements Serializable {
     private String direccion;
     private String coordenadas;
     private Municipio municipio;
+    private Mercado mercadoActivo;
     private List<TiendaProducto> tiendaProductos;
     private List<Mercado> mercados;
 
@@ -54,6 +55,14 @@ public class Tienda implements Serializable {
 
     public void setMunicipio(Municipio municipio) {
         this.municipio = municipio;
+    }
+
+    public Mercado getMercadoActivo() {
+        return mercadoActivo;
+    }
+
+    public void setMercadoActivo(Mercado mercadoActivo) {
+        this.mercadoActivo = mercadoActivo;
     }
 
     public List<TiendaProducto> getTiendaProductos() {
