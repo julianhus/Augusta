@@ -72,8 +72,8 @@ public class ValorProducto {
         String dateTime = dateFormat.format(fechaRegistro);
         System.out.println("Current Date Time : " + dateTime);
         //
-        return "Valor " + valor + "\n"
-                + idTiendaProducto.getProducto().getMedida() + " " + valorEquivalente +
+        return "Valor $" + valor + "\n"
+                + idTiendaProducto.getProducto().getMedida() + " $" + valorEquivalente +
                 "\n Fecha " + dateTime;
     }
 }

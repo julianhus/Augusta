@@ -32,6 +32,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 public class ShoppingRecordPriceFragment extends Fragment {
 
     View view;
+    View vAlertDialog = null;
     TextView tvProduct;
     Tienda tienda;
     Producto producto;
@@ -42,6 +43,9 @@ public class ShoppingRecordPriceFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_shopping_record_price, container, false);
+        //
+        vAlertDialog = inflater.inflate(R.layout.alert_dialog, null);
+        //
         tvProduct = view.findViewById(R.id.tvProduct);
         producto = new Producto();
         producto = getArguments() != null ? (Producto) getArguments().getSerializable("Producto") : producto;
@@ -97,12 +101,17 @@ public class ShoppingRecordPriceFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+
+
                     dialog.setTitle(R.string.do_you_want);
-                    dialog.setMessage(R.string.use_this_price);
+                    //dialog.setMessage(R.string.use_this_price);
+
+                    final EditText etTotal = (EditText) view.findViewById(R.id.etTotal);
+
                     dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            //aceptar();
+                            aceptar(etTotal);
                         }
                     });
                     dialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -111,6 +120,9 @@ public class ShoppingRecordPriceFragment extends Fragment {
                             //cancelar();
                         }
                     });
+
+                    dialog.setView(vAlertDialog);
+
                     dialog.show();
                 }
             });
@@ -119,6 +131,9 @@ public class ShoppingRecordPriceFragment extends Fragment {
             Toast.makeText(getApplicationContext(), R.string.product_without_price, Toast.LENGTH_SHORT).show();
             Log.e("Error", "loadProductPrice: " + e.getMessage(), null);
         }
+    }
+
+    private void aceptar(EditText etTotal) {
     }
 
     public void recordPrice() {
