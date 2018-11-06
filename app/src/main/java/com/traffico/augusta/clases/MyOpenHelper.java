@@ -430,24 +430,24 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
                 Iterator<MercadoProducto> iMercadoProducto = mercadoProductos.iterator();
                 boolean flagExist = false;
                 int idMercadoProducto = 0;
-                while (iMercadoProducto.hasNext()){
+                while (iMercadoProducto.hasNext()) {
                     MercadoProducto mercadoProducto = iMercadoProducto.next();
                     int idProductoOld = mercadoProducto.getValorProducto().getIdTiendaProducto().getProducto().getId();
                     int idProductoNew = valorProducto.getIdTiendaProducto().getProducto().getId();
-                    if (idProductoNew == idProductoOld){
+                    if (idProductoNew == idProductoOld) {
                         cantidad = cantidad + mercadoProducto.getCantidad();
                         totalMP = totalMP + mercadoProducto.getTotal();
                         idMercadoProducto = mercadoProducto.getId();
                         flagExist = true;
                     }
                 }
-                if(flagExist){
+                if (flagExist) {
                     //update
                     ContentValues cvUMP = new ContentValues();
                     cvUMP.put("cantidad", cantidad);
                     cvUMP.put("total", totalMP);
                     flagInsert = db.update("mercado_producto", cvUMP, "id = " + idMercadoProducto, null);
-                }else{
+                } else {
                     flagInsert = db.insert("mercado_producto", null, cvMP);
                 }
                 //
@@ -483,9 +483,40 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
         } catch (Exception e) {
             flagInsert = 0;
             Log.e("MyOpenHelper", "insertMercadoProducto: " + e.getMessage(), null);
-        }finally {
+        } finally {
             return flagInsert;
         }
 
+    }
+
+    public float updateMercadoProducto(SQLiteDatabase db, MercadoProducto mercadoProducto, int cantidad) {
+        float flagUpdate = 0;
+        float total;
+        total = mercadoProducto.getValorProducto().getValor() * cantidad;
+        ContentValues cvMP = new ContentValues();
+        ContentValues cvM = new ContentValues();
+        cvMP.put("cantidad", cantidad);
+        cvMP.put("total", total);
+        float totalMercado = mercadoProducto.getMercado().getTotal() - mercadoProducto.getTotal();
+        totalMercado = totalMercado + total;
+        cvM.put("total", totalMercado);
+        flagUpdate = db.update("mercado_producto", cvMP, "id = " + mercadoProducto.getId(), null);
+        if (flagUpdate > 0) {
+            flagUpdate = db.update("mercado", cvM, "id = " + mercadoProducto.getMercado().getId(), null);
+        }
+        return flagUpdate;
+    }
+
+    public float deleteMercadoProducto(SQLiteDatabase db, MercadoProducto mercadoProducto) {
+        float flagDelete = 0;
+        float flagUpdate = 0;
+        flagDelete = db.delete("mercado_producto", "id = " + mercadoProducto.getId(), null);
+        float total = mercadoProducto.getMercado().getTotal() - mercadoProducto.getTotal();
+        ContentValues cvM = new ContentValues();
+        cvM.put("total", total);
+        if (flagDelete > 0) {
+            flagUpdate = db.update("mercado", cvM, "id = " + mercadoProducto.getMercado().getId(), null);
+        }
+        return flagUpdate;
     }
 }

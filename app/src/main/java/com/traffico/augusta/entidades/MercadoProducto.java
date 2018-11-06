@@ -53,10 +53,11 @@ public class MercadoProducto {
 
     @Override
     public String toString() {
-        return valorProducto.getIdTiendaProducto().getProducto().getDescripcion() +
+        return valorProducto.getIdTiendaProducto().getProducto().getMarca() +
+                "-" + valorProducto.getIdTiendaProducto().getProducto().getDescripcion() +
                 " " + valorProducto.getIdTiendaProducto().getProducto().getValorMedida() +
                 " " + valorProducto.getIdTiendaProducto().getProducto().getMedida() +
-                ", Unidad: " + valorProducto.getValor() +
+                "\nUnidad: " + valorProducto.getValor() +
                 "\nCantidad: " + cantidad +
                 ", Total: " + total;
     }

@@ -60,4 +60,7 @@
     <string name="product_no_found">Product no Found</string>
     <string name="total_purchase">Total Purchase</string>
     <string name="no_scan_data_received">No scan data received</string>
+    <string name="modify_or_delete">Modify or delete selected item</string>
+    <string name="delete">Delete</string>
+    <string name="deleted">Deleted</string>
 </resources>

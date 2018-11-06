@@ -39,14 +39,17 @@ public class ShoppingRecordPriceFragment extends Fragment {
     Producto producto;
     ImageButton bRecordPrice;
     ImageButton ibBack;
+    //
+    LayoutInflater inflaterTemp;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        inflaterTemp = inflater;
         view = inflater.inflate(R.layout.fragment_shopping_record_price, container, false);
         //
-        vAlertDialog = inflater.inflate(R.layout.alert_dialog, null);
+        //vAlertDialog = inflater.inflate(R.layout.alert_dialog, null);
         //
         tvProduct = view.findViewById(R.id.tvProduct);
         producto = new Producto();
@@ -109,6 +112,7 @@ public class ShoppingRecordPriceFragment extends Fragment {
             lvValorProducto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                    vAlertDialog = inflaterTemp.inflate(R.layout.alert_dialog, null);
                     final ValorProducto valorProducto = (ValorProducto) lvValorProducto.getItemAtPosition(position);
                     AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
                     dialog.setTitle(R.string.do_you_want);

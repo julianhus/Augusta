@@ -57,4 +57,7 @@
     <string name="product_no_found">Producto no Encontrado</string>
     <string name="total_purchase">Total Compra</string>
     <string name="no_scan_data_received">No se recibieron datos del escaneo</string>
+    <string name="modify_or_delete">Modificar o borrar producto seleccionado</string>
+    <string name="delete">Eliminar</string>
+    <string name="deleted">Eliminado</string>
 </resources>
