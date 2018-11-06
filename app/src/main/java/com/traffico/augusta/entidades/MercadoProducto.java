@@ -53,12 +53,11 @@ public class MercadoProducto {
 
     @Override
     public String toString() {
-        return "MercadoProducto{" +
-                "id=" + id +
-                ", cantidad=" + cantidad +
-                ", total=" + total +
-                //", mercado=" + mercado +
-                //", valorProducto=" + valorProducto +
-                '}';
+        return valorProducto.getIdTiendaProducto().getProducto().getDescripcion() +
+                " " + valorProducto.getIdTiendaProducto().getProducto().getValorMedida() +
+                " " + valorProducto.getIdTiendaProducto().getProducto().getMedida() +
+                ", Unidad: " + valorProducto.getValor() +
+                "\nCantidad: " + cantidad +
+                ", Total: " + total;
     }
 }

@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,7 +37,8 @@ public class ShoppingRecordPriceFragment extends Fragment {
     TextView tvProduct;
     Tienda tienda;
     Producto producto;
-    Button bRecordPrice;
+    ImageButton bRecordPrice;
+    ImageButton ibBack;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -86,6 +88,13 @@ public class ShoppingRecordPriceFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 recordPrice();
+            }
+        });
+        ibBack = view.findViewById(R.id.ibBack);
+        ibBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((ShoppingActivity) getActivity()).loadFragment(new ShoppingProductFragment());
             }
         });
         return view;

@@ -47,7 +47,6 @@
     <string name="equivalent_price">Precio Equivalente</string>
     <string name="product_without_price">Producto sin Precios</string>
     <string name="fail">Fallo</string>
-    <string name="total_purchase" translatable="false">Total Compra</string>
     <string name="do_you_want">"Quieres ... "</string>
     <string name="choose_how">Elige como leer el codigo de barras</string>
     <string name="type">Escribir</string>
@@ -55,4 +54,7 @@
     <string name="use_this_price">Usar este precio para la compra?</string>
     <string name="yes">Si</string>
     <string name="total">Cantidad</string>
+    <string name="product_no_found">Producto no Encontrado</string>
+    <string name="total_purchase">Total Compra</string>
+    <string name="no_scan_data_received">No se recibieron datos del escaneo</string>
 </resources>

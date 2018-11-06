@@ -348,11 +348,14 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
             while (cMercadoProducto.moveToNext()) {
                 if (mercado == null) {
                     mercado = new Mercado();
-                    mercado.setId(cMercadoProducto.getInt(0));
+                    //mercado.setId(cMercadoProducto.getInt(0));
+                    mercado.setId(cMercadoProducto.getInt(cMercadoProducto.getColumnIndex("id")));
                     mercado.setTienda(tienda);
-                    mercado.setTotal(cMercadoProducto.getInt(1));
+                    //mercado.setTotal(cMercadoProducto.getInt(1));
+                    mercado.setTotal(cMercadoProducto.getInt(cMercadoProducto.getColumnIndex("total")));
                     //
-                    String dtStart = cMercadoProducto.getString(2);
+                    //String dtStart = cMercadoProducto.getString(2);
+                    String dtStart = cMercadoProducto.getString(cMercadoProducto.getColumnIndex("fecha_registro"));
                     try {
                         Date date = format.parse(dtStart);
                         mercado.setFechaRegistro(date);
@@ -360,17 +363,21 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
                         e.printStackTrace();
                     }
                     //
-                    mercado.setEstadoMercado(cMercadoProducto.getInt(3));
+                    //mercado.setEstadoMercado(cMercadoProducto.getInt(3));
+                    mercado.setEstadoMercado(cMercadoProducto.getInt(cMercadoProducto.getColumnIndex("estado_mercado")));
                 }
                 MercadoProducto mercadoProducto = new MercadoProducto();
-                mercadoProducto.setId(cMercadoProducto.getInt(4));
-                mercadoProducto.setCantidad(cMercadoProducto.getInt(5));
+                //mercadoProducto.setId(cMercadoProducto.getInt(4));
+                mercadoProducto.setId(cMercadoProducto.getInt(cMercadoProducto.getColumnIndex("id_mercado_producto")));
+                //mercadoProducto.setCantidad(cMercadoProducto.getInt(5));
+                mercadoProducto.setCantidad(cMercadoProducto.getInt(cMercadoProducto.getColumnIndex("cantidad")));
                 //mercadoProducto.setTotal(cMercadoProducto.getFloat(6));
-                mercadoProducto.setTotal(cMercadoProducto.getFloat(cMercadoProducto.getColumnIndex("total")));
+                mercadoProducto.setTotal(cMercadoProducto.getFloat(cMercadoProducto.getColumnIndex("total_mercado_producto")));
                 //
                 ValorProducto valorProducto = new ValorProducto();
                 //valorProducto.setId(cMercadoProducto.getInt(7));
                 valorProducto.setId(cMercadoProducto.getInt(cMercadoProducto.getColumnIndex("valor_producto_id")));
+                valorProducto.setValor(cMercadoProducto.getInt(cMercadoProducto.getColumnIndex("valor")));
                 //
                 TiendaProducto tiendaProducto = new TiendaProducto();
                 //tiendaProducto.setId(cMercadoProducto.getInt(8));
@@ -415,16 +422,41 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
                 int cantidad = Integer.parseInt(etTotal.getText().toString());
                 cvMP.put("cantidad", cantidad);
                 //
-                float total = valorProducto.getValor() * cantidad;
-                cvMP.put("total", total);
+                float totalMP = valorProducto.getValor() * cantidad;
+                float totalM = valorProducto.getValor() * cantidad;
+                cvMP.put("total", totalMP);
                 //
-                flagInsert = db.insert("mercado_producto", null, cvMP);
+                ArrayList<MercadoProducto> mercadoProductos = (ArrayList<MercadoProducto>) tienda.getMercadoActivo().getMercadoProductos();
+                Iterator<MercadoProducto> iMercadoProducto = mercadoProductos.iterator();
+                boolean flagExist = false;
+                int idMercadoProducto = 0;
+                while (iMercadoProducto.hasNext()){
+                    MercadoProducto mercadoProducto = iMercadoProducto.next();
+                    int idProductoOld = mercadoProducto.getValorProducto().getIdTiendaProducto().getProducto().getId();
+                    int idProductoNew = valorProducto.getIdTiendaProducto().getProducto().getId();
+                    if (idProductoNew == idProductoOld){
+                        cantidad = cantidad + mercadoProducto.getCantidad();
+                        totalMP = totalMP + mercadoProducto.getTotal();
+                        idMercadoProducto = mercadoProducto.getId();
+                        flagExist = true;
+                    }
+                }
+                if(flagExist){
+                    //update
+                    ContentValues cvUMP = new ContentValues();
+                    cvUMP.put("cantidad", cantidad);
+                    cvUMP.put("total", totalMP);
+                    flagInsert = db.update("mercado_producto", cvUMP, "id = " + idMercadoProducto, null);
+                }else{
+                    flagInsert = db.insert("mercado_producto", null, cvMP);
+                }
+                //
+
                 if (flagInsert > 0) {
                     ContentValues cvM = new ContentValues();
-                    cvM.put("total", tienda.getMercadoActivo().getTotal() + total);
+                    cvM.put("total", tienda.getMercadoActivo().getTotal() + totalM);
                     String[] arg = new String[]{String.valueOf(tienda.getMercadoActivo().getId())};
                     int flagUpdate = db.update("mercado", cvM, "id = ?", arg);
-                    Log.d("MyOpenHelper", "insertMercadoProducto: " + flagUpdate);
                 }
             } else {
                 ContentValues cv = new ContentValues();
@@ -441,16 +473,19 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
                 cv.put("estado_mercado", 1);
                 if (db.insert("mercado", null, cv) > 0) {
                     tienda.setMercadoActivo(getMercadoActivo(db, tienda));
-                    insertMercadoProducto(db, tienda, valorProducto, etTotal);
+                    flagInsert = insertMercadoProducto(db, tienda, valorProducto, etTotal);
+                    flagInsert = flagInsert;
                 }
-
             }
         } catch (SQLException e) {
+            flagInsert = 0;
             Log.e("MyOpenHelper", "insertMercadoProducto: " + e.getMessage(), null);
         } catch (Exception e) {
+            flagInsert = 0;
             Log.e("MyOpenHelper", "insertMercadoProducto: " + e.getMessage(), null);
-        } finally {
+        }finally {
             return flagInsert;
         }
+
     }
 }

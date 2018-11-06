@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -57,20 +58,20 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
             IntentIntegrator scanIntegrator = new IntentIntegrator(ShoppingProductFragment.this);
             scanIntegrator.initiateScan();
         }
-        if(view.getId() == R.id.ibBack){
-            ((ShoppingActivity)getActivity()).loadFragment(new ShoppingProductPriceFragment());
+        if (view.getId() == R.id.ibBack) {
+            ((ShoppingActivity) getActivity()).loadFragment(new ShoppingProductPriceFragment());
         }
-        if(view.getId() == R.id.ibSafe){
-
+        if (view.getId() == R.id.ibSafe) {
+            insertProduct();
         }
-        if(view.getId() == R.id.ibForward){
+        if (view.getId() == R.id.ibForward) {
             Fragment shoppingRecordPriceFragment = new ShoppingRecordPriceFragment();
             Bundle arg = new Bundle();
             arg.putSerializable("Producto", producto);
             shoppingRecordPriceFragment.setArguments(arg);
-            ((ShoppingActivity)getActivity()).loadFragment(shoppingRecordPriceFragment);
+            ((ShoppingActivity) getActivity()).loadFragment(shoppingRecordPriceFragment);
         }
-        if(view.getId() == R.id.ibSearch){
+        if (view.getId() == R.id.ibSearch) {
             loadProduct();
         }
     }
@@ -85,7 +86,7 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
             loadProduct();
         } else {
             Toast toast = Toast.makeText(getApplicationContext(),
-                    "No scan data received!", Toast.LENGTH_SHORT);
+                    R.string.no_scan_data_received, Toast.LENGTH_SHORT);
             toast.show();
         }
     }
@@ -110,9 +111,46 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
                 etWeight.setText("" + producto.getValorMedida());
                 etWeight.setEnabled(false);
                 ibForward.setEnabled(true);
+                ibSafe.setEnabled(false);
             } else {
+                ibSafe.setEnabled(true);
+                Toast toast = Toast.makeText(getApplicationContext(), R.string.product_no_found, Toast.LENGTH_SHORT);
+                toast.show();
 
             }
         }
+    }
+
+    public void insertProduct() {
+        loadProduct();
+        Producto producto = new Producto();
+        producto.setBarCode(etBarCode.getText().toString());
+        EditText ettrademark = view.findViewById(R.id.ettrademark);
+        producto.setMarca(ettrademark.getText().toString());
+        EditText etDescripcion = view.findViewById(R.id.etProduct);
+        producto.setDescripcion(etDescripcion.getText().toString());
+        EditText etMeasure = view.findViewById(R.id.etMeasure);
+        producto.setMedida(etMeasure.getText().toString());
+        EditText etWeight = view.findViewById(R.id.etWeight);
+        producto.setValorMedida(Float.parseFloat(etWeight.getText().toString()));
+        MyOpenHelper dbHelper = new MyOpenHelper(getApplicationContext());
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        if (db != null) {
+            long flagInsert = dbHelper.insertProduct(db, producto);
+            if (flagInsert > 0) {
+                producto.setId((int) flagInsert);
+                Toast.makeText(getApplicationContext(), R.string.created, Toast.LENGTH_SHORT).show();
+                //
+                Fragment shoppingRecordPriceFragment = new ShoppingRecordPriceFragment();
+                Bundle arg = new Bundle();
+                arg.putSerializable("Producto", producto);
+                shoppingRecordPriceFragment.setArguments(arg);
+                ((ShoppingActivity) getActivity()).loadFragment(shoppingRecordPriceFragment);
+                //
+            } else {
+                Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT).show();
+            }
+        }
+
     }
 }

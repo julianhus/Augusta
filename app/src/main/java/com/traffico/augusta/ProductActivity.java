@@ -105,9 +105,13 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             if (db != null) {
                 long flagInsert = dbHelper.insertProduct(db, producto);
-                Toast.makeText(getBaseContext(), R.string.created, Toast.LENGTH_SHORT).show();
-                Intent iProduct = new Intent(this, ProductListActivity.class);
-                startActivity(iProduct);
+                if (flagInsert > 0) {
+                    Toast.makeText(getBaseContext(), R.string.created, Toast.LENGTH_SHORT).show();
+                    Intent iProduct = new Intent(this, ProductListActivity.class);
+                    startActivity(iProduct);
+                } else {
+                    Toast.makeText(getBaseContext(), R.string.fail, Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }

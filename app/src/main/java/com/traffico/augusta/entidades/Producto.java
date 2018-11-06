@@ -74,11 +74,12 @@ public class Producto implements Serializable {
 
     @Override
     public String toString() {
-        return marca+"\n"+descripcion+"\n"+valorMedida+" "+medida+"\n"+barCode;
+        //return marca+"\n"+descripcion+"\n"+valorMedida+" "+medida+"\n"+barCode;
+        return descripcion + ", " + marca + "\n" + valorMedida + " " + medida + "\n" + barCode;
 
     }
 
-    public String toDescripcion(){
+    public String toDescripcion() {
         return marca + "/" + descripcion + " x " + valorMedida + " " + medida;
     }
 }
