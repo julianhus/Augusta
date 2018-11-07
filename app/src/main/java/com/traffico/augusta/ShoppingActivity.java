@@ -1,8 +1,10 @@
 package com.traffico.augusta;
 
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.FloatingActionButton;
@@ -10,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.traffico.augusta.clases.MyOpenHelper;
 import com.traffico.augusta.entidades.Tienda;
@@ -19,6 +22,7 @@ public class ShoppingActivity extends AppCompatActivity {
 
     Tienda tienda;
     Usuario usuario;
+    FloatingActionButton fabFinishShopping;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +33,8 @@ public class ShoppingActivity extends AppCompatActivity {
         tienda = (Tienda) iShopping.getSerializableExtra("Store");
         TextView tvStore = findViewById(R.id.tvStore);
         tvStore.setText(tienda.toString());
-        MyOpenHelper dbHelper = new MyOpenHelper(this);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        final MyOpenHelper dbHelper = new MyOpenHelper(this);
+        final SQLiteDatabase db = dbHelper.getWritableDatabase();
         if (db != null) {
             usuario = dbHelper.getUsuario(db);
         }
@@ -46,6 +50,14 @@ public class ShoppingActivity extends AppCompatActivity {
                 //
             }
         });
+        fabFinishShopping = findViewById(R.id.fabFinishShopping);
+        fabFinishShopping.setEnabled(false);
+        fabFinishShopping.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                validateMercadoProducto(db, dbHelper);
+            }
+        });
     }
 
     @Override
@@ -57,8 +69,37 @@ public class ShoppingActivity extends AppCompatActivity {
     public void loadFragment(Fragment fragment) {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.frameLayout,fragment);
+        ft.replace(R.id.frameLayout, fragment);
         ft.commit();
+    }
+
+    private void validateMercadoProducto(final SQLiteDatabase db, final MyOpenHelper dbHelper) {
+        if (tienda.getMercadoActivo().getEstadoMercado() == 1 && tienda.getMercadoActivo().getMercadoProductos().get(0).getId() > 0) {
+
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setTitle(R.string.finalized_shopping);
+            TextView tvTotalVal = findViewById(R.id.tvTotalVal);
+            dialog.setMessage(getString(R.string.total_of_shopping, tvTotalVal.getText().toString()));
+            dialog.setCancelable(false);
+            dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    float flagUpdate = dbHelper.updateMercado(db, tienda.getMercadoActivo().getId());
+                    if (flagUpdate > 0) {
+                        Toast.makeText(getApplicationContext(), R.string.finalized_shopping, Toast.LENGTH_SHORT).show();
+                        Intent menu = new Intent(getApplicationContext(), MenuActivity.class);
+                        startActivity(menu);
+                    }
+                }
+            });
+            dialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+            dialog.show();
+        }
     }
 
 }

@@ -63,4 +63,6 @@
     <string name="modify_or_delete">Modify or delete selected item</string>
     <string name="delete">Delete</string>
     <string name="deleted">Deleted</string>
+    <string name="finalized_shopping">Finalized Shopping</string>
+    <string name="total_of_shopping">The total of shopping is $%1$s</string>
 </resources>

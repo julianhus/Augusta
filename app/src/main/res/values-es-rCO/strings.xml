@@ -60,4 +60,6 @@
     <string name="modify_or_delete">Modificar o borrar producto seleccionado</string>
     <string name="delete">Eliminar</string>
     <string name="deleted">Eliminado</string>
+    <string name="finalized_shopping">Compras Finalizadas</string>
+    <string name="total_of_shopping">El Total de las compras es $%1$s</string>
 </resources>

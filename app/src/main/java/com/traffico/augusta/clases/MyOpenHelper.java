@@ -519,4 +519,12 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
         }
         return flagUpdate;
     }
+
+    public float updateMercado(SQLiteDatabase db, int id_mercado) {
+        float flagUpdate = 0;
+        ContentValues cv = new ContentValues();
+        cv.put("estado_mercado", 0);
+        flagUpdate = db.update("mercado", cv, "id = " + id_mercado, null);
+        return flagUpdate;
+    }
 }

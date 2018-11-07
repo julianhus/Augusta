@@ -54,6 +54,9 @@ public class ShoppingProductPriceFragment extends Fragment {
             ((ShoppingActivity) getActivity()).tienda.setMercadoActivo(dbHelper.getMercadoActivo(db, ((ShoppingActivity) getActivity()).tienda));
             //
             if (((ShoppingActivity) getActivity()).tienda.getMercadoActivo().getMercadoProductos().get(0).getId() > 0) {
+                //
+                ((ShoppingActivity) getActivity()).fabFinishShopping.setEnabled(true);
+                //
                 ArrayList<MercadoProducto> mercadoProductoList = (ArrayList<MercadoProducto>) ((ShoppingActivity) getActivity()).tienda.getMercadoActivo().getMercadoProductos();
                 //
                 final ListView lvMercadoProducto = view.findViewById(R.id.lvShoppingProductPrice);
