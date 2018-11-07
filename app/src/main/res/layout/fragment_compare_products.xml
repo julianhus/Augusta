@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CompareProductsFragment">
+
+    <TextView
+        android:id="@+id/tvBarCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/bar_code"
+        app:layout_constraintBottom_toBottomOf="@+id/etBarCode"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etBarCode" />
+
+    <EditText
+        android:id="@+id/etBarCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:ems="10"
+        android:hint="@string/bar_code"
+        android:inputType="textPersonName"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@+id/ibSearch"
+        app:layout_constraintTop_toBottomOf="@+id/iBScan" />
+
+    <ImageButton
+        android:id="@+id/ibSearch"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="@+id/etBarCode"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etBarCode"
+        app:srcCompat="@android:drawable/ic_menu_search" />
+
+    <ImageButton
+        android:id="@+id/iBScan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.531"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_barcode" />
+
+    <TextView
+        android:id="@+id/tvProduct"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/product"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etBarCode" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvProduct">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvHighes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/highest_price"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/tvHPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/price" />
+
+            <TextView
+                android:id="@+id/tvHDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/registration_date" />
+
+            <TextView
+                android:id="@+id/tvHStore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/store" />
+
+            <TextView
+                android:id="@+id/tvHLastPurshase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/last_purchase" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvLowest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/lowest_price"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/tvLPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/price" />
+
+            <TextView
+                android:id="@+id/tvLDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/registration_date" />
+
+            <TextView
+                android:id="@+id/tvLStore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/store" />
+
+            <TextView
+                android:id="@+id/tvLLastPurchase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/last_purchase" />
+        </LinearLayout>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

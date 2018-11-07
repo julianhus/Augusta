@@ -36,14 +36,14 @@ public class MenuActivity extends AppCompatActivity {
                     loadFragment(new DashboardFragment());
                     return true;
                 case R.id.navigation_notifications:
-                    loadFragment(new ListStoreFragment());
+                    loadFragment(new NotificationFragment());
                     return true;
             }
             return false;
         }
     };
 
-    private void loadFragment(Fragment fragment) {
+    public void loadFragment(Fragment fragment) {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.frameLayout,fragment);

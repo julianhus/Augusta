@@ -62,4 +62,11 @@
     <string name="deleted">Eliminado</string>
     <string name="finalized_shopping">Compras Finalizadas</string>
     <string name="total_of_shopping">El Total de las compras es $%1$s</string>
+    <string name="compare_price_by_product">Comparar precios por producto</string>
+    <string name="shopping_list">Lista de Compras</string>
+    <string name="highest_price">Precio mas Alto</string>
+    <string name="lowest_price">Precio mas Bajo</string>
+    <string name="date_shopping">Fecha de Compra</string>
+    <string name="registration_date">Fecha de Registro</string>
+    <string name="last_purchase">Fecha de la última compra</string>
 </resources>

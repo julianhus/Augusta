@@ -113,28 +113,30 @@ public class ShoppingRecordPriceFragment extends Fragment {
             lvValorProducto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-                    vAlertDialog = inflaterTemp.inflate(R.layout.alert_dialog, null);
-                    final ValorProducto valorProducto = (ValorProducto) lvValorProducto.getItemAtPosition(position);
-                    AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-                    dialog.setTitle(R.string.do_you_want);
-                    dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            EditText etTotal = (EditText) vAlertDialog.findViewById(R.id.etTotal);
-                            aceptar(etTotal, valorProducto);
+                    if (position == 0) {
+                        //
+                        vAlertDialog = inflaterTemp.inflate(R.layout.alert_dialog, null);
+                        final ValorProducto valorProducto = (ValorProducto) lvValorProducto.getItemAtPosition(position);
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                        dialog.setTitle(R.string.do_you_want);
+                        dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                EditText etTotal = (EditText) vAlertDialog.findViewById(R.id.etTotal);
+                                aceptar(etTotal, valorProducto);
 
-                        }
-                    });
-                    dialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            //cancelar();
-                        }
-                    });
-
-                    dialog.setView(vAlertDialog);
-
-                    dialog.show();
+                            }
+                        });
+                        dialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //cancelar();
+                            }
+                        });
+                        dialog.setView(vAlertDialog);
+                        dialog.show();
+                        //
+                    }
                 }
             });
 
@@ -154,7 +156,7 @@ public class ShoppingRecordPriceFragment extends Fragment {
                 //
                 ((ShoppingActivity) getActivity()).loadFragment(new ShoppingProductPriceFragment());
                 //
-            }else{
+            } else {
                 Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT).show();
             }
         }

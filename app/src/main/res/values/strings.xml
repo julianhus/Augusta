@@ -65,4 +65,11 @@
     <string name="deleted">Deleted</string>
     <string name="finalized_shopping">Finalized Shopping</string>
     <string name="total_of_shopping">The total of shopping is $%1$s</string>
+    <string name="compare_price_by_product">Compare price by product</string>
+    <string name="shopping_list">Shopping List</string>
+    <string name="highest_price">Highest Price</string>
+    <string name="lowest_price">Lowest Price</string>
+    <string name="date_shopping">Date of Shopping</string>
+    <string name="registration_date">Registration Date</string>
+    <string name="last_purchase">Date of the last purchase</string>
 </resources>
