@@ -530,21 +530,128 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
 
     public Producto getProductoValorProducto(SQLiteDatabase db, String scanContent, Producto producto) {
         String[] args = new String[]{scanContent};
-        Cursor cursor = db.rawQuery(QRY_PRODUCTO_BARCODE_VALOR_PRODUCTO, args);
-        /*
-        Producto producto = new Producto();
-        String[] args = new String[]{scanContent};
-        Cursor cursor = db.rawQuery(QRY_PRODUCTO_BARCODE, args);
-        while (cursor.moveToNext()) {
-            producto.setId(cursor.getInt(0));
-            producto.setBarCode(cursor.getString(1));
-            producto.setMarca(cursor.getString(2));
-            producto.setDescripcion(cursor.getString(3));
-            producto.setMedida(cursor.getString(4));
-            producto.setValorMedida(cursor.getFloat(5));
+        Cursor cp = db.rawQuery(QRY_PRODUCTO_BARCODE_VALOR_PRODUCTO, args);
+        ArrayList<TiendaProducto> tiendaProductos = new ArrayList<TiendaProducto>();
+        boolean flagP = false;
+        while (cp.moveToNext()) {
+            //
+            if (flagP == false) {
+                producto.setId(cp.getInt(cp.getColumnIndex("id_producto")));
+                producto.setBarCode(cp.getString(cp.getColumnIndex("barcode")));
+                producto.setMarca(cp.getString(cp.getColumnIndex("marca")));
+                producto.setDescripcion(cp.getString(cp.getColumnIndex("descripcion_producto")));
+                producto.setMedida(cp.getString(cp.getColumnIndex("medida")));
+                producto.setValorMedida(cp.getFloat(cp.getColumnIndex("valor_medida")));
+                producto.setTiendaProductos(tiendaProductos);
+                flagP = true;
+            }
+            //
+            Mercado mercado = new Mercado();
+            mercado.setId(cp.getInt(cp.getColumnIndex("id_mercado")));
+            //
+            String dtStart = cp.getString(cp.getColumnIndex("fecha_registro_mercado"));
+            try {
+                if (dtStart != null) {
+                    Date date = format.parse(dtStart);
+                    System.out.println(date);
+                    mercado.setFechaRegistro(date);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            //
+            MercadoProducto mercadoProducto = new MercadoProducto();
+            mercadoProducto.setId(cp.getInt(cp.getColumnIndex("id_mercado_producto")));
+            mercadoProducto.setMercado(mercado);
+            //
+            ValorProducto valorProducto = new ValorProducto();
+            valorProducto.setId(cp.getInt(cp.getColumnIndex("id_valor_producto")));
+            valorProducto.setValor(cp.getInt(cp.getColumnIndex("valor")));
+            valorProducto.setValorEquivalente(cp.getInt(cp.getColumnIndex("valor_equivalente")));
+            //
+            dtStart = cp.getString(cp.getColumnIndex("fecha_registro_valor_producto"));
+            try {
+                Date date = format.parse(dtStart);
+                System.out.println(date);
+                valorProducto.setFechaRegistro(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            mercadoProducto.setValorProducto(valorProducto);
+            //
+            TiendaProducto tiendaProducto = new TiendaProducto();
+            tiendaProducto.setId(cp.getInt(cp.getColumnIndex("id_tienda_producto")));
+            //
+            Tienda tienda = new Tienda();
+            tienda.setId(cp.getInt(cp.getColumnIndex("id_tienda")));
+            tienda.setDescripcion(cp.getString(cp.getColumnIndex("descripcion_tienda")));
+            tienda.setDireccion(cp.getString(cp.getColumnIndex("direccion")));
+            tienda.setCoordenadas(cp.getString(cp.getColumnIndex("coordenadas")));
+
+            Municipio municipio = new Municipio();
+            municipio.setId(cp.getInt(cp.getColumnIndex("id_municipio")));
+            tienda.setMunicipio(municipio);
+
+            tiendaProducto.setTienda(tienda);
+            tiendaProducto.setProducto(producto);
+            //
+            valorProducto.setIdTiendaProducto(tiendaProducto);
+            //
+            if (producto.getTiendaProductos().isEmpty()) {
+                ArrayList<ValorProducto> valorProductos = new ArrayList<ValorProducto>();
+                ArrayList<MercadoProducto> mercadoProductos = new ArrayList<MercadoProducto>();
+                mercadoProductos.add(mercadoProducto);
+                mercado.setMercadoProductos(mercadoProductos);
+                valorProducto.setMercadoProductos(mercadoProductos);
+                valorProductos.add(valorProducto);
+                tiendaProducto.setValorProductos(valorProductos);
+                tiendaProductos.add(tiendaProducto);
+            } else {
+                Iterator<TiendaProducto> iTiendaProducto = producto.getTiendaProductos().iterator();
+                boolean flagTP = false;
+                //
+                while (iTiendaProducto.hasNext()) {
+                    TiendaProducto tTiendaProducto = iTiendaProducto.next();
+                    if (tTiendaProducto.getId() == tiendaProducto.getId()) {
+                        flagTP = true;
+                        Iterator<ValorProducto> iValorProducto = tTiendaProducto.getValorProductos().iterator();
+                        boolean flagVP = false;
+                        while (iValorProducto.hasNext()) {
+                            ValorProducto tValorProducto = iValorProducto.next();
+                            if (tValorProducto.getId() == valorProducto.getId()) {
+                                flagVP = true;
+                                Iterator<MercadoProducto> iMercadoProducto = tValorProducto.getMercadoProductos().iterator();
+                                boolean flagMP = false;
+                                while (iMercadoProducto.hasNext()){
+                                    MercadoProducto tMercadoProducto = iMercadoProducto.next();
+                                    if(tMercadoProducto.getId() == mercadoProducto.getId()){
+                                        flagMP = true;
+                                    }
+                                }
+                                if(flagMP==false){
+                                    tValorProducto.getMercadoProductos().add(mercadoProducto);
+                                }
+                            }
+                        }
+                        if (flagVP == false) {
+                            tiendaProducto.getValorProductos().add(valorProducto);
+                        }
+                    }
+
+                }
+                if (flagTP == false) {
+                    ArrayList<ValorProducto> valorProductos = new ArrayList<ValorProducto>();
+                    ArrayList<MercadoProducto> mercadoProductos = new ArrayList<MercadoProducto>();
+                    mercadoProductos.add(mercadoProducto);
+                    mercado.setMercadoProductos(mercadoProductos);
+                    valorProducto.setMercadoProductos(mercadoProductos);
+                    valorProductos.add(valorProducto);
+                    tiendaProducto.setValorProductos(valorProductos);
+                    tiendaProductos.add(tiendaProducto);
+                }
+                //
+            }
         }
-        return producto;
-         */
         return producto;
     }
 }

@@ -26,6 +26,7 @@ public class CompareProductsFragment extends Fragment {
 
     View view;
     private ImageButton bScann;
+    private ImageButton ibSearch;
     private EditText etBarCode;
 
 
@@ -42,6 +43,14 @@ public class CompareProductsFragment extends Fragment {
             public void onClick(View v) {
                 IntentIntegrator scanIntegrator = new IntentIntegrator(CompareProductsFragment.this);
                 scanIntegrator.initiateScan();
+            }
+        });
+        //
+        ibSearch = view.findViewById(R.id.ibSearch);
+        ibSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadInfoCompare(etBarCode.getText().toString());
             }
         });
         //

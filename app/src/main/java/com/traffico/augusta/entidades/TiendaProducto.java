@@ -1,10 +1,13 @@
 package com.traffico.augusta.entidades;
 
+import java.util.ArrayList;
+
 public class TiendaProducto {
 
     private int id;
     Tienda tienda;
     Producto producto;
+    ArrayList<ValorProducto> valorProductos;
 
     public TiendaProducto() {
     }
@@ -31,6 +34,14 @@ public class TiendaProducto {
 
     public void setProducto(Producto producto) {
         this.producto = producto;
+    }
+
+    public ArrayList<ValorProducto> getValorProductos() {
+        return valorProductos;
+    }
+
+    public void setValorProductos(ArrayList<ValorProducto> valorProductos) {
+        this.valorProductos = valorProductos;
     }
 
     @Override
