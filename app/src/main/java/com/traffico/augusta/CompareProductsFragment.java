@@ -6,18 +6,25 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.traffico.augusta.clases.MyOpenHelper;
 import com.traffico.augusta.entidades.Producto;
+import com.traffico.augusta.entidades.TiendaProducto;
+import com.traffico.augusta.entidades.ValorProducto;
 import com.traffico.augusta.google.zxing.integration.android.IntentIntegrator;
 import com.traffico.augusta.google.zxing.integration.android.IntentResult;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -66,7 +73,7 @@ public class CompareProductsFragment extends Fragment {
             etBarCode.setText(scanContent);
             loadInfoCompare(scanContent);
         } else {
-            Toast toast = Toast.makeText(getApplicationContext(),"No scan data received!", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(getApplicationContext(), "No scan data received!", Toast.LENGTH_SHORT);
             toast.show();
         }
 
@@ -79,6 +86,46 @@ public class CompareProductsFragment extends Fragment {
         if (db != null) {
             Producto producto = new Producto();
             producto = dbHelper.getProductoValorProducto(db, scanContent, producto);
+            TextView tvProduct = view.findViewById(R.id.tvProduct);
+            TextView tvHPrice = view.findViewById(R.id.tvHPrice);
+            TextView tvHDate = view.findViewById(R.id.tvHDate);
+            TextView tvHStore = view.findViewById(R.id.tvHStore);
+            TextView tvHLastPurshase = view.findViewById(R.id.tvHLastPurshase);
+            /*TextView tvProduct = view.findViewById(R.id.tvProduct);
+            TextView tvProduct = view.findViewById(R.id.tvProduct);
+            TextView tvProduct = view.findViewById(R.id.tvProduct);
+            TextView tvProduct = view.findViewById(R.id.tvProduct);*/
+
+            if (producto.getId() != 0) {
+                tvProduct.setText(producto.getDescripcion() + " " + producto.getMarca() + " " + producto.getValorMedida() + " " + producto.getMedida());
+
+                Iterator<TiendaProducto> iTiendaProducto = producto.getTiendaProductos().iterator();
+                ValorProducto valorProductoHigher = new ValorProducto();
+                ValorProducto valorProductolower;
+                while (iTiendaProducto.hasNext()){
+                    TiendaProducto tiendaProducto = iTiendaProducto.next();
+                    Iterator<ValorProducto> iValorProducto = tiendaProducto.getValorProductos().iterator();
+                    while (iValorProducto.hasNext()){
+                        ValorProducto valorProducto = iValorProducto.next();
+                        if(valorProducto.getValor() > valorProductoHigher.getValor()){
+                            valorProductolower = valorProductoHigher;
+                            valorProductoHigher = valorProducto;
+                        }
+                        if(valorProducto.getValor() < valorProductoHigher.getValor()){
+                            valorProductolower = valorProducto;
+                        }
+                    }
+                }
+                tvHPrice.setText(String.valueOf(valorProductoHigher.getValor()));
+                tvHDate.setText(String.valueOf(valorProductoHigher.getFechaRegistro()));
+                tvHStore.setText(String.valueOf(valorProductoHigher.getIdTiendaProducto().getTienda().toString()));
+
+
+            }else{
+                Toast toast = Toast.makeText(getApplicationContext(), R.string.product_no_found, Toast.LENGTH_SHORT);
+                toast.show();
+                tvProduct.setText(R.string.product);
+            }
         }
     }
 

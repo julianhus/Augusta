@@ -1,6 +1,7 @@
 package com.traffico.augusta.entidades;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Producto implements Serializable {
@@ -11,7 +12,7 @@ public class Producto implements Serializable {
     private String descripcion;
     private String medida;
     private float valorMedida;
-    private List<TiendaProducto> tiendaProductos;
+    private ArrayList<TiendaProducto> tiendaProductos;
 
     public Producto() {
     }
@@ -64,11 +65,11 @@ public class Producto implements Serializable {
         this.valorMedida = valorMedida;
     }
 
-    public List<TiendaProducto> getTiendaProductos() {
+    public ArrayList<TiendaProducto> getTiendaProductos() {
         return tiendaProductos;
     }
 
-    public void setTiendaProductos(List<TiendaProducto> tiendaProductos) {
+    public void setTiendaProductos(ArrayList<TiendaProducto> tiendaProductos) {
         this.tiendaProductos = tiendaProductos;
     }
 

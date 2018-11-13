@@ -629,12 +629,19 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
                                     }
                                 }
                                 if(flagMP==false){
-                                    tValorProducto.getMercadoProductos().add(mercadoProducto);
+                                    ArrayList<MercadoProducto> mercadoProductos = (ArrayList<MercadoProducto>) tValorProducto.getMercadoProductos();
+                                    mercadoProductos.add(mercadoProducto);
+                                    mercado.setMercadoProductos(mercadoProductos);
                                 }
                             }
                         }
                         if (flagVP == false) {
-                            tiendaProducto.getValorProductos().add(valorProducto);
+                            ArrayList<ValorProducto> valorProductos = tTiendaProducto.getValorProductos();
+                            ArrayList<MercadoProducto> mercadoProductos = new ArrayList<MercadoProducto>();
+                            mercadoProductos.add(mercadoProducto);
+                            mercado.setMercadoProductos(mercadoProductos);
+                            valorProducto.setMercadoProductos(mercadoProductos);
+                            valorProductos.add(valorProducto);
                         }
                     }
 
