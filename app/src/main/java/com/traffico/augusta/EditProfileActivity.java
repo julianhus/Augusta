@@ -3,6 +3,7 @@ package com.traffico.augusta;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,10 +12,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+
 import com.traffico.augusta.clases.MyOpenHelper;
 import com.traffico.augusta.entidades.Usuario;
 
-public class EditProfileActivity extends AppCompatActivity {
+import java.util.Locale;
+
+public class EditProfileActivity extends AppCompatActivity{
 
     Usuario usuario = new Usuario();
 
@@ -51,7 +56,7 @@ public class EditProfileActivity extends AppCompatActivity {
         startActivity(iMenu);
     }
 
-    public void upDate (View view){
+    public void upDate(View view) {
         TextView tVName = findViewById(R.id.tvName);
         TextView tVLastName = findViewById(R.id.tvLastName);
         TextView tVEMail = findViewById(R.id.tvMail);
@@ -86,6 +91,16 @@ public class EditProfileActivity extends AppCompatActivity {
                     }
                 }, 1000); // Millisecon
             }
+        }
+    }
+
+
+    public void showMap(View view) {
+        Uri gmmIntentUri = Uri.parse("geo:4.6750226,-74.1171807");
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        if (mapIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(mapIntent);
         }
     }
 }

@@ -71,5 +71,5 @@
     <string name="lowest_price">Lowest Price</string>
     <string name="date_shopping">Date of Shopping</string>
     <string name="registration_date">Registration Date</string>
-    <string name="last_purchase">Date of the last purchase</string>
+    <string name="last_purchase">Date last purchase</string>
 </resources>

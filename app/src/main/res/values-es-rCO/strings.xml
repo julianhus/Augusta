@@ -68,5 +68,5 @@
     <string name="lowest_price">Precio mas Bajo</string>
     <string name="date_shopping">Fecha de Compra</string>
     <string name="registration_date">Fecha de Registro</string>
-    <string name="last_purchase">Fecha de la última compra</string>
+    <string name="last_purchase">Fecha última compra</string>
 </resources>
