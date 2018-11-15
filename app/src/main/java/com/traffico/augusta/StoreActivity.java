@@ -141,23 +141,33 @@ public class StoreActivity extends AppCompatActivity {
         EditText eTAddress = findViewById(R.id.etAddress);
         EditText eTLocation = findViewById(R.id.etLocation);
         TextView tvCity = findViewById(R.id.tvCity);
+        TextView tvState = findViewById(R.id.tvState);
         TextView tvDescription = findViewById(R.id.tvDesciption);
         TextView tvAddress = findViewById(R.id.tvAddress);
         TextView tvLocation = findViewById(R.id.tvLocation);
         Spinner sMunicipio = findViewById(R.id.sCity);
+        Spinner sDepartamento = findViewById(R.id.sState);
 
+        if (sDepartamento.getSelectedItemPosition() <= 0) {
+            tvState.setTextColor(Color.rgb(200, 0, 0));
+            flagCheck = false;
+        } else {
+            tvState.setTextColor(-1979711488);
+        }
         if (sMunicipio.getSelectedItemPosition() <= 0) {
             tvCity.setTextColor(Color.rgb(200, 0, 0));
             flagCheck = false;
         } else {
             tvCity.setTextColor(-1979711488);
         }
+        /*
         if (eTLocation.getText().toString().isEmpty()) {
             tvLocation.setTextColor(Color.rgb(200, 0, 0));
             flagCheck = false;
         } else {
             tvLocation.setTextColor(-1979711488);
         }
+        */
         if (eTAddress.getText().toString().isEmpty()) {
             tvAddress.setTextColor(Color.rgb(200, 0, 0));
             flagCheck = false;

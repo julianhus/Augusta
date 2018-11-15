@@ -2,13 +2,16 @@ package com.traffico.augusta;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.traffico.augusta.clases.MyOpenHelper;
@@ -18,8 +21,10 @@ import com.traffico.augusta.google.zxing.integration.android.IntentResult;
 
 public class ProductActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ImageButton bScann;
-    private EditText etBarCode;
+    private ImageButton bScann, ibSearch;
+    private EditText etBarCode, ettrademark, etDescripcion;
+    private TextView tvBarCode, tvTrademark, tvProduct;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +34,8 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         etBarCode = findViewById(R.id.etBarCode);
         bScann = findViewById(R.id.iBScan);
         bScann.setOnClickListener((View.OnClickListener) this);
+        ibSearch = findViewById(R.id.ibSearch);
+        ibSearch.setOnClickListener((View.OnClickListener) this);
     }
 
     @Override
@@ -41,6 +48,9 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         if (view.getId() == R.id.iBScan) {
             IntentIntegrator scanIntegrator = new IntentIntegrator(ProductActivity.this);
             scanIntegrator.initiateScan();
+        }
+        if (view.getId() == R.id.ibSearch) {
+            loadProduct();
         }
     }
 
@@ -83,36 +93,83 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 bProduct.setEnabled(false);
             } else {
                 bProduct.setEnabled(true);
+                Toast.makeText(getBaseContext(), R.string.product_no_found, Toast.LENGTH_SHORT).show();
             }
         }
     }
 
     public void insertProduct(View view) {
-        loadProduct();
-        Button bProduct = findViewById(R.id.bProduct);
-        if (bProduct.isEnabled()) {
-            Producto producto = new Producto();
-            producto.setBarCode(etBarCode.getText().toString());
-            EditText ettrademark = findViewById(R.id.ettrademark);
-            producto.setMarca(ettrademark.getText().toString());
-            EditText etDescripcion = findViewById(R.id.etProduct);
-            producto.setDescripcion(etDescripcion.getText().toString());
-            EditText etMeasure = findViewById(R.id.etMeasure);
-            producto.setMedida(etMeasure.getText().toString());
-            EditText etWeight = findViewById(R.id.etWeight);
-            producto.setValorMedida(Float.parseFloat(etWeight.getText().toString()));
-            MyOpenHelper dbHelper = new MyOpenHelper(this);
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
-            if (db != null) {
-                long flagInsert = dbHelper.insertProduct(db, producto);
-                if (flagInsert > 0) {
-                    Toast.makeText(getBaseContext(), R.string.created, Toast.LENGTH_SHORT).show();
-                    Intent iProduct = new Intent(this, ProductListActivity.class);
-                    startActivity(iProduct);
-                } else {
-                    Toast.makeText(getBaseContext(), R.string.fail, Toast.LENGTH_SHORT).show();
+        if (validate()) {
+            loadProduct();
+            Button bProduct = findViewById(R.id.bProduct);
+            if (bProduct.isEnabled()) {
+                Producto producto = new Producto();
+                producto.setBarCode(etBarCode.getText().toString());
+                producto.setMarca(ettrademark.getText().toString());
+                producto.setDescripcion(etDescripcion.getText().toString());
+                EditText etMeasure = findViewById(R.id.etMeasure);
+                producto.setMedida(etMeasure.getText().toString());
+                EditText etWeight = findViewById(R.id.etWeight);
+                try {
+                    producto.setValorMedida(Float.parseFloat(etWeight.getText().toString()));
+                } catch (Exception e) {
+                    Log.i("ProductActivity", "insertProduct: parceFloat Fail");
+                }
+                MyOpenHelper dbHelper = new MyOpenHelper(this);
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                if (db != null) {
+                    long flagInsert = dbHelper.insertProduct(db, producto);
+                    if (flagInsert > 0) {
+                        Toast.makeText(getBaseContext(), R.string.created, Toast.LENGTH_SHORT).show();
+                        Intent iProduct = new Intent(this, ProductListActivity.class);
+                        startActivity(iProduct);
+                    } else {
+                        Toast.makeText(getBaseContext(), R.string.fail, Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
+        } else {
+            Toast.makeText(getBaseContext(), R.string.redInfo, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private boolean validate() {
+        tvBarCode = findViewById(R.id.tvBarCode);
+        tvTrademark = findViewById(R.id.tvTrademark);
+        tvProduct = findViewById(R.id.tvProduct);
+        //
+        etBarCode = findViewById(R.id.etBarCode);
+        ettrademark = findViewById(R.id.ettrademark);
+        etDescripcion = findViewById(R.id.etProduct);
+        //
+        boolean flagBarCode, flagTradeMark, flagProduct = true;
+        if (etBarCode.getText().toString().isEmpty()) {
+            tvBarCode.setTextColor(Color.rgb(200, 0, 0));
+            flagBarCode = false;
+        } else {
+            tvBarCode.setTextColor(-1979711488);
+            flagBarCode = true;
+        }
+        if (ettrademark.getText().toString().isEmpty()) {
+            tvTrademark.setTextColor(Color.rgb(200, 0, 0));
+            flagTradeMark = false;
+        } else {
+            tvTrademark.setTextColor(-1979711488);
+            flagTradeMark = true;
+        }
+
+        if (etDescripcion.getText().toString().isEmpty()) {
+            tvProduct.setTextColor(Color.rgb(200, 0, 0));
+            flagProduct = false;
+        } else {
+            tvProduct.setTextColor(-1979711488);
+            flagProduct = true;
+        }
+
+        if (!flagBarCode || !flagTradeMark || !flagProduct) {
+            return false;
+        } else {
+            return true;
         }
     }
 }

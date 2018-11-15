@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,12 +31,24 @@ import org.json.JSONObject;
 import com.traffico.augusta.clases.MyOpenHelper;
 import com.traffico.augusta.entidades.Usuario;
 
+import java.util.regex.Pattern;
+
 public class MainActivity extends AppCompatActivity {
 
     private CallbackManager callbackManager;
     private LoginButton loginButton;
     //
     String userIdFacebook;
+    //
+    TextView tVName;
+    TextView tVLastName;
+    TextView tVEMail;
+    //
+    EditText eTName;
+    EditText eTLastName;
+    EditText eTAddress;
+    EditText eTLocation;
+    EditText eTEMail;
 
 
     @Override
@@ -151,21 +164,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void register(View view) {
-        TextView tVName = findViewById(R.id.tvName);
-        TextView tVLastName = findViewById(R.id.tvLastName);
-        TextView tVEMail = findViewById(R.id.tvMail);
         //
-        EditText eTName = findViewById(R.id.etName);
-        EditText eTLastName = findViewById(R.id.etLastName);
-        EditText eTAddress = findViewById(R.id.etAddress);
-        EditText eTLocation = findViewById(R.id.etLocation);
-        EditText eTEMail = findViewById(R.id.etMail);
-        //
-        if (eTName.getText().toString().isEmpty() && eTLastName.getText().toString().isEmpty() && eTEMail.getText().toString().isEmpty()) {
-            tVName.setTextColor(Color.rgb(200, 0, 0));
-            tVLastName.setTextColor(Color.rgb(200, 0, 0));
-            tVEMail.setTextColor(Color.rgb(200, 0, 0));
-        } else {
+        if (validate()) {
             Usuario usuario = new Usuario();
             usuario.setNombre(eTName.getText().toString());
             usuario.setApellido(eTLastName.getText().toString());
@@ -191,11 +191,56 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }, 1000); // Millisecond 1000 = 1 sec
                     //
-                }else{
+                } else {
                     Toast toast = Toast.makeText(getApplicationContext(), "Fallo el Registro", Toast.LENGTH_SHORT);
                     toast.show();
                 }
             }
+        } else {
+            Toast.makeText(getBaseContext(), R.string.redInfo, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private boolean validate() {
+        //
+        tVName = findViewById(R.id.tvName);
+        tVLastName = findViewById(R.id.tvLastName);
+        tVEMail = findViewById(R.id.tvMail);
+        //
+        eTName = findViewById(R.id.etName);
+        eTLastName = findViewById(R.id.etLastName);
+        eTAddress = findViewById(R.id.etAddress);
+        eTLocation = findViewById(R.id.etLocation);
+        eTEMail = findViewById(R.id.etMail);
+        //
+        boolean flagName, flagLastName, flagEMail = true;
+        if (eTName.getText().toString().isEmpty()) {
+            tVName.setTextColor(Color.rgb(200, 0, 0));
+            flagName = false;
+        } else {
+            tVName.setTextColor(-1979711488);
+            flagName = true;
+        }
+        if (eTLastName.getText().toString().isEmpty()) {
+            tVLastName.setTextColor(Color.rgb(200, 0, 0));
+            flagLastName = false;
+        } else {
+            tVLastName.setTextColor(-1979711488);
+            flagLastName = true;
+        }
+        Pattern pEMail = Patterns.EMAIL_ADDRESS;
+        if (!pEMail.matcher(eTEMail.getText().toString()).matches() || eTEMail.getText().toString().isEmpty()) {
+            tVEMail.setTextColor(Color.rgb(200, 0, 0));
+            flagEMail = false;
+        } else {
+            tVEMail.setTextColor(-1979711488);
+            flagEMail = true;
+        }
+
+        if (!flagName || !flagLastName || !flagEMail) {
+            return false;
+        } else {
+            return true;
         }
     }
 }

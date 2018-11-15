@@ -56,27 +56,31 @@ public class UpdateProductActivity extends AppCompatActivity {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             if (db != null) {
                 Producto producto = dbHelper.getProducto(db, etBarCode.getText().toString());
-                if (producto.getId() != 0 && producto.getId() != this.producto.getId()) {
+                if (producto.getId() != 0 && producto.getBarCode() == this.producto.getBarCode()) {
                     Toast.makeText(getBaseContext(), R.string.already_assigned, Toast.LENGTH_SHORT).show();
                 } else {
                     boolean flagCheck = validate(true);
                     if (!flagCheck) {
                         Toast.makeText(getBaseContext(), R.string.redInfo, Toast.LENGTH_SHORT).show();
                     } else {
-                        producto.setBarCode(etBarCode.getText().toString());
-                        producto.setMarca(ettrademark.getText().toString());
-                        producto.setDescripcion(etProduct.getText().toString());
-                        producto.setMedida(etMeasure.getText().toString());
+                        this.producto.setBarCode(etBarCode.getText().toString());
+                        this.producto.setMarca(ettrademark.getText().toString());
+                        this.producto.setDescripcion(etProduct.getText().toString());
+                        this.producto.setMedida(etMeasure.getText().toString());
                         if (etWeight.getText().toString().isEmpty()) {
                             producto.setValorMedida(0);
                         } else {
                             producto.setValorMedida(Float.parseFloat(etWeight.getText().toString()));
                         }
                         if (db != null) {
-                            int flagInsert = dbHelper.updateProducto(db, producto);
-                            Toast.makeText(getBaseContext(), R.string.update, Toast.LENGTH_SHORT).show();
-                            Intent iProductListActivity = new Intent(UpdateProductActivity.this, ProductListActivity.class);
-                            startActivity(iProductListActivity);
+                            int flagInsert = dbHelper.updateProducto(db, this.producto);
+                            if (flagInsert > 0) {
+                                Toast.makeText(getBaseContext(), R.string.updated, Toast.LENGTH_SHORT).show();
+                                Intent iProductListActivity = new Intent(UpdateProductActivity.this, ProductListActivity.class);
+                                startActivity(iProductListActivity);
+                            } else {
+                                Toast.makeText(getBaseContext(), R.string.fail, Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 }

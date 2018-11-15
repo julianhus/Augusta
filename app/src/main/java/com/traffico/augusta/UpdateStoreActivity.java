@@ -24,6 +24,7 @@ import java.util.ArrayList;
 public class UpdateStoreActivity extends AppCompatActivity {
 
     Tienda tienda;
+    Spinner sMunicipio, sDepartamento;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,8 @@ public class UpdateStoreActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.update_store);
         Intent iUpdateStore = getIntent();
         tienda = (Tienda) iUpdateStore.getSerializableExtra("Store");
+        sDepartamento = findViewById(R.id.sState);
+        sMunicipio = findViewById(R.id.sCity);
         MyOpenHelper dbHelper = new MyOpenHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         if (db != null) {
@@ -43,7 +46,6 @@ public class UpdateStoreActivity extends AppCompatActivity {
         etAddress.setText(tienda.getDireccion());
         EditText etDescription = findViewById(R.id.etDescription);
         etDescription.setText(tienda.getDescripcion());
-        Spinner sDepartamento = findViewById(R.id.sState);
         Departamento departamento = new Departamento();
         for (int i = 0; i < sDepartamento.getAdapter().getCount(); i++) {
             departamento = (Departamento) sDepartamento.getAdapter().getItem(i);
@@ -54,11 +56,10 @@ public class UpdateStoreActivity extends AppCompatActivity {
         }
         //
         loadSpinnerMunicipio(departamento);
-        Spinner sMunicipio = findViewById(R.id.sCity);
         for (int i = 0; i < sMunicipio.getAdapter().getCount(); i++) {
             Municipio municipio = (Municipio) sMunicipio.getAdapter().getItem(i);
             if (tienda.getMunicipio().getId() == municipio.getId()) {
-                sMunicipio.setSelection(i);
+                sMunicipio.setSelection(i, true);
                 i = sMunicipio.getAdapter().getCount();
             }
         }
@@ -76,7 +77,7 @@ public class UpdateStoreActivity extends AppCompatActivity {
             if (departamentoList.get(0).getId() != 0) {
                 departamentoList.add(0, new Departamento(0, getResources().getString(R.string.select)));
             }
-            Spinner sDepartamento = findViewById(R.id.sState);
+            //Spinner sDepartamento = findViewById(R.id.sState);
             ArrayAdapter<Departamento> aDepartamento = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, departamentoList);
             aDepartamento.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
             sDepartamento.setAdapter(aDepartamento);
@@ -99,13 +100,13 @@ public class UpdateStoreActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             Log.e("Error", "loadSpinners: " + e.getMessage(), null);
+            Toast.makeText(getBaseContext(), R.string.fail, Toast.LENGTH_SHORT).show();
         }
     }
 
     private void loadSpinnerMunicipio() {
         ArrayList<Municipio> municipioList = new ArrayList<>();
         municipioList.add(0, new Municipio(0, getResources().getString(R.string.select)));
-        Spinner sMunicipio = findViewById(R.id.sCity);
         ArrayAdapter<Municipio> aMunicipio = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, municipioList);
         aMunicipio.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         sMunicipio.setAdapter(aMunicipio);
@@ -116,7 +117,6 @@ public class UpdateStoreActivity extends AppCompatActivity {
         if (municipioList.get(0).getId() != 0) {
             municipioList.add(0, new Municipio(0, getResources().getString(R.string.select)));
         }
-        Spinner sMunicipio = findViewById(R.id.sCity);
         ArrayAdapter<Municipio> aMunicipio = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, municipioList);
         aMunicipio.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         sMunicipio.setAdapter(aMunicipio);
@@ -153,23 +153,33 @@ public class UpdateStoreActivity extends AppCompatActivity {
             EditText eTAddress = findViewById(R.id.etAddress);
             EditText eTLocation = findViewById(R.id.etLocation);
             TextView tvCity = findViewById(R.id.tvCity);
+            TextView tvState = findViewById(R.id.tvState);
             TextView tvDescription = findViewById(R.id.tvDesciption);
             TextView tvAddress = findViewById(R.id.tvAddress);
             TextView tvLocation = findViewById(R.id.tvLocation);
             Spinner sMunicipio = findViewById(R.id.sCity);
+            Spinner sDepartamento = findViewById(R.id.sState);
 
+            if (sDepartamento.getSelectedItemPosition() <= 0) {
+                tvState.setTextColor(Color.rgb(200, 0, 0));
+                flagCheck = false;
+            } else {
+                tvState.setTextColor(-1979711488);
+            }
             if (sMunicipio.getSelectedItemPosition() <= 0) {
                 tvCity.setTextColor(Color.rgb(200, 0, 0));
                 flagCheck = false;
             } else {
                 tvCity.setTextColor(-1979711488);
             }
-            if (eTLocation.getText().toString().isEmpty()) {
-                tvLocation.setTextColor(Color.rgb(200, 0, 0));
-                flagCheck = false;
-            } else {
-                tvLocation.setTextColor(-1979711488);
-            }
+        /*
+        if (eTLocation.getText().toString().isEmpty()) {
+            tvLocation.setTextColor(Color.rgb(200, 0, 0));
+            flagCheck = false;
+        } else {
+            tvLocation.setTextColor(-1979711488);
+        }
+        */
             if (eTAddress.getText().toString().isEmpty()) {
                 tvAddress.setTextColor(Color.rgb(200, 0, 0));
                 flagCheck = false;
