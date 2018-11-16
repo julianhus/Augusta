@@ -57,7 +57,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvProduct" />
 
     <TextView
-        android:id="@+id/textView16"
+        android:id="@+id/tvEquivalentPrice"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -89,7 +89,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.3" />
+        app:layout_constraintGuide_percent="0.4" />
 
     <ListView
         android:id="@+id/lvProductPrice"

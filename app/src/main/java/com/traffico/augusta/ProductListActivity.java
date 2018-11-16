@@ -34,6 +34,7 @@ public class ProductListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent iProduct = new Intent(ProductListActivity.this, ProductActivity.class);
+                iProduct.putExtra("Llamada","ProductListActivity");
                 startActivity(iProduct);
             }
         });

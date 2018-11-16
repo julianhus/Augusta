@@ -42,6 +42,8 @@ public class RecordPriceProductActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent iProduct = new Intent(RecordPriceProductActivity.this, ProductActivity.class);
+                iProduct.putExtra("Store",tienda);
+                iProduct.putExtra("Llamada","RecordPriceProductActivity");
                 startActivity(iProduct);
             }
         });

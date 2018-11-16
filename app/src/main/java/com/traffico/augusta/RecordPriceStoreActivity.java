@@ -29,11 +29,12 @@ public class RecordPriceStoreActivity extends AppCompatActivity {
         if (db != null) {
             loadStores(db, dbHelper);
         }
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAddProduct);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAddStore);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent iStore = new Intent(RecordPriceStoreActivity.this, StoreActivity.class);
+                iStore.putExtra("Llamada","RecordPriceStoreActivity");
                 startActivity(iStore);
             }
         });

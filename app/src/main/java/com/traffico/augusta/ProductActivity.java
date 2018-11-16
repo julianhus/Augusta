@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.traffico.augusta.clases.MyOpenHelper;
 import com.traffico.augusta.entidades.Producto;
+import com.traffico.augusta.entidades.Tienda;
 import com.traffico.augusta.google.zxing.integration.android.IntentIntegrator;
 import com.traffico.augusta.google.zxing.integration.android.IntentResult;
 
@@ -24,6 +25,8 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     private ImageButton bScann, ibSearch;
     private EditText etBarCode, ettrademark, etDescripcion;
     private TextView tvBarCode, tvTrademark, tvProduct;
+    String llamada;
+    Tienda tienda;
 
 
     @Override
@@ -31,6 +34,11 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
         getSupportActionBar().setTitle(R.string.product);
+        //
+        Intent iProductActivity = getIntent();
+        llamada = (String) iProductActivity.getSerializableExtra("Llamada");
+        tienda = (Tienda) iProductActivity.getSerializableExtra("Store");
+        //
         etBarCode = findViewById(R.id.etBarCode);
         bScann = findViewById(R.id.iBScan);
         bScann.setOnClickListener((View.OnClickListener) this);
@@ -121,8 +129,19 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                     long flagInsert = dbHelper.insertProduct(db, producto);
                     if (flagInsert > 0) {
                         Toast.makeText(getBaseContext(), R.string.created, Toast.LENGTH_SHORT).show();
-                        Intent iProduct = new Intent(this, ProductListActivity.class);
-                        startActivity(iProduct);
+                        //
+                        Intent iProduct = new Intent();
+                        if (llamada.equals("ProductListActivity")) {
+                            iProduct = new Intent(this, ProductListActivity.class);
+                            startActivity(iProduct);
+                        }
+                        if (llamada.equals("RecordPriceProductActivity")) {
+                            iProduct = new Intent(this, RecordPriceProductActivity.class);
+                            iProduct.putExtra("Store", tienda);
+                            startActivity(iProduct);
+                        }
+                        //
+
                     } else {
                         Toast.makeText(getBaseContext(), R.string.fail, Toast.LENGTH_SHORT).show();
                     }

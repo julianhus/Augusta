@@ -34,6 +34,7 @@ public class StoreListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent iStore = new Intent(StoreListActivity.this, StoreActivity.class);
+                iStore.putExtra("Llamada","StoreListActivity");
                 startActivity(iStore);
             }
         });

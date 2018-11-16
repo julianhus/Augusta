@@ -188,6 +188,7 @@ public class UpdateStoreActivity extends AppCompatActivity {
             }
             if (eTDescription.getText().toString().isEmpty()) {
                 tvDescription.setTextColor(Color.rgb(200, 0, 0));
+                flagCheck = false;
             } else {
                 tvDescription.setTextColor(-1979711488);
             }

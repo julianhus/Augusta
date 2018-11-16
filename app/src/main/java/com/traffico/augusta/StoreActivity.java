@@ -25,11 +25,17 @@ import java.util.ArrayList;
 
 public class StoreActivity extends AppCompatActivity {
 
+    String llamada;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store);
         getSupportActionBar().setTitle(R.string.store);
+        //
+        Intent iStoreActivity = getIntent();
+        llamada = (String) iStoreActivity.getSerializableExtra("Llamada");
+        //
         MyOpenHelper dbHelper = new MyOpenHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         if (db != null) {
@@ -117,24 +123,32 @@ public class StoreActivity extends AppCompatActivity {
                 long flagInsert = dbHelper.insertTienda(db, tienda);
                 if (flagInsert > 0) {
                     Toast.makeText(getBaseContext(), R.string.created, Toast.LENGTH_SHORT).show();
-                    final Intent storeIntent = new Intent(this, StoreListActivity.class);
+                    Intent storeIntent = new Intent();
+                    if (llamada.equals("StoreListActivity")) {
+                        storeIntent = new Intent(this, StoreListActivity.class);
+                    }
+                    if (llamada.equals("RecordPriceStoreActivity")) {
+                        storeIntent = new Intent(this, RecordPriceStoreActivity.class);
+                    }
                     //
+                    final Intent finalStoreIntent = storeIntent;
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             // Magic here
-                            startActivity(storeIntent);
+                            startActivity(finalStoreIntent);
                         }
                     }, 1000); // Millisecon
                     //
-
                 }else {
                     Toast.makeText(getBaseContext(), "Fail", Toast.LENGTH_SHORT).show();
                 }
-
             }
+
         }
     }
+
+
 
     private boolean validate(boolean flagCheck) {
         EditText eTDescription = findViewById(R.id.etDescription);
@@ -176,6 +190,7 @@ public class StoreActivity extends AppCompatActivity {
         }
         if (eTDescription.getText().toString().isEmpty()) {
             tvDescription.setTextColor(Color.rgb(200, 0, 0));
+            flagCheck = false;
         } else {
             tvDescription.setTextColor(-1979711488);
         }
