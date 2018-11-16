@@ -36,7 +36,8 @@ public class MenuActivity extends AppCompatActivity {
                     loadFragment(new DashboardFragment());
                     return true;
                 case R.id.navigation_notifications:
-                    loadFragment(new NotificationFragment());
+                    //loadFragment(new NotificationFragment());
+                    loadFragment(new CompareProductsFragment());
                     return true;
             }
             return false;

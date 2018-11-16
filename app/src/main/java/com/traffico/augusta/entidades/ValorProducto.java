@@ -71,8 +71,13 @@ public class ValorProducto {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss");
         String dateTime = dateFormat.format(fechaRegistro);
         //
-        return "Valor $" + valor + "\n"
-                + idTiendaProducto.getProducto().getMedida() + " $" + valorEquivalente +
-                "\n Fecha " + dateTime;
+        if (idTiendaProducto.getProducto().getMedida().isEmpty()) {
+            return "Valor $" + valor +
+                    "\n Fecha " + dateTime;
+        } else {
+            return "Valor $" + valor + "\n"
+                    + idTiendaProducto.getProducto().getMedida() + " $" + valorEquivalente +
+                    "\n Fecha " + dateTime;
+        }
     }
 }

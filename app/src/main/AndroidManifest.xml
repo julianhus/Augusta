@@ -104,7 +104,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".RecordPriceStoreActivity" />
         </activity>
-        <activity android:name=".RecordPriceActivity" />
+        <activity
+            android:name=".RecordPriceActivity"
+            android:parentActivityName=".RecordPriceStoreActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".RecordPriceStoreActivity" />
+        </activity>
         <activity
             android:name=".ShoppingStoreActivity"
             android:parentActivityName=".MenuActivity">

@@ -3,6 +3,7 @@ package com.traffico.augusta;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
@@ -35,7 +36,8 @@ public class ShoppingRecordPriceFragment extends Fragment {
 
     View view;
     View vAlertDialog = null;
-    TextView tvProduct;
+    TextView tvProduct, tvPrice;
+    EditText etPrice;
     Tienda tienda;
     Producto producto;
     ImageButton bRecordPrice;
@@ -164,35 +166,55 @@ public class ShoppingRecordPriceFragment extends Fragment {
 
     public void recordPrice() {
         try {
-            EditText etPrice = (EditText) view.findViewById(R.id.etPrice);
-            EditText etEquivalentPrice = (EditText) view.findViewById(R.id.etEquivalentPrice);
-            ValorProducto valorProducto = new ValorProducto();
-            float valor = Float.parseFloat(etPrice.getText().toString());
-            valorProducto.setValor(valor);
-            //
-            float valorEquivalente = Float.parseFloat(etEquivalentPrice.getText().toString());
-            valorProducto.setValorEquivalente(valorEquivalente);
-            //
-            MyOpenHelper dbHelper = new MyOpenHelper(getApplicationContext());
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
-            TiendaProducto tiendaProducto = new TiendaProducto();
-            if (db != null) {
-                tiendaProducto = dbHelper.getTiendaProducto(db, tienda, producto);
-                valorProducto.setIdTiendaProducto(tiendaProducto);
-                long flagVP = dbHelper.insertValorProducto(db, valorProducto);
-                if (flagVP > 0) {
-                    loadProductPrice(db, dbHelper);
-                    etPrice.setText(String.valueOf(0));
-                    etEquivalentPrice.setText(String.valueOf(0));
-                    //
-                    Toast.makeText(getApplicationContext(), R.string.created, Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT).show();
+            if (validate()) {
+                EditText etPrice = (EditText) view.findViewById(R.id.etPrice);
+                EditText etEquivalentPrice = (EditText) view.findViewById(R.id.etEquivalentPrice);
+                ValorProducto valorProducto = new ValorProducto();
+                float valor = Float.parseFloat(etPrice.getText().toString());
+                valorProducto.setValor(valor);
+                //
+                float valorEquivalente = Float.parseFloat(etEquivalentPrice.getText().toString());
+                valorProducto.setValorEquivalente(valorEquivalente);
+                //
+                MyOpenHelper dbHelper = new MyOpenHelper(getApplicationContext());
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                TiendaProducto tiendaProducto = new TiendaProducto();
+                if (db != null) {
+                    tiendaProducto = dbHelper.getTiendaProducto(db, tienda, producto);
+                    valorProducto.setIdTiendaProducto(tiendaProducto);
+                    long flagVP = dbHelper.insertValorProducto(db, valorProducto);
+                    if (flagVP > 0) {
+                        loadProductPrice(db, dbHelper);
+                        etPrice.setText(String.valueOf(0));
+                        etEquivalentPrice.setText(String.valueOf(0));
+                        //
+                        Toast.makeText(getApplicationContext(), R.string.created, Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
+            }else{Toast.makeText(getApplicationContext(), R.string.redInfo, Toast.LENGTH_SHORT).show();}
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT).show();
             Log.e("RecordPriceActivity", "recordPrice: " + e.getMessage(), null);
         }
+    }
+
+    private boolean validate() {
+        etPrice = view.findViewById(R.id.etPrice);
+        tvPrice = view.findViewById(R.id.tvPrice);
+        boolean flag = true;
+        if (etPrice.getText().toString().isEmpty()) {
+            tvPrice.setTextColor(Color.rgb(200, 0, 0));
+            flag = false;
+        } else {
+            if (Integer.parseInt(etPrice.getText().toString()) > 0) {
+                tvPrice.setTextColor(-1979711488);
+            } else {
+                tvPrice.setTextColor(Color.rgb(200, 0, 0));
+                flag = false;
+            }
+        }
+        return flag;
     }
 }

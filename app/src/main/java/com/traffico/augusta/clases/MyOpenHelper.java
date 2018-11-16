@@ -432,11 +432,19 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
                 int idMercadoProducto = 0;
                 while (iMercadoProducto.hasNext()) {
                     MercadoProducto mercadoProducto = iMercadoProducto.next();
-                    int idProductoOld = mercadoProducto.getValorProducto().getIdTiendaProducto().getProducto().getId();
+                    /*int idProductoOld = mercadoProducto.getValorProducto().getIdTiendaProducto().getProducto().getId();
                     int idProductoNew = valorProducto.getIdTiendaProducto().getProducto().getId();
                     if (idProductoNew == idProductoOld) {
                         cantidad = cantidad + mercadoProducto.getCantidad();
                         totalMP = totalMP + mercadoProducto.getTotal();
+                        idMercadoProducto = mercadoProducto.getId();
+                        flagExist = true;
+                    }*/
+                    int idProductoOld = mercadoProducto.getValorProducto().getId();
+                    int idProductoNew = valorProducto.getId();
+                    if (idProductoNew == idProductoOld) {
+                        cantidad = cantidad + mercadoProducto.getCantidad();
+                        totalMP = mercadoProducto.getValorProducto().getValor() * cantidad;
                         idMercadoProducto = mercadoProducto.getId();
                         flagExist = true;
                     }
