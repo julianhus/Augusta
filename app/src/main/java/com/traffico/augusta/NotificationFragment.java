@@ -29,6 +29,12 @@ public class NotificationFragment extends Fragment {
                 ((MenuActivity)getActivity()).loadFragment(new CompareProductsFragment());
             }
         });
+        bShoppingList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MenuActivity)getActivity()).loadFragment(new ShoppingListFragment());
+            }
+        });
         return view;
     }
 

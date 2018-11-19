@@ -68,9 +68,9 @@ public class UpdateProductActivity extends AppCompatActivity {
                         this.producto.setDescripcion(etProduct.getText().toString());
                         this.producto.setMedida(etMeasure.getText().toString());
                         if (etWeight.getText().toString().isEmpty()) {
-                            producto.setValorMedida(0);
+                            this.producto.setValorMedida(0);
                         } else {
-                            producto.setValorMedida(Float.parseFloat(etWeight.getText().toString()));
+                            this.producto.setValorMedida(Float.parseFloat(etWeight.getText().toString()));
                         }
                         if (db != null) {
                             int flagInsert = dbHelper.updateProducto(db, this.producto);

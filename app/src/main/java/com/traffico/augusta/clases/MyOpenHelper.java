@@ -669,4 +669,39 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
         }
         return producto;
     }
+
+    public ArrayList<Mercado> getMercado(SQLiteDatabase db) {
+        ArrayList<Mercado> mercados = new ArrayList<>();
+        Cursor cMercado = db.rawQuery(QRY_MERCADO, null);
+        while (cMercado.moveToNext()){
+            Mercado mercado = new Mercado();
+            mercado.setId(cMercado.getInt(cMercado.getColumnIndex("id_mercado")));
+            mercado.setTotal(cMercado.getInt(cMercado.getColumnIndex("total")));
+            //
+            String dtStart = cMercado.getString(cMercado.getColumnIndex("fecha_registro_mercado"));
+            try {
+                if (dtStart != null) {
+                    Date date = format.parse(dtStart);
+                    System.out.println(date);
+                    mercado.setFechaRegistro(date);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            //
+            mercado.setEstadoMercado(cMercado.getInt(cMercado.getColumnIndex("estado_mercado")));
+            mercados.add(mercado);
+            Tienda tienda = new Tienda();
+            tienda.setId(cMercado.getInt(cMercado.getColumnIndex("id_tienda")));
+            tienda.setDescripcion(cMercado.getString(cMercado.getColumnIndex("descripcion_tienda")));
+            tienda.setDireccion(cMercado.getString(cMercado.getColumnIndex("direccion")));
+            tienda.setCoordenadas(cMercado.getString(cMercado.getColumnIndex("coordenadas")));
+            Iterator<MercadoProducto> iMercadoProducto = mercado.getMercadoProductos().iterator();
+            while (iMercadoProducto.hasNext()){
+                MercadoProducto mercadoProducto = iMercadoProducto.next();
+
+            }
+        }
+        return mercados;
+    }
 }
