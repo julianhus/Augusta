@@ -44,10 +44,10 @@ public interface StringCreacion {
             "left outer join municipio m on m.id = t.id_municipio " +
             "left outer join departamento d on d.id = m.id_departamento ";
     public static final String QRY_MERCADO =
-            "select m.id as id_mercado, m.total, m.fecha_registro as fecha_registro_mercado, m.estado_mercado, " +
+            "select m.id as id_mercado, m.total as total_mercado, m.fecha_registro as fecha_registro_mercado, m.estado_mercado, " +
             "m.id_tienda, t.descripcion as descripcion_tienda, t.direccion, t.coordenadas, t.id_municipio, " +
-            "mp.id as id_mercado_producto, mp.cantidad, mp.total, " +
-            "vp.id as id_valor_producto, vp.valor, vp.valor_equivalente, vp.fecha_registro as fecha_registro_valor_producto, " +
+            "mp.id as id_mercado_producto, mp.cantidad, mp.total as total_mercado_producto, " +
+            "vp.id as id_valor_producto, vp.valor, vp.valor_equivalente, vp.fecha_registro as fecha_registro_valor_producto, vp.id_tienda_producto, " +
             "p.id as id_producto, p.barcode, p.marca, p.descripcion as descripcion_producto, p.medida, p.valor_medida " +
             "from mercado m " +
             "left outer join tienda t on t.id = m.id_tienda " +

@@ -630,13 +630,13 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
                                 flagVP = true;
                                 Iterator<MercadoProducto> iMercadoProducto = tValorProducto.getMercadoProductos().iterator();
                                 boolean flagMP = false;
-                                while (iMercadoProducto.hasNext()){
+                                while (iMercadoProducto.hasNext()) {
                                     MercadoProducto tMercadoProducto = iMercadoProducto.next();
-                                    if(tMercadoProducto.getId() == mercadoProducto.getId()){
+                                    if (tMercadoProducto.getId() == mercadoProducto.getId()) {
                                         flagMP = true;
                                     }
                                 }
-                                if(flagMP==false){
+                                if (flagMP == false) {
                                     ArrayList<MercadoProducto> mercadoProductos = (ArrayList<MercadoProducto>) tValorProducto.getMercadoProductos();
                                     mercadoProductos.add(mercadoProducto);
                                     mercado.setMercadoProductos(mercadoProductos);
@@ -673,10 +673,10 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
     public ArrayList<Mercado> getMercado(SQLiteDatabase db) {
         ArrayList<Mercado> mercados = new ArrayList<>();
         Cursor cMercado = db.rawQuery(QRY_MERCADO, null);
-        while (cMercado.moveToNext()){
+        while (cMercado.moveToNext()) {
             Mercado mercado = new Mercado();
             mercado.setId(cMercado.getInt(cMercado.getColumnIndex("id_mercado")));
-            mercado.setTotal(cMercado.getInt(cMercado.getColumnIndex("total")));
+            mercado.setTotal(cMercado.getInt(cMercado.getColumnIndex("total_mercado")));
             //
             String dtStart = cMercado.getString(cMercado.getColumnIndex("fecha_registro_mercado"));
             try {
@@ -690,16 +690,79 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
             }
             //
             mercado.setEstadoMercado(cMercado.getInt(cMercado.getColumnIndex("estado_mercado")));
-            mercados.add(mercado);
+            //
             Tienda tienda = new Tienda();
             tienda.setId(cMercado.getInt(cMercado.getColumnIndex("id_tienda")));
             tienda.setDescripcion(cMercado.getString(cMercado.getColumnIndex("descripcion_tienda")));
             tienda.setDireccion(cMercado.getString(cMercado.getColumnIndex("direccion")));
             tienda.setCoordenadas(cMercado.getString(cMercado.getColumnIndex("coordenadas")));
-            Iterator<MercadoProducto> iMercadoProducto = mercado.getMercadoProductos().iterator();
-            while (iMercadoProducto.hasNext()){
-                MercadoProducto mercadoProducto = iMercadoProducto.next();
-
+            //
+            MercadoProducto mercadoProducto = new MercadoProducto();
+            mercadoProducto.setId(cMercado.getInt(cMercado.getColumnIndex("id_mercado_producto")));
+            mercadoProducto.setCantidad(cMercado.getInt(cMercado.getColumnIndex("cantidad")));
+            mercadoProducto.setTotal(cMercado.getInt(cMercado.getColumnIndex("total_mercado_producto")));
+            //
+            ValorProducto valorProducto = new ValorProducto();
+            valorProducto.setId(cMercado.getInt(cMercado.getColumnIndex("id_valor_producto")));
+            valorProducto.setValor(cMercado.getInt(cMercado.getColumnIndex("valor")));
+            valorProducto.setValorEquivalente(cMercado.getInt((cMercado.getColumnIndex("valor_equivalente"))));
+            //
+            dtStart = cMercado.getString(cMercado.getColumnIndex("fecha_registro_valor_producto"));
+            try {
+                if (dtStart != null) {
+                    Date date = format.parse(dtStart);
+                    System.out.println(date);
+                    valorProducto.setFechaRegistro(date);
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            //
+            Producto producto = new Producto();
+            producto.setId(cMercado.getInt((cMercado.getColumnIndex("id_producto"))));
+            producto.setBarCode(cMercado.getString((cMercado.getColumnIndex("barcode"))));
+            producto.setMarca(cMercado.getString((cMercado.getColumnIndex("marca"))));
+            producto.setDescripcion(cMercado.getString((cMercado.getColumnIndex("descripcion_producto"))));
+            producto.setMedida(cMercado.getString((cMercado.getColumnIndex("medida"))));
+            producto.setValorMedida(cMercado.getInt(cMercado.getColumnIndex("valor_medida")));
+            //
+            TiendaProducto tiendaProducto = new TiendaProducto();
+            tiendaProducto.setId(cMercado.getInt(cMercado.getColumnIndex("id_tienda_producto")));
+            tiendaProducto.setProducto(producto);
+            tiendaProducto.setTienda(tienda);
+            //
+            mercado.setTienda(tienda);
+            mercadoProducto.setMercado(mercado);
+            mercadoProducto.setValorProducto(valorProducto);
+            valorProducto.setIdTiendaProducto(tiendaProducto);
+            //
+            ArrayList<MercadoProducto> mercadoProductos = new ArrayList<>();
+            //
+            Iterator<Mercado> iMercado = mercados.iterator();
+            boolean flagM = false;
+            while (iMercado.hasNext()) {
+                Mercado tMercado = iMercado.next();
+                if (tMercado.getId() == mercado.getId()) {
+                    flagM = true;
+                    //
+                    Iterator<MercadoProducto> iMercadoProducto = tMercado.getMercadoProductos().iterator();
+                    boolean flagMP = false;
+                    while (iMercadoProducto.hasNext()){
+                        MercadoProducto tMercadoProducto = iMercadoProducto.next();
+                        if(tMercadoProducto.getId() == mercadoProducto.getId()){
+                            flagMP = true;
+                        }
+                    }
+                    if(flagMP == false){
+                        tMercado.getMercadoProductos().add(mercadoProducto);
+                    }
+                    //
+                }
+            }
+            if (flagM == false) {
+                mercadoProductos.add(mercadoProducto);
+                mercado.setMercadoProductos(mercadoProductos);
+                mercados.add(mercado);
             }
         }
         return mercados;

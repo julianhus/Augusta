@@ -74,14 +74,16 @@ public class Mercado {
 
     @Override
     public String toString() {
-        return "Mercado{" +
-                "id=" + id +
-                ", total=" + total +
-                ", estadoMercado=" + estadoMercado +
-                ", fechaRegistro=" + fechaRegistro +
-                //", tienda=" + tienda +
-                //", usuario=" + usuario +
-                //", mercadoProductos=" + mercadoProductos +
-                '}';
+        String parametroEstado = null;
+        if (estadoMercado == 1) {
+            parametroEstado = "Activo";
+        } else {
+            parametroEstado = "Finalizado";
+        }
+        return "Tienda " + tienda.getDescripcion() + "\n"
+                + "Productos " + mercadoProductos.size() + "\n"
+                + "Total " + total + "\n"
+                //+ "Fecha Compra\n"
+                + "Estado Compra " + parametroEstado;
     }
 }
