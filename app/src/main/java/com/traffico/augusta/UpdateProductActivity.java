@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,8 +16,9 @@ import android.widget.Toast;
 import com.traffico.augusta.clases.MyOpenHelper;
 import com.traffico.augusta.entidades.Producto;
 import com.traffico.augusta.entidades.Tienda;
+import com.traffico.augusta.interfaces.StringCreacion;
 
-public class UpdateProductActivity extends AppCompatActivity {
+public class UpdateProductActivity extends AppCompatActivity implements StringCreacion {
 
     Producto producto;
     EditText etBarCode;
@@ -42,6 +45,7 @@ public class UpdateProductActivity extends AppCompatActivity {
         etMeasure.setText(producto.getMedida());
         etWeight = findViewById(R.id.etWeight);
         etWeight.setText(producto.getValorMedida() + "");
+        autocomplete();
     }
 
     @Override
@@ -113,5 +117,10 @@ public class UpdateProductActivity extends AppCompatActivity {
             tvProduct.setTextColor(-1979711488);
         }
         return flagCheck;
+    }
+    private void autocomplete() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line, MEASURE);
+        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.etMeasure);
+        textView.setAdapter(adapter);
     }
 }

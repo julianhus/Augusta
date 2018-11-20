@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 public class ShoppingListFragment extends Fragment {
 
     View view;
+    ListView lvShopping;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,6 +36,18 @@ public class ShoppingListFragment extends Fragment {
         if (db != null) {
             loadShopping(db, dbHelper);
         }
+        lvShopping = view.findViewById(R.id.lvShopping);
+        lvShopping.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Mercado mercado = (Mercado) lvShopping.getItemAtPosition(position);
+                Bundle arg = new Bundle();
+                arg.putSerializable("Mercado", mercado);
+                Fragment shoppingListProductFragment = new ShoppingListProductFragment();
+                shoppingListProductFragment.setArguments(arg);
+                ((MenuActivity)getActivity()).loadFragment(shoppingListProductFragment);
+            }
+        });
         return view;
     }
 

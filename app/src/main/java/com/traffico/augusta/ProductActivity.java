@@ -1,5 +1,6 @@
 package com.traffico.augusta;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -8,6 +9,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -19,8 +22,9 @@ import com.traffico.augusta.entidades.Producto;
 import com.traffico.augusta.entidades.Tienda;
 import com.traffico.augusta.google.zxing.integration.android.IntentIntegrator;
 import com.traffico.augusta.google.zxing.integration.android.IntentResult;
+import com.traffico.augusta.interfaces.StringCreacion;
 
-public class ProductActivity extends AppCompatActivity implements View.OnClickListener {
+public class ProductActivity extends AppCompatActivity implements View.OnClickListener, StringCreacion {
 
     private ImageButton bScann, ibSearch;
     private EditText etBarCode, ettrademark, etDescripcion;
@@ -44,6 +48,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         bScann.setOnClickListener((View.OnClickListener) this);
         ibSearch = findViewById(R.id.ibSearch);
         ibSearch.setOnClickListener((View.OnClickListener) this);
+        autocomplete();
     }
 
     @Override
@@ -191,4 +196,11 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             return true;
         }
     }
+
+    private void autocomplete() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line, MEASURE);
+        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.etMeasure);
+        textView.setAdapter(adapter);
+    }
+
 }

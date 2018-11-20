@@ -54,7 +54,8 @@ public interface StringCreacion {
             "left outer join mercado_producto mp on mp.id_mercado = m.id " +
             "left outer join valor_producto vp on vp.id_tienda_producto = mp.valor_producto_id " +
             "left outer join tienda_producto tp on tp.id = vp.id_tienda_producto " +
-            "left outer join producto p on p.id = tp.id_producto";
+            "left outer join producto p on p.id = tp.id_producto " +
+            "order by m.fecha_registro desc";
     public static final String QRY_PRODUCTO = "select id, barcode, marca, descripcion, medida, valor_medida from producto";
     public static final String QRY_PRODUCTO_BARCODE = "select id, barcode, marca, descripcion, medida, valor_medida from producto where barcode = ?";
     public static final String QRY_PRODUCTO_BARCODE_VALOR_PRODUCTO =
@@ -78,4 +79,8 @@ public interface StringCreacion {
     public static final String QRY_VALOR_PRODUCTO_TIENDA_PRODUCTO = "select vp.id, vp.valor, vp.valor_equivalente, vp.fecha_registro, vp.id_tienda_producto from valor_producto vp left outer join tienda_producto tp on tp.id = vp.id_tienda_producto where tp.id_tienda = ? and tp.id_producto = ? order by vp.fecha_registro desc";
     public static final String QRY_MERCADO_PRODUCTO = "select id, cantidad, total, id_mercado, valor_producto_id from mercado_producto";
     public static final String QRY_MERCADO_PRODUCTO_TIENDA = "select m.id, m.total, m.fecha_registro, m.estado_mercado, mp.id as id_mercado_producto, mp.cantidad, mp.total as total_mercado_producto, mp.valor_producto_id, vp.valor, vp.id_tienda_producto, tp.id_producto, p.barcode, p.marca, p.descripcion, p.medida, p.valor_medida from mercado m left outer join mercado_producto mp on mp.id_mercado = m.id left outer join valor_producto vp on vp.id = mp.valor_producto_id left outer join tienda_producto tp on tp.id = vp.id_tienda_producto left outer join producto p on p.id = tp.id_producto where m.id_tienda = ? and estado_mercado = 1";
+    //
+    public static final String[] MEASURE = new String[] {
+            "Kilogramos", "Gramos", "Miligramos", "Metros", "Centimetros", "Milimetros", "Litros", "Mililitros"
+    };
 }

@@ -1,9 +1,11 @@
 package com.traffico.augusta.entidades;
 
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-public class Mercado {
+public class Mercado implements Serializable {
 
     private int id;
     private int total;
@@ -74,16 +76,18 @@ public class Mercado {
 
     @Override
     public String toString() {
+        //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String dateTime = dateFormat.format(fechaRegistro);
         String parametroEstado = null;
         if (estadoMercado == 1) {
-            parametroEstado = "Activo";
+            parametroEstado = "Activa";
         } else {
-            parametroEstado = "Finalizado";
+            parametroEstado = "Finalizada";
         }
-        return "Tienda " + tienda.getDescripcion() + "\n"
-                + "Productos " + mercadoProductos.size() + "\n"
-                + "Total " + total + "\n"
-                //+ "Fecha Compra\n"
-                + "Estado Compra " + parametroEstado;
+        return tienda.getDescripcion() + ", " + tienda.getDireccion()
+                + "\n" + mercadoProductos.size() + " Productos, " + "Total " + total + "\n"
+                + dateTime + " " + parametroEstado;
+
     }
 }

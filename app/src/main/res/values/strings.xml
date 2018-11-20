@@ -72,4 +72,6 @@
     <string name="date_shopping">Date of Shopping</string>
     <string name="registration_date">Registration Date</string>
     <string name="last_purchase">Date last purchase</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
 </resources>

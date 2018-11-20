@@ -7,6 +7,8 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -16,11 +18,12 @@ import com.traffico.augusta.clases.MyOpenHelper;
 import com.traffico.augusta.entidades.Producto;
 import com.traffico.augusta.google.zxing.integration.android.IntentIntegrator;
 import com.traffico.augusta.google.zxing.integration.android.IntentResult;
+import com.traffico.augusta.interfaces.StringCreacion;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 
-public class ShoppingProductFragment extends Fragment implements View.OnClickListener {
+public class ShoppingProductFragment extends Fragment implements View.OnClickListener, StringCreacion {
 
     View view;
     private EditText etBarCode;
@@ -49,6 +52,7 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
         ibForward.setEnabled(false);
         ibSearch = view.findViewById(R.id.ibSearch);
         ibSearch.setOnClickListener((View.OnClickListener) this);
+        autocomplete();
 
         return view;
     }
@@ -152,5 +156,10 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
             }
         }
 
+    }
+    private void autocomplete() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_dropdown_item_1line, MEASURE);
+        AutoCompleteTextView textView = (AutoCompleteTextView) view.findViewById(R.id.etMeasure);
+        textView.setAdapter(adapter);
     }
 }
