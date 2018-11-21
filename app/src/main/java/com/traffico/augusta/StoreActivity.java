@@ -130,6 +130,9 @@ public class StoreActivity extends AppCompatActivity {
                     if (llamada.equals("RecordPriceStoreActivity")) {
                         storeIntent = new Intent(this, RecordPriceStoreActivity.class);
                     }
+                    if (llamada.equals("ShoppingStoreActivity")) {
+                        storeIntent = new Intent(this, ShoppingStoreActivity.class);
+                    }
                     //
                     final Intent finalStoreIntent = storeIntent;
                     new Handler().postDelayed(new Runnable() {

@@ -69,4 +69,12 @@
     <string name="date_shopping">Fecha de Compra</string>
     <string name="registration_date">Fecha de Registro</string>
     <string name="last_purchase">Fecha última compra</string>
+    <string name="kilograms">Kilogramos</string>
+    <string name="grams">Gramos</string>
+    <string name="milligrams">Miligramos</string>
+    <string name="meters">Metros</string>
+    <string name="centimeters">Centímetros</string>
+    <string name="millimeters">Milímetros</string>
+    <string name="liters">Litros</string>
+    <string name="milliliters">Mililitros</string>
 </resources>

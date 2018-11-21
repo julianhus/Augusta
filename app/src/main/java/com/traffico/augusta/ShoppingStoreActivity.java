@@ -2,6 +2,7 @@ package com.traffico.augusta;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +29,15 @@ public class ShoppingStoreActivity extends AppCompatActivity {
         if (db != null) {
             loadStores(db, dbHelper);
         }
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAddProduct);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent iStore = new Intent(ShoppingStoreActivity.this, StoreActivity.class);
+                iStore.putExtra("Llamada","ShoppingStoreActivity");
+                startActivity(iStore);
+            }
+        });
     }
 
     @Override

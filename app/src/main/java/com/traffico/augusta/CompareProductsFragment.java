@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -23,6 +25,7 @@ import com.traffico.augusta.google.zxing.integration.android.IntentIntegrator;
 import com.traffico.augusta.google.zxing.integration.android.IntentResult;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -61,6 +64,7 @@ public class CompareProductsFragment extends Fragment {
             }
         });
         //
+        autocomplete();
         return view;
     }
 
@@ -199,6 +203,25 @@ public class CompareProductsFragment extends Fragment {
             toast.show();
             Log.e("CompareProductsFragment", "loadInfoCompare: " + e);
         }
+    }
+
+    private void autocomplete() {
+        MyOpenHelper dbHelper = new MyOpenHelper(getApplicationContext());
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        if (db != null) {
+            ArrayList<Producto> productos = dbHelper.getProductos(db);
+            //
+            ArrayList<String> barcode = new ArrayList<>();
+            for(int i = 0; i < productos.size(); i++){
+                barcode.add(productos.get(i).getBarCode());
+            }
+            String[] sBarcode = new String[barcode.size()];
+            sBarcode = barcode.toArray(sBarcode);
+            ArrayAdapter<String> abarcode = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, sBarcode);
+            AutoCompleteTextView etBarCode = (AutoCompleteTextView) view.findViewById(R.id.etBarCode);
+            etBarCode.setAdapter(abarcode);
+        }
+        //
     }
 
 }

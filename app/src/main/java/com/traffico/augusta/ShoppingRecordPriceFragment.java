@@ -125,6 +125,9 @@ public class ShoppingRecordPriceFragment extends Fragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 EditText etTotal = (EditText) vAlertDialog.findViewById(R.id.etTotal);
+                                //
+                                //Insertar Validacion de Precios antes de confirmar
+                                //
                                 aceptar(etTotal, valorProducto);
 
                             }

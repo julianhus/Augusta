@@ -72,6 +72,12 @@
     <string name="date_shopping">Date of Shopping</string>
     <string name="registration_date">Registration Date</string>
     <string name="last_purchase">Date last purchase</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="kilograms">Kilograms</string>
+    <string name="grams">Grams</string>
+    <string name="milligrams">Milligrams</string>
+    <string name="meters">Meters</string>
+    <string name="centimeters">Centimeters</string>
+    <string name="millimeters">Millimeters</string>
+    <string name="liters">Liters</string>
+    <string name="milliliters">Milliliters</string>
 </resources>
