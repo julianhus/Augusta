@@ -1,13 +1,11 @@
 package com.traffico.augusta;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -23,6 +21,8 @@ import com.traffico.augusta.entidades.Tienda;
 import com.traffico.augusta.google.zxing.integration.android.IntentIntegrator;
 import com.traffico.augusta.google.zxing.integration.android.IntentResult;
 import com.traffico.augusta.interfaces.StringCreacion;
+
+import java.util.ArrayList;
 
 public class ProductActivity extends AppCompatActivity implements View.OnClickListener, StringCreacion {
 
@@ -198,9 +198,44 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void autocomplete() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line, MEASURE);
-        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.etMeasure);
-        textView.setAdapter(adapter);
+        // etMeasure
+        ArrayAdapter<String> aMeasure = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line, MEASURE);
+        AutoCompleteTextView etMeasure = (AutoCompleteTextView) findViewById(R.id.etMeasure);
+        etMeasure.setAdapter(aMeasure);
+        //
+        MyOpenHelper dbHelper = new MyOpenHelper(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        if (db != null) {
+            ArrayList<Producto> productos = dbHelper.getProductos(db);
+            //
+            ArrayList<String> barcode = new ArrayList<>();
+            ArrayList<String> marca = new ArrayList<>();
+            ArrayList<String> producto = new ArrayList<>();
+            for(int i = 0; i < productos.size(); i++){
+                barcode.add(productos.get(i).getBarCode());
+                marca.add(productos.get(i).getMarca());
+                producto.add(productos.get(i).getDescripcion());
+            }
+            //
+            String[] marcas = new String[marca.size()];
+            marcas = marca.toArray(marcas);
+            ArrayAdapter<String> aTrademark = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, marcas);
+            AutoCompleteTextView ettrademark = (AutoCompleteTextView) findViewById(R.id.ettrademark);
+            ettrademark.setAdapter(aTrademark);
+            //
+            String[] sProductos = new String[producto.size()];
+            sProductos = producto.toArray(sProductos);
+            ArrayAdapter<String> aProduct = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, sProductos);
+            AutoCompleteTextView etProduct = (AutoCompleteTextView) findViewById(R.id.etProduct);
+            etProduct.setAdapter(aProduct);
+            //
+            String[] sBarcode = new String[barcode.size()];
+            sBarcode = barcode.toArray(sBarcode);
+            ArrayAdapter<String> abarcode = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, sBarcode);
+            AutoCompleteTextView etBarCode = (AutoCompleteTextView) findViewById(R.id.etBarCode);
+            etBarCode.setAdapter(abarcode);
+        }
+        //
     }
 
 }

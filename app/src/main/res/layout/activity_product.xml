@@ -34,7 +34,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/etBarCode" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/etBarCode"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ettrademark" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/ettrademark"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/etProduct" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/etProduct"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
