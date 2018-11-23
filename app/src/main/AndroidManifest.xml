@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.traffico.augusta">
+    package="com.traffico.manhattan">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.traffico.manhattan.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,92 +39,92 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".MenuActivity" />
+        <activity android:name="com.traffico.manhattan.MenuActivity" />
         <activity
-            android:name=".EditProfileActivity"
-            android:parentActivityName=".MenuActivity">
+            android:name="com.traffico.manhattan.EditProfileActivity"
+            android:parentActivityName="com.traffico.manhattan.MenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MenuActivity" />
+                android:value="com.traffico.manhattan.MenuActivity" />
         </activity>
         <activity
-            android:name=".StoreActivity"
-            android:parentActivityName=".StoreListActivity">
+            android:name="com.traffico.manhattan.StoreActivity"
+            android:parentActivityName="com.traffico.manhattan.StoreListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".StoreListActivity" />
+                android:value="com.traffico.manhattan.StoreListActivity" />
         </activity>
         <activity
-            android:name=".StoreListActivity"
-            android:parentActivityName=".MenuActivity">
+            android:name="com.traffico.manhattan.StoreListActivity"
+            android:parentActivityName="com.traffico.manhattan.MenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MenuActivity" />
+                android:value="com.traffico.manhattan.MenuActivity" />
         </activity>
         <activity
-            android:name=".UpdateStoreActivity"
-            android:parentActivityName=".StoreListActivity">
+            android:name="com.traffico.manhattan.UpdateStoreActivity"
+            android:parentActivityName="com.traffico.manhattan.StoreListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".StoreListActivity" />
+                android:value="com.traffico.manhattan.StoreListActivity" />
         </activity>
         <activity
-            android:name=".ProductListActivity"
-            android:parentActivityName=".MenuActivity">
+            android:name="com.traffico.manhattan.ProductListActivity"
+            android:parentActivityName="com.traffico.manhattan.MenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MenuActivity" />
+                android:value="com.traffico.manhattan.MenuActivity" />
         </activity>
         <activity
-            android:name=".ProductActivity"
+            android:name="com.traffico.manhattan.ProductActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:parentActivityName=".ProductListActivity">
+            android:parentActivityName="com.traffico.manhattan.ProductListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ProductListActivity" />
+                android:value="com.traffico.manhattan.ProductListActivity" />
         </activity>
         <activity
-            android:name=".UpdateProductActivity"
-            android:parentActivityName=".ProductListActivity">
+            android:name="com.traffico.manhattan.UpdateProductActivity"
+            android:parentActivityName="com.traffico.manhattan.ProductListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ProductListActivity" />
+                android:value="com.traffico.manhattan.ProductListActivity" />
         </activity>
         <activity
-            android:name=".RecordPriceStoreActivity"
-            android:parentActivityName=".MenuActivity">
+            android:name="com.traffico.manhattan.RecordPriceStoreActivity"
+            android:parentActivityName="com.traffico.manhattan.MenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MenuActivity" />
+                android:value="com.traffico.manhattan.MenuActivity" />
         </activity>
         <activity
-            android:name=".RecordPriceProductActivity"
-            android:parentActivityName=".RecordPriceStoreActivity">
+            android:name="com.traffico.manhattan.RecordPriceProductActivity"
+            android:parentActivityName="com.traffico.manhattan.RecordPriceStoreActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".RecordPriceStoreActivity" />
+                android:value="com.traffico.manhattan.RecordPriceStoreActivity" />
         </activity>
         <activity
-            android:name=".RecordPriceActivity"
-            android:parentActivityName=".RecordPriceStoreActivity">
+            android:name="com.traffico.manhattan.RecordPriceActivity"
+            android:parentActivityName="com.traffico.manhattan.RecordPriceStoreActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".RecordPriceStoreActivity" />
+                android:value="com.traffico.manhattan.RecordPriceStoreActivity" />
         </activity>
         <activity
-            android:name=".ShoppingStoreActivity"
-            android:parentActivityName=".MenuActivity">
+            android:name="com.traffico.manhattan.ShoppingStoreActivity"
+            android:parentActivityName="com.traffico.manhattan.MenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MenuActivity" />
+                android:value="com.traffico.manhattan.MenuActivity" />
         </activity>
         <activity
-            android:name=".ShoppingActivity"
+            android:name="com.traffico.manhattan.ShoppingActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:parentActivityName=".ShoppingStoreActivity">
+            android:parentActivityName="com.traffico.manhattan.ShoppingStoreActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ShoppingStoreActivity" />
+                android:value="com.traffico.manhattan.ShoppingStoreActivity" />
         </activity>
     </application>
 
