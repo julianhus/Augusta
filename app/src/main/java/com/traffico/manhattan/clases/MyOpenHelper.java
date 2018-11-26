@@ -62,7 +62,13 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
         db.execSQL(MERCADO_PRODUCTO_INDEX_MERCADO);
         db.execSQL(MERCADO_PRODUCTO_INDEX_VALOR_PRODUCTO);
         db.execSQL(CARGA_DEPARTAMENTOS);
-        db.execSQL(CARGA_MUNICIPIOS);
+        db.execSQL(CARGA_MUNICIPIOS1);
+        db.execSQL(CARGA_MUNICIPIOS2);
+        db.execSQL(CARGA_MUNICIPIOS3);
+        db.execSQL(CARGA_MUNICIPIOS4);
+        db.execSQL(CARGA_MUNICIPIOS5);
+        db.execSQL(CARGA_MUNICIPIOS6);
+        db.execSQL(CARGA_MUNICIPIOS7);
 
     }
 

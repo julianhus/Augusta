@@ -1,6 +1,7 @@
 package com.traffico.manhattan;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.app.FragmentManager;
@@ -22,6 +23,8 @@ public class MenuActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        //moveTaskToBack(true);
+        finishAffinity();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener

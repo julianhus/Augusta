@@ -2,8 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.traffico.manhattan"
     android:versionCode="1"
-    android:versionName="1.0"
-    >
+    android:versionName="1.0">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -42,7 +41,9 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name="com.traffico.manhattan.MenuActivity" />
+        <activity
+            android:name="com.traffico.manhattan.MenuActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
             android:name="com.traffico.manhattan.EditProfileActivity"
             android:parentActivityName="com.traffico.manhattan.MenuActivity">

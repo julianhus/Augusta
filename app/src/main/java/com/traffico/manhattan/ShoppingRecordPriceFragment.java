@@ -4,8 +4,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -104,11 +106,27 @@ public class ShoppingRecordPriceFragment extends Fragment {
         return view;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.P)
     private void loadProductPrice(SQLiteDatabase db, MyOpenHelper dbHelper) {
         try {
             ArrayList<ValorProducto> valorProductoList = dbHelper.getValorProductos(db, tienda, producto);
             final ListView lvValorProducto = view.findViewById(R.id.lvProductPrice);
-            ArrayAdapter<ValorProducto> aValorProducto = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, valorProductoList);
+            ArrayAdapter<ValorProducto> aValorProducto = new ArrayAdapter<ValorProducto>(getApplicationContext(), android.R.layout.simple_list_item_1, valorProductoList){
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent){
+                    // Get the Item from ListView
+                    View view = super.getView(position, convertView, parent);
+
+                    // Initialize a TextView for ListView each Item
+                    TextView tv = (TextView) view.findViewById(android.R.id.text1);
+
+                    // Set the text color of TextView (ListView Item)
+                    tv.setTextColor(Color.BLACK);
+
+                    // Generate ListView Item using TextView
+                    return view;
+                }
+            };
             lvValorProducto.setAdapter(aValorProducto);
             lvValorProducto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
