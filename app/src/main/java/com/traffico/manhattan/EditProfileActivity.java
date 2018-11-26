@@ -138,7 +138,7 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             Toast.makeText(getBaseContext(), R.string.fail, Toast.LENGTH_SHORT).show();
-            Log.e("EditProfileActivity", "validate: " + e );
+            //Log.e("EditProfileActivity", "validate: " + e );
             return false;
         }
     }

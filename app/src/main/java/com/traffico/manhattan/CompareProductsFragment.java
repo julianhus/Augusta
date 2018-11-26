@@ -201,7 +201,7 @@ public class CompareProductsFragment extends Fragment {
         } catch (Exception e) {
             Toast toast = Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT);
             toast.show();
-            Log.e("CompareProductsFragment", "loadInfoCompare: " + e);
+            //Log.e("CompareProductsFragment", "loadInfoCompare: " + e);
         }
     }
 

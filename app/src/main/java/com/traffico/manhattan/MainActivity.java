@@ -59,16 +59,20 @@ public class MainActivity extends AppCompatActivity {
         loginWithFacebook();
         //
         MyOpenHelper dbHelper = new MyOpenHelper(this);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        boolean flagUserExists = false;
-        if (db != null) {
-            flagUserExists = dbHelper.searchUsuario(db);
-            if (flagUserExists == true) {
-                Button bSingIn = findViewById(R.id.bSingIn);
-                bSingIn.setEnabled(false);
-                Intent menu = new Intent(this, MenuActivity.class);
-                startActivity(menu);
+        try {
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            boolean flagUserExists = false;
+            if (db != null) {
+                flagUserExists = dbHelper.searchUsuario(db);
+                if (flagUserExists == true) {
+                    Button bSingIn = findViewById(R.id.bSingIn);
+                    bSingIn.setEnabled(false);
+                    Intent menu = new Intent(this, MenuActivity.class);
+                    startActivity(menu);
+                }
             }
+        } catch (Exception e) {
+            Toast.makeText(getBaseContext(), R.string.fail, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -86,22 +90,22 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(LoginResult loginResult) {
                     // App code
-                    Log.i("onSuccess", "UserId: " + loginResult.getAccessToken().getUserId());
-                    Log.i("onSuccess", "Token: " + loginResult.getAccessToken().getToken());
-                    Log.i("onSuccess", "Recently Granted Permissions " + loginResult.getRecentlyGrantedPermissions());
+                    //Log.i("onSuccess", "UserId: " + loginResult.getAccessToken().getUserId());
+                    //Log.i("onSuccess", "Token: " + loginResult.getAccessToken().getToken());
+                    //Log.i("onSuccess", "Recently Granted Permissions " + loginResult.getRecentlyGrantedPermissions());
                     setFacebookData(loginResult);
                 }
 
                 @Override
                 public void onCancel() {
-                    Log.i("onCancel", "Cancel");
+                    //Log.i("onCancel", "Cancel");
                 }
 
                 @Override
                 public void onError(FacebookException error) {
                     Toast toast = Toast.makeText(getApplicationContext(), "Fallo la conexión con Facebook, Intente nuevamente", Toast.LENGTH_SHORT);
                     toast.show();
-                    Log.e("Error", "loginWithFacebook_onError: " + error.getMessage(), null);
+                    //Log.e("Error", "loginWithFacebook_onError: " + error.getMessage(), null);
                 }
 
                 private void setFacebookData(final LoginResult loginResult) {
@@ -111,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onCompleted(JSONObject object, GraphResponse response) {
                                     try {
-                                        Log.i("Response", response.toString());
+                                        //Log.i("Response", response.toString());
                                         String email = response.getJSONObject().getString("email");
                                         String firstName = response.getJSONObject().getString("first_name");
                                         String lastName = response.getJSONObject().getString("last_name");
@@ -122,13 +126,13 @@ public class MainActivity extends AppCompatActivity {
                                         if (Profile.getCurrentProfile() != null) {
                                             Log.i("Login", "ProfilePic" + Profile.getCurrentProfile().getProfilePictureUri(200, 200));
                                         }*/
-                                        Log.i("Login" + "Email", email);
+                                        //Log.i("Login" + "Email", email);
                                         EditText eTEMail = findViewById(R.id.etMail);
                                         eTEMail.setText(email);
-                                        Log.i("Login" + "FirstName", firstName);
+                                        //Log.i("Login" + "FirstName", firstName);
                                         EditText eTName = findViewById(R.id.etName);
                                         eTName.setText(firstName);
-                                        Log.i("Login" + "LastName", lastName);
+                                        //Log.i("Login" + "LastName", lastName);
                                         EditText eTLastName = findViewById(R.id.etLastName);
                                         eTLastName.setText(lastName);
                                         Button singIn = findViewById(R.id.bSingIn);
@@ -139,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                                     } catch (Exception e) {
                                         Toast toast = Toast.makeText(getApplicationContext(), "Fallo la conexión con Facebook, Intente nuevamente", Toast.LENGTH_SHORT);
                                         toast.show();
-                                        Log.e("Error", "loginWithFacebook_setFacebookData: " + e.getMessage(), null);
+                                        //Log.e("Error", "loginWithFacebook_setFacebookData: " + e.getMessage(), null);
                                     }
                                 }
                             });
@@ -153,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             Toast toast = Toast.makeText(getApplicationContext(), "Fallo la aplicacion, Intente nuevamente", Toast.LENGTH_SHORT);
             toast.show();
-            Log.e("Error", "loginWithFacebook: " + e.getMessage(), null);
+            //Log.e("Error", "loginWithFacebook: " + e.getMessage(), null);
         }
     }
 
@@ -165,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void register(View view) {
         //
+        try{
         if (validate()) {
             Usuario usuario = new Usuario();
             usuario.setNombre(eTName.getText().toString());
@@ -198,6 +203,8 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             Toast.makeText(getBaseContext(), R.string.redInfo, Toast.LENGTH_SHORT).show();
+        }}catch (Exception e){
+            Toast.makeText(getBaseContext(), R.string.fail, Toast.LENGTH_SHORT).show();
         }
     }
 

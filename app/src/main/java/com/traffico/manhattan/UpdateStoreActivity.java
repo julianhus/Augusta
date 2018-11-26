@@ -99,7 +99,7 @@ public class UpdateStoreActivity extends AppCompatActivity {
             });
 
         } catch (Exception e) {
-            Log.e("Error", "loadSpinners: " + e.getMessage(), null);
+            //Log.e("Error", "loadSpinners: " + e.getMessage(), null);
             Toast.makeText(getBaseContext(), R.string.fail, Toast.LENGTH_SHORT).show();
         }
     }

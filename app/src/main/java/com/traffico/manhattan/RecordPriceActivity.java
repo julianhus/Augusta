@@ -68,7 +68,7 @@ public class RecordPriceActivity extends AppCompatActivity {
                         etEquivalentPrice.setText("0");
                     }
                 } catch (Exception e) {
-                    Log.e("RecordPriceActivity", "onKey: " + e.getMessage(), null);
+                    //Log.e("RecordPriceActivity", "onKey: " + e.getMessage(), null);
                 }
                 return false;
             }
@@ -93,7 +93,7 @@ public class RecordPriceActivity extends AppCompatActivity {
 
         } catch (Exception e) {
             Toast.makeText(getBaseContext(), R.string.product_without_price, Toast.LENGTH_SHORT).show();
-            Log.e("Error", "loadProductPrice: " + e.getMessage(), null);
+            //Log.e("Error", "loadProductPrice: " + e.getMessage(), null);
         }
     }
 
@@ -108,7 +108,7 @@ public class RecordPriceActivity extends AppCompatActivity {
                     float valorEquivalente = Float.parseFloat(etEquivalentPrice.getText().toString());
                     valorProducto.setValorEquivalente(valorEquivalente);
                 }catch (Exception e){
-                    Log.e("RecordPriceActivity", "recordPrice: ParseFloat valorEquivalente fail");
+                    //Log.e("RecordPriceActivity", "recordPrice: ParseFloat valorEquivalente fail");
                     valorProducto.setValorEquivalente(0);
                 }
                 //
@@ -134,7 +134,7 @@ public class RecordPriceActivity extends AppCompatActivity {
             }
         } catch (Exception e) {
             Toast.makeText(getBaseContext(), R.string.fail, Toast.LENGTH_SHORT).show();
-            Log.e("RecordPriceActivity", "recordPrice: " + e.getMessage(), null);
+            //Log.e("RecordPriceActivity", "recordPrice: " + e.getMessage(), null);
         }
     }
 

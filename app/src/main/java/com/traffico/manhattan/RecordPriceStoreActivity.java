@@ -64,7 +64,7 @@ public class RecordPriceStoreActivity extends AppCompatActivity {
             });
         } catch (Exception e) {
             Toast.makeText(getBaseContext(),R.string.empty_stores, Toast.LENGTH_SHORT).show();
-            Log.e("Error", "loadStores: " + e.getMessage(), null);
+            //Log.e("Error", "loadStores: " + e.getMessage(), null);
         }
     }
 }

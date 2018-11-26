@@ -42,7 +42,7 @@ public class ListStoreFragment extends Fragment{
             lvStores.setAdapter(aTienda);
         } catch (Exception e) {
             Toast.makeText(view.getContext(),R.string.empty_stores, Toast.LENGTH_SHORT).show();
-            Log.e("ListStoreFragment", "loadStores: " + e.getMessage(), null);
+            //Log.e("ListStoreFragment", "loadStores: " + e.getMessage(), null);
         }
     }
 }

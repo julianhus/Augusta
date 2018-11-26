@@ -126,7 +126,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 try {
                     producto.setValorMedida(Float.parseFloat(etWeight.getText().toString()));
                 } catch (Exception e) {
-                    Log.i("ProductActivity", "insertProduct: parceFloat Fail");
+                    //Log.i("ProductActivity", "insertProduct: parceFloat Fail");
                 }
                 MyOpenHelper dbHelper = new MyOpenHelper(this);
                 SQLiteDatabase db = dbHelper.getWritableDatabase();

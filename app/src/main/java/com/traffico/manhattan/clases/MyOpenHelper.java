@@ -92,7 +92,7 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
             cv.put("google", usuario.getGoogle());
             return db.insert("usuario", null, cv);
         } catch (Exception e) {
-            Log.e("Error", "insertUsuario: " + e.getMessage(), null);
+            //Log.e("Error", "insertUsuario: " + e.getMessage(), null);
             return (long) -1;
         }
     }
@@ -329,9 +329,9 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
             cv.put("id_tienda_producto", valorProducto.getIdTiendaProducto().getId());
             flagInsert = db.insert("valor_producto", null, cv);
         } catch (SQLException e) {
-            Log.e("MyOpenHelper", "insertValorProducto: " + e.getMessage(), null);
+            //Log.e("MyOpenHelper", "insertValorProducto: " + e.getMessage(), null);
         } catch (Exception e) {
-            Log.e("MyOpenHelper", "insertValorProducto: " + e.getMessage(), null);
+            //Log.e("MyOpenHelper", "insertValorProducto: " + e.getMessage(), null);
         } finally {
             return flagInsert;
         }
@@ -487,10 +487,10 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
             }
         } catch (SQLException e) {
             flagInsert = 0;
-            Log.e("MyOpenHelper", "insertMercadoProducto: " + e.getMessage(), null);
+            //Log.e("MyOpenHelper", "insertMercadoProducto: " + e.getMessage(), null);
         } catch (Exception e) {
             flagInsert = 0;
-            Log.e("MyOpenHelper", "insertMercadoProducto: " + e.getMessage(), null);
+            //Log.e("MyOpenHelper", "insertMercadoProducto: " + e.getMessage(), null);
         } finally {
             return flagInsert;
         }

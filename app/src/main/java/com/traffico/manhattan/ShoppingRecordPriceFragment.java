@@ -82,7 +82,7 @@ public class ShoppingRecordPriceFragment extends Fragment {
                         etEquivalentPrice.setText("0");
                     }
                 } catch (Exception e) {
-                    Log.e("RecordPriceActivity", "onKey: " + e.getMessage(), null);
+                    //Log.e("RecordPriceActivity", "onKey: " + e.getMessage(), null);
                 }
                 return false;
             }
@@ -145,7 +145,7 @@ public class ShoppingRecordPriceFragment extends Fragment {
 
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), R.string.product_without_price, Toast.LENGTH_SHORT).show();
-            Log.e("Error", "loadProductPrice: " + e.getMessage(), null);
+            //Log.e("Error", "loadProductPrice: " + e.getMessage(), null);
         }
     }
 
@@ -197,7 +197,7 @@ public class ShoppingRecordPriceFragment extends Fragment {
             }else{Toast.makeText(getApplicationContext(), R.string.redInfo, Toast.LENGTH_SHORT).show();}
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT).show();
-            Log.e("RecordPriceActivity", "recordPrice: " + e.getMessage(), null);
+            //Log.e("RecordPriceActivity", "recordPrice: " + e.getMessage(), null);
         }
     }
 

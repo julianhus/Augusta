@@ -56,7 +56,7 @@ public class ShoppingListFragment extends Fragment {
             lvShopping.setAdapter(aMercado);
         } catch (Exception e) {
             Toast.makeText(view.getContext(),R.string.empty_shopping, Toast.LENGTH_SHORT).show();
-            Log.e("ShoppingListFragment", "loadShopping: " + e.getMessage(), null);
+            //Log.e("ShoppingListFragment", "loadShopping: " + e.getMessage(), null);
         }
     }
 }

@@ -91,7 +91,7 @@ public class UpdateProductActivity extends AppCompatActivity implements StringCr
                 }
             }
         } catch (Exception e) {
-            Log.e("UpdateProductActivity", "updateProduct: ", null);
+            //Log.e("UpdateProductActivity", "updateProduct: ", null);
         }
     }
 

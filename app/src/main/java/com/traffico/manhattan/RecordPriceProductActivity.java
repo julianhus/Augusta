@@ -75,7 +75,7 @@ public class RecordPriceProductActivity extends AppCompatActivity {
             //
         } catch (Exception e) {
             Toast.makeText(getBaseContext(),R.string.empty_products, Toast.LENGTH_SHORT).show();
-            Log.e("Error", "loadProduct: " + e.getMessage(), null);
+            //Log.e("Error", "loadProduct: " + e.getMessage(), null);
         }
     }
 

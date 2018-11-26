@@ -120,7 +120,7 @@ public class ShoppingProductPriceFragment extends Fragment {
             //
         } catch (Exception e) {
             Toast.makeText(view.getContext(), R.string.empty_shopping, Toast.LENGTH_SHORT).show();
-            Log.e("ShopProductPriceFrag", "loadShoppingProductPrice: " + e.getMessage(), null);
+            //Log.e("ShopProductPriceFrag", "loadShoppingProductPrice: " + e.getMessage(), null);
         }
     }
 

@@ -77,7 +77,7 @@ public class StoreActivity extends AppCompatActivity {
             });
 
         } catch (Exception e) {
-            Log.e("Error", "loadSpinners: " + e.getMessage(), null);
+            //Log.e("Error", "loadSpinners: " + e.getMessage(), null);
         }
     }
 
