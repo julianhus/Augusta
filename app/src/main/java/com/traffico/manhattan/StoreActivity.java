@@ -104,7 +104,7 @@ public class StoreActivity extends AppCompatActivity {
     public void createStore(View view) {
         EditText eTDescription = findViewById(R.id.etDescription);
         EditText eTAddress = findViewById(R.id.etAddress);
-        EditText eTLocation = findViewById(R.id.etLocation);
+        //EditText eTLocation = findViewById(R.id.etLocation);
         Spinner sMunicipio = findViewById(R.id.sCity);
         boolean flagCheck = validate(true);
         if (!flagCheck) {
@@ -113,7 +113,7 @@ public class StoreActivity extends AppCompatActivity {
             Tienda tienda = new Tienda();
             tienda.setDescripcion(eTDescription.getText().toString());
             tienda.setDireccion(eTAddress.getText().toString());
-            tienda.setCoordenadas(eTLocation.getText().toString());
+            //tienda.setCoordenadas(eTLocation.getText().toString());
             Municipio municipio = new Municipio();
             municipio = (Municipio) sMunicipio.getSelectedItem();
             tienda.setMunicipio(municipio);
@@ -156,12 +156,12 @@ public class StoreActivity extends AppCompatActivity {
     private boolean validate(boolean flagCheck) {
         EditText eTDescription = findViewById(R.id.etDescription);
         EditText eTAddress = findViewById(R.id.etAddress);
-        EditText eTLocation = findViewById(R.id.etLocation);
+        //EditText eTLocation = findViewById(R.id.etLocation);
         TextView tvCity = findViewById(R.id.tvCity);
         TextView tvState = findViewById(R.id.tvState);
         TextView tvDescription = findViewById(R.id.tvDesciption);
         TextView tvAddress = findViewById(R.id.tvAddress);
-        TextView tvLocation = findViewById(R.id.tvLocation);
+        //TextView tvLocation = findViewById(R.id.tvLocation);
         Spinner sMunicipio = findViewById(R.id.sCity);
         Spinner sDepartamento = findViewById(R.id.sState);
 

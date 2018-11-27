@@ -30,7 +30,7 @@ public class EditProfileActivity extends AppCompatActivity {
     EditText eTName;
     EditText eTLastName;
     EditText eTAddress;
-    EditText eTLocation;
+    //EditText eTLocation;
     EditText eTEMail;
 
     @Override
@@ -45,12 +45,12 @@ public class EditProfileActivity extends AppCompatActivity {
             EditText name = findViewById(R.id.etName);
             EditText lastName = findViewById(R.id.etLastName);
             EditText address = findViewById(R.id.etAddress);
-            EditText location = findViewById(R.id.etLocation);
+            //EditText location = findViewById(R.id.etLocation);
             EditText email = findViewById(R.id.etMail);
             name.setText(usuario.getNombre());
             lastName.setText(usuario.getApellido());
             address.setText(usuario.getDireccion());
-            location.setText(usuario.getCoordenadas());
+            //location.setText(usuario.getCoordenadas());
             email.setText(usuario.getEmail());
             if (usuario.getFacebook() != null) {
                 email.setEnabled(false);
@@ -71,7 +71,7 @@ public class EditProfileActivity extends AppCompatActivity {
             usuario.setNombre(eTName.getText().toString());
             usuario.setApellido(eTLastName.getText().toString());
             usuario.setDireccion(eTAddress.getText().toString());
-            usuario.setCoordenadas(eTLocation.getText().toString());
+            //usuario.setCoordenadas(eTLocation.getText().toString());
             usuario.setEmail(eTEMail.getText().toString());
             MyOpenHelper dbHelper = new MyOpenHelper(this);
             SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -104,7 +104,7 @@ public class EditProfileActivity extends AppCompatActivity {
             eTName = findViewById(R.id.etName);
             eTLastName = findViewById(R.id.etLastName);
             eTAddress = findViewById(R.id.etAddress);
-            eTLocation = findViewById(R.id.etLocation);
+            //eTLocation = findViewById(R.id.etLocation);
             eTEMail = findViewById(R.id.etMail);
             //
             boolean flagName, flagLastName, flagEMail = true;

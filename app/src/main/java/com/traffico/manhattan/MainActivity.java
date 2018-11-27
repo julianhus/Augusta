@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     EditText eTName;
     EditText eTLastName;
     EditText eTAddress;
-    EditText eTLocation;
+    //EditText eTLocation;
     EditText eTEMail;
 
 
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
             usuario.setNombre(eTName.getText().toString());
             usuario.setApellido(eTLastName.getText().toString());
             usuario.setDireccion(eTAddress.getText().toString());
-            usuario.setCoordenadas(eTLocation.getText().toString());
+            //usuario.setCoordenadas(eTLocation.getText().toString());
             usuario.setEmail(eTEMail.getText().toString());
             usuario.setFacebook(userIdFacebook);
             usuario.setGoogle("");
@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
         eTName = findViewById(R.id.etName);
         eTLastName = findViewById(R.id.etLastName);
         eTAddress = findViewById(R.id.etAddress);
-        eTLocation = findViewById(R.id.etLocation);
+        //eTLocation = findViewById(R.id.etLocation);
         eTEMail = findViewById(R.id.etMail);
         //
         boolean flagName, flagLastName, flagEMail = true;

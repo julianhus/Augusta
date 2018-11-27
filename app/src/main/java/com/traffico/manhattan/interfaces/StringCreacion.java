@@ -93,6 +93,6 @@ public interface StringCreacion {
             String.valueOf(R.string.liters), String.valueOf(R.string.milliliters)
     };*/
     public static final String[] MEASURE = new String[]{
-            "Kilogramos", "Gramos", "Miligramos", "Metros", "Centimetros", "Milimetros", "Litros", "Mililitros"
+            "Kilogramos", "Gramos", "Miligramos", "Metros", "Centimetros", "Milimetros", "Litros", "Mililitros" , "Onzas"
     };
 }

@@ -40,8 +40,8 @@ public class UpdateStoreActivity extends AppCompatActivity {
         if (db != null) {
             loadSpinners(db, dbHelper);
         }
-        EditText etLocation = findViewById(R.id.etLocation);
-        etLocation.setText(tienda.getCoordenadas());
+        //EditText etLocation = findViewById(R.id.etLocation);
+        //etLocation.setText(tienda.getCoordenadas());
         EditText etAddress = findViewById(R.id.etAddress);
         etAddress.setText(tienda.getDireccion());
         EditText etDescription = findViewById(R.id.etDescription);
@@ -125,7 +125,7 @@ public class UpdateStoreActivity extends AppCompatActivity {
     public void updateStore(View view){
         EditText eTDescription = findViewById(R.id.etDescription);
         EditText eTAddress = findViewById(R.id.etAddress);
-        EditText eTLocation = findViewById(R.id.etLocation);
+        //EditText eTLocation = findViewById(R.id.etLocation);
         Spinner sMunicipio = findViewById(R.id.sCity);
         boolean flagCheck = validate(true);
         if (!flagCheck) {
@@ -133,7 +133,7 @@ public class UpdateStoreActivity extends AppCompatActivity {
         } else {
             tienda.setDescripcion(eTDescription.getText().toString());
             tienda.setDireccion(eTAddress.getText().toString());
-            tienda.setCoordenadas(eTLocation.getText().toString());
+            //tienda.setCoordenadas(eTLocation.getText().toString());
             Municipio municipio = (Municipio) sMunicipio.getSelectedItem();
             tienda.setMunicipio(municipio);
             MyOpenHelper dbHelper = new MyOpenHelper(this);
@@ -151,12 +151,12 @@ public class UpdateStoreActivity extends AppCompatActivity {
         private boolean validate(boolean flagCheck) {
             EditText eTDescription = findViewById(R.id.etDescription);
             EditText eTAddress = findViewById(R.id.etAddress);
-            EditText eTLocation = findViewById(R.id.etLocation);
+            //EditText eTLocation = findViewById(R.id.etLocation);
             TextView tvCity = findViewById(R.id.tvCity);
             TextView tvState = findViewById(R.id.tvState);
             TextView tvDescription = findViewById(R.id.tvDesciption);
             TextView tvAddress = findViewById(R.id.tvAddress);
-            TextView tvLocation = findViewById(R.id.tvLocation);
+            //TextView tvLocation = findViewById(R.id.tvLocation);
             Spinner sMunicipio = findViewById(R.id.sCity);
             Spinner sDepartamento = findViewById(R.id.sState);
 
