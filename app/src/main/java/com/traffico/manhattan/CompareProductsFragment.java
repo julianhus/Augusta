@@ -24,6 +24,7 @@ import com.traffico.manhattan.entidades.ValorProducto;
 import com.traffico.manhattan.google.zxing.integration.android.IntentIntegrator;
 import com.traffico.manhattan.google.zxing.integration.android.IntentResult;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -138,7 +139,7 @@ public class CompareProductsFragment extends Fragment {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss");
                     String dateTimeH, dateTimeL;
                     //
-                    tvHPrice.setText(String.valueOf(valorProductoHigher.getValor()));
+                    tvHPrice.setText("$"+String.valueOf(NumberFormat.getInstance().format(valorProductoHigher.getValor())));
                     dateTimeH = dateFormat.format(valorProductoHigher.getFechaRegistro());
                     tvHDate.setText(dateTimeH);
                     Date dateH = new Date();
@@ -163,7 +164,7 @@ public class CompareProductsFragment extends Fragment {
                     tvHStore.setText(String.valueOf(valorProductoHigher.getIdTiendaProducto().getTienda().getDescripcion() + " " + valorProductoHigher.getIdTiendaProducto().getTienda().getDireccion()));
                     //
                     if (valorProductolower.getId() > 0) {
-                        tvLPrice.setText(String.valueOf(valorProductolower.getValor()));
+                        tvLPrice.setText("$"+String.valueOf(NumberFormat.getInstance().format(valorProductolower.getValor())));
                         dateTimeL = dateFormat.format(valorProductolower.getFechaRegistro());
                         tvLDate.setText(dateTimeL);
                         Date dateL = new Date();

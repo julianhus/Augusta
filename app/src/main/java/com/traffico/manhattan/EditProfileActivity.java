@@ -56,6 +56,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 email.setEnabled(false);
             } else {
                 email.setEnabled(true);
+                //loginWithFacebook();
             }
         }
     }

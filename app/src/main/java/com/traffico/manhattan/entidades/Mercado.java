@@ -1,6 +1,7 @@
 package com.traffico.manhattan.entidades;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -86,7 +87,7 @@ public class Mercado implements Serializable {
             parametroEstado = "Finalizada";
         }
         return tienda.getDescripcion() + ", " + tienda.getDireccion()
-                + "\n" + mercadoProductos.size() + " Productos, " + "Total " + total + "\n"
+                + "\n" + mercadoProductos.size() + " Productos, " + "Total $" + NumberFormat.getInstance().format(total) + "\n"
                 + dateTime + " " + parametroEstado;
 
     }

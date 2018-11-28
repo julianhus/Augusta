@@ -9,7 +9,7 @@
         android:id="@+id/textView14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:text="@string/total"
         app:layout_constraintBottom_toBottomOf="@+id/etTotal"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,13 +17,14 @@
 
     <EditText
         android:id="@+id/etTotal"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="number"
-        android:text="1"
+        android:maxLength="3"
+        android:textAlignment="viewEnd"
         app:layout_constraintStart_toEndOf="@+id/textView14"
         app:layout_constraintTop_toBottomOf="@+id/tvUse" />
 
@@ -31,7 +32,7 @@
         android:id="@+id/tvUse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="@string/use_this_price"
         app:layout_constraintStart_toStartOf="parent"

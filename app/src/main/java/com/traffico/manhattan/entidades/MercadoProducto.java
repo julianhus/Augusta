@@ -1,5 +1,7 @@
 package com.traffico.manhattan.entidades;
 
+import java.text.NumberFormat;
+
 public class MercadoProducto {
 
     private int id;
@@ -57,8 +59,8 @@ public class MercadoProducto {
                 "-" + valorProducto.getIdTiendaProducto().getProducto().getDescripcion() +
                 " " + valorProducto.getIdTiendaProducto().getProducto().getValorMedida() +
                 " " + valorProducto.getIdTiendaProducto().getProducto().getMedida() +
-                "\nUnidad: " + valorProducto.getValor() +
+                "\nUnidad: $" + NumberFormat.getInstance().format(valorProducto.getValor()) +
                 "\nCantidad: " + cantidad +
-                ", Total: " + total;
+                ", Total: $" + NumberFormat.getInstance().format(total);
     }
 }

@@ -59,7 +59,7 @@ public interface StringCreacion {
                     "from mercado m " +
                     "left outer join tienda t on t.id = m.id_tienda " +
                     "left outer join mercado_producto mp on mp.id_mercado = m.id " +
-                    "left outer join valor_producto vp on vp.id_tienda_producto = mp.valor_producto_id " +
+                    "left outer join valor_producto vp on vp.id = mp.valor_producto_id  " +
                     "left outer join tienda_producto tp on tp.id = vp.id_tienda_producto " +
                     "left outer join producto p on p.id = tp.id_producto " +
                     "order by m.fecha_registro desc";

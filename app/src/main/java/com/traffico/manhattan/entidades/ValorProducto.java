@@ -1,5 +1,7 @@
 package com.traffico.manhattan.entidades;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -71,11 +73,13 @@ public class ValorProducto {
         String dateTime = dateFormat.format(fechaRegistro);
         //
         if (idTiendaProducto.getProducto().getMedida().isEmpty()) {
-            return "Valor $" + valor +
+            return "Valor $" + NumberFormat.getInstance().format(valor) +
                     "\n Fecha " + dateTime;
         } else {
-            return "Valor $" + valor + "\n"
-                    + idTiendaProducto.getProducto().getMedida() + " $" + valorEquivalente +
+            DecimalFormat df = new DecimalFormat("#.00");
+            //
+            return "Valor $" + NumberFormat.getInstance().format(valor) + "\n"
+                    + idTiendaProducto.getProducto().getMedida() + " $" + df.format(valorEquivalente) +
                     "\n Fecha " + dateTime;
         }
     }

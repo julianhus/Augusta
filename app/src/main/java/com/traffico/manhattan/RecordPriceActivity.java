@@ -141,6 +141,7 @@ public class RecordPriceActivity extends AppCompatActivity {
     private boolean validate() {
         etPrice = findViewById(R.id.etPrice);
         tvPrice = findViewById(R.id.tvPrice);
+        etEquivalentPrice = findViewById(R.id.etEquivalentPrice);
         boolean flag = true;
         if (etPrice.getText().toString().isEmpty()) {
             tvPrice.setTextColor(Color.rgb(200, 0, 0));
