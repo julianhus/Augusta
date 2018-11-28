@@ -116,7 +116,14 @@ public class MainActivity extends AppCompatActivity {
                                 public void onCompleted(JSONObject object, GraphResponse response) {
                                     try {
                                         //Log.i("Response", response.toString());
-                                        String email = response.getJSONObject().getString("email");
+                                        String email = null;
+                                        try {
+                                            email = response.getJSONObject().getString("email");
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                            Toast toast = Toast.makeText(getApplicationContext(), "Facebook no compartio el eMail, Por Favor Digitelo Manualmente", Toast.LENGTH_SHORT);
+                                            toast.show();
+                                        }
                                         String firstName = response.getJSONObject().getString("first_name");
                                         String lastName = response.getJSONObject().getString("last_name");
                                         Profile profile = Profile.getCurrentProfile();
@@ -137,9 +144,13 @@ public class MainActivity extends AppCompatActivity {
                                         eTLastName.setText(lastName);
                                         Button singIn = findViewById(R.id.bSingIn);
                                         userIdFacebook = loginResult.getAccessToken().getUserId().toString();
-                                        singIn.callOnClick();
+                                        if (!email.isEmpty()) {
+                                            singIn.callOnClick();
+                                        }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
+                                        Toast toast = Toast.makeText(getApplicationContext(), "Fallo la conexión con Facebook, Intente nuevamente", Toast.LENGTH_SHORT);
+                                        toast.show();
                                     } catch (Exception e) {
                                         Toast toast = Toast.makeText(getApplicationContext(), "Fallo la conexión con Facebook, Intente nuevamente", Toast.LENGTH_SHORT);
                                         toast.show();
@@ -169,41 +180,42 @@ public class MainActivity extends AppCompatActivity {
 
     public void register(View view) {
         //
-        try{
-        if (validate()) {
-            Usuario usuario = new Usuario();
-            usuario.setNombre(eTName.getText().toString());
-            usuario.setApellido(eTLastName.getText().toString());
-            usuario.setDireccion(eTAddress.getText().toString());
-            //usuario.setCoordenadas(eTLocation.getText().toString());
-            usuario.setEmail(eTEMail.getText().toString());
-            usuario.setFacebook(userIdFacebook);
-            usuario.setGoogle("");
-            MyOpenHelper dbHelper = new MyOpenHelper(this);
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
-            if (db != null) {
-                Long flagInsert = dbHelper.insertUsuario(db, usuario);
-                if (flagInsert > 0) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "Usuario Registrado", Toast.LENGTH_SHORT);
-                    toast.show();
-                    final Intent mainActivity = new Intent(this, MainActivity.class);
-                    //
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            // Magic here
-                            startActivity(mainActivity);
-                        }
-                    }, 1000); // Millisecond 1000 = 1 sec
-                    //
-                } else {
-                    Toast toast = Toast.makeText(getApplicationContext(), "Fallo el Registro", Toast.LENGTH_SHORT);
-                    toast.show();
+        try {
+            if (validate()) {
+                Usuario usuario = new Usuario();
+                usuario.setNombre(eTName.getText().toString());
+                usuario.setApellido(eTLastName.getText().toString());
+                usuario.setDireccion(eTAddress.getText().toString());
+                //usuario.setCoordenadas(eTLocation.getText().toString());
+                usuario.setEmail(eTEMail.getText().toString());
+                usuario.setFacebook(userIdFacebook);
+                usuario.setGoogle("");
+                MyOpenHelper dbHelper = new MyOpenHelper(this);
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                if (db != null) {
+                    Long flagInsert = dbHelper.insertUsuario(db, usuario);
+                    if (flagInsert > 0) {
+                        Toast toast = Toast.makeText(getApplicationContext(), "Usuario Registrado", Toast.LENGTH_SHORT);
+                        toast.show();
+                        final Intent mainActivity = new Intent(this, MainActivity.class);
+                        //
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                // Magic here
+                                startActivity(mainActivity);
+                            }
+                        }, 1000); // Millisecond 1000 = 1 sec
+                        //
+                    } else {
+                        Toast toast = Toast.makeText(getApplicationContext(), "Fallo el Registro", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
                 }
+            } else {
+                Toast.makeText(getBaseContext(), R.string.redInfo, Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(getBaseContext(), R.string.redInfo, Toast.LENGTH_SHORT).show();
-        }}catch (Exception e){
+        } catch (Exception e) {
             Toast.makeText(getBaseContext(), R.string.fail, Toast.LENGTH_SHORT).show();
         }
     }
