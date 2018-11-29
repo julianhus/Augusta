@@ -35,7 +35,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/shopping_list" />
+
+            <TextView
+                android:id="@+id/tvVersion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1.0.2 "
+                android:textAlignment="viewEnd" />
+
         </LinearLayout>
     </LinearLayout>
-
 </FrameLayout>

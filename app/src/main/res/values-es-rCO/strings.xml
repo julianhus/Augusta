@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MercaBeta V1.0.1</string>
+    <string name="app_name">MercaBarato</string>
     <string name="Tell_us">Cuentanos acerca de ti ...</string>
     <string name="your_name">Tu Nombre</string>
     <string name="your_lastname">Tu Apellido</string>

@@ -162,7 +162,22 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
     }
     private void autocomplete() {
         // etMeasure
-        ArrayAdapter<String> aMeasure = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_dropdown_item_1line, MEASURE);
+        ArrayAdapter<String> aMeasure = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_dropdown_item_1line, MEASURE){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent){
+                // Get the Item from ListView
+                View view = super.getView(position, convertView, parent);
+
+                // Initialize a TextView for ListView each Item
+                TextView tv = (TextView) view.findViewById(android.R.id.text1);
+
+                // Set the text color of TextView (ListView Item)
+                tv.setTextColor(Color.BLACK);
+
+                // Generate ListView Item using TextView
+                return view;
+            }
+        };
         AutoCompleteTextView etMeasure = (AutoCompleteTextView) view.findViewById(R.id.etMeasure);
         etMeasure.setAdapter(aMeasure);
         //
@@ -182,13 +197,43 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
             //
             String[] marcas = new String[marca.size()];
             marcas = marca.toArray(marcas);
-            ArrayAdapter<String> aTrademark = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, marcas);
+            ArrayAdapter<String> aTrademark = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, marcas){
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent){
+                    // Get the Item from ListView
+                    View view = super.getView(position, convertView, parent);
+
+                    // Initialize a TextView for ListView each Item
+                    TextView tv = (TextView) view.findViewById(android.R.id.text1);
+
+                    // Set the text color of TextView (ListView Item)
+                    tv.setTextColor(Color.BLACK);
+
+                    // Generate ListView Item using TextView
+                    return view;
+                }
+            };
             AutoCompleteTextView ettrademark = (AutoCompleteTextView) view.findViewById(R.id.ettrademark);
             ettrademark.setAdapter(aTrademark);
             //
             String[] sProductos = new String[producto.size()];
             sProductos = producto.toArray(sProductos);
-            ArrayAdapter<String> aProduct = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, sProductos);
+            ArrayAdapter<String> aProduct = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, sProductos){
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent){
+                    // Get the Item from ListView
+                    View view = super.getView(position, convertView, parent);
+
+                    // Initialize a TextView for ListView each Item
+                    TextView tv = (TextView) view.findViewById(android.R.id.text1);
+
+                    // Set the text color of TextView (ListView Item)
+                    tv.setTextColor(Color.BLACK);
+
+                    // Generate ListView Item using TextView
+                    return view;
+                }
+            };
             AutoCompleteTextView etProduct = (AutoCompleteTextView) view.findViewById(R.id.etProduct);
             etProduct.setAdapter(aProduct);
             //

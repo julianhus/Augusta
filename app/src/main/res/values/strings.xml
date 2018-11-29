@@ -1,7 +1,7 @@
 <resources>
     <string name="facebook_app_id" translatable="false">245836276287371</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb245836276287371</string>
-    <string name="app_name">MercaBeta V1.0.1</string>
+    <string name="app_name">Cheap</string>
     <string name="Tell_us">Tell us who you are ...</string>
     <string name="your_name">Your Name</string>
     <string name="your_lastname">Your LastName</string>

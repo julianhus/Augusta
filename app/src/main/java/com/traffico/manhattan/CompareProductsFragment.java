@@ -2,6 +2,7 @@ package com.traffico.manhattan;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -218,7 +219,22 @@ public class CompareProductsFragment extends Fragment {
             }
             String[] sBarcode = new String[barcode.size()];
             sBarcode = barcode.toArray(sBarcode);
-            ArrayAdapter<String> abarcode = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, sBarcode);
+            ArrayAdapter<String> abarcode = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, sBarcode){
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent){
+                    // Get the Item from ListView
+                    View view = super.getView(position, convertView, parent);
+
+                    // Initialize a TextView for ListView each Item
+                    TextView tv = (TextView) view.findViewById(android.R.id.text1);
+
+                    // Set the text color of TextView (ListView Item)
+                    tv.setTextColor(Color.BLACK);
+
+                    // Generate ListView Item using TextView
+                    return view;
+                }
+            };
             AutoCompleteTextView etBarCode = (AutoCompleteTextView) view.findViewById(R.id.etBarCode);
             etBarCode.setAdapter(abarcode);
         }

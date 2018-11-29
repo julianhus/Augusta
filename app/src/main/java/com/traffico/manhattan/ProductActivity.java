@@ -199,7 +199,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
 
     private void autocomplete() {
         // etMeasure
-        ArrayAdapter<String> aMeasure = new ArrayAdapter<String>(this,android.R.layout.simple_dropdown_item_1line, MEASURE);
+        ArrayAdapter<String> aMeasure = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, MEASURE);
         AutoCompleteTextView etMeasure = (AutoCompleteTextView) findViewById(R.id.etMeasure);
         etMeasure.setAdapter(aMeasure);
         //
@@ -211,7 +211,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             ArrayList<String> barcode = new ArrayList<>();
             ArrayList<String> marca = new ArrayList<>();
             ArrayList<String> producto = new ArrayList<>();
-            for(int i = 0; i < productos.size(); i++){
+            for (int i = 0; i < productos.size(); i++) {
                 barcode.add(productos.get(i).getBarCode());
                 marca.add(productos.get(i).getMarca());
                 producto.add(productos.get(i).getDescripcion());
