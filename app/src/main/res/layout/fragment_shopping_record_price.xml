@@ -101,6 +101,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:src="@android:drawable/ic_media_rew"
+            android:layout_marginRight="5dp"
             tools:layout_editor_absoluteX="47dp"
             tools:layout_editor_absoluteY="343dp" />
 
@@ -109,6 +110,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:layout_marginLeft="5dp"
             app:srcCompat="@android:drawable/ic_menu_save"
             tools:layout_editor_absoluteX="229dp"
             tools:layout_editor_absoluteY="343dp" />

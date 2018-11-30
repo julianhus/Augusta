@@ -66,19 +66,24 @@ public interface StringCreacion {
     public static final String QRY_PRODUCTO = "select id, barcode, marca, descripcion, medida, valor_medida from producto order by marca, descripcion desc";
     public static final String QRY_PRODUCTO_BARCODE = "select id, barcode, marca, descripcion, medida, valor_medida from producto where barcode = ?";
     public static final String QRY_PRODUCTO_BARCODE_VALOR_PRODUCTO =
-            "select p.id as id_producto, p.barcode, p.marca, p.descripcion as descripcion_producto, p.medida, p.valor_medida, " +
+                    "select re.*, " +
+                    "mp.id as id_mercado_producto, " +
+                    "m.id as id_mercado, max(m.fecha_registro) as fecha_registro_mercado " +
+                    "from( " +
+                    "select p.id as id_producto, p.barcode, p.marca, p.descripcion as descripcion_producto, p.medida, p.valor_medida, " +
                     "tp.id as id_tienda_producto, " +
                     "t.id as id_tienda, t.descripcion as descripcion_tienda, t.direccion, t.coordenadas, t.id_municipio, " +
-                    "vp.id as id_valor_producto, vp.valor, vp.valor_equivalente, vp.fecha_registro as fecha_registro_valor_producto, " +
-                    "mp.id as id_mercado_producto, " +
-                    "m.id as id_mercado, m.fecha_registro as fecha_registro_mercado " +
+                    "vp.id as id_valor_producto, vp.valor, vp.valor_equivalente, max(vp.fecha_registro) as fecha_registro_valor_producto " +
                     "from producto p " +
                     "left outer join tienda_producto tp on tp.id_producto = p.id " +
                     "left outer join tienda t on t.id = tp.id_tienda " +
                     "left outer join valor_producto vp on vp.id_tienda_producto = tp.id " +
-                    "left outer join mercado_producto mp on mp.valor_producto_id = vp.id " +
+                    "where p.barcode = ? " +
+                    "group by vp.id_tienda_producto " +
+                    ") as re " +
+                    "left outer join mercado_producto mp on mp.valor_producto_id = re.id_valor_producto " +
                     "left outer join mercado m on m.id = mp.id_mercado " +
-                    "where p.barcode = ? ";
+                    "group by 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 ";
     public static final String QRY_TIENDA_PRODUCTO = "select id, id_tienda, id_producto from tienda_producto";
     public static final String QRY_TIENDA_PRODUCTO_TIENDA_PRODUCTO = "select tp.id, tp.id_tienda, tp.id_producto from tienda_producto tp where tp.id_tienda = ? and tp.id_producto = ?";
     public static final String QRY_TIENDA_PRODUCTO_VALOR_PRODUCTO = "select tp.id, tp.id_tienda, tp.id_producto vp.id, vp.valor, vp.valor_equivalente, vp.fecha_registro from tienda_producto tp left outer join valor_producto vp on vp.id_tienda_producto = tp.id";

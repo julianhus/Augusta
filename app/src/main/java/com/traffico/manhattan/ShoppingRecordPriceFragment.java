@@ -90,6 +90,7 @@ public class ShoppingRecordPriceFragment extends Fragment {
             }
         });
         bRecordPrice = view.findViewById(R.id.bRecordPrice);
+        bRecordPrice.setBackgroundColor(Color.parseColor("#81C784"));
         bRecordPrice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,6 +98,7 @@ public class ShoppingRecordPriceFragment extends Fragment {
             }
         });
         ibBack = view.findViewById(R.id.ibBack);
+        ibBack.setBackgroundColor(Color.parseColor("#81C784"));
         ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,7 +108,6 @@ public class ShoppingRecordPriceFragment extends Fragment {
         return view;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.P)
     private void loadProductPrice(SQLiteDatabase db, MyOpenHelper dbHelper) {
         try {
             ArrayList<ValorProducto> valorProductoList = dbHelper.getValorProductos(db, tienda, producto);
@@ -137,13 +138,13 @@ public class ShoppingRecordPriceFragment extends Fragment {
                         final ValorProducto valorProducto = (ValorProducto) lvValorProducto.getItemAtPosition(position);
                         AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
                         dialog.setTitle(R.string.do_you_want);
+                        //
+                        //Insertar Validacion de Precios, imprimir el mensaje en tvCompare
+                        //
                         dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 EditText etTotal = (EditText) vAlertDialog.findViewById(R.id.etTotal);
-                                //
-                                //Insertar Validacion de Precios antes de confirmar
-                                //
                                 aceptar(etTotal, valorProducto);
 
                             }

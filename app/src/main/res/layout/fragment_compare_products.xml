@@ -26,7 +26,7 @@
 
         <AutoCompleteTextView
             android:id="@+id/etBarCode"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
@@ -86,6 +86,7 @@
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/guideline8"
             app:layout_constraintTop_toBottomOf="@+id/tvHPrice" />
 
@@ -99,8 +100,10 @@
             android:text="@string/highest_price"
             app:layout_constraintBottom_toBottomOf="@+id/tvHPrice"
             app:layout_constraintEnd_toStartOf="@+id/guideline8"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvHPrice" />
+            app:layout_constraintTop_toTopOf="@+id/tvHPrice"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/tvLDate"
@@ -121,9 +124,11 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/guideline8"
-            app:layout_constraintTop_toBottomOf="@+id/divider" />
+            app:layout_constraintTop_toBottomOf="@+id/divider3" />
 
         <TextView
             android:id="@+id/tvLPrice"
@@ -132,6 +137,8 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:textColor="@android:color/holo_red_dark"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/guideline8"
             app:layout_constraintTop_toBottomOf="@+id/divider2" />
@@ -146,8 +153,10 @@
             android:text="@string/store"
             app:layout_constraintBottom_toBottomOf="@+id/tvHStore"
             app:layout_constraintEnd_toStartOf="@+id/guideline8"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvHStore" />
+            app:layout_constraintTop_toTopOf="@+id/tvHStore"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/tvHLastPurchase"
@@ -158,6 +167,7 @@
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/guideline8"
             app:layout_constraintTop_toBottomOf="@+id/tvHStore" />
 
@@ -170,6 +180,7 @@
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toEndOf="@+id/guideline8"
             app:layout_constraintTop_toBottomOf="@+id/tvHDate" />
 
@@ -183,8 +194,10 @@
             android:text="@string/registration_date"
             app:layout_constraintBottom_toBottomOf="@+id/tvHDate"
             app:layout_constraintEnd_toStartOf="@+id/guideline8"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvHDate" />
+            app:layout_constraintTop_toTopOf="@+id/tvHDate"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/textView20"
@@ -196,8 +209,10 @@
             android:text="@string/last_purchase"
             app:layout_constraintBottom_toBottomOf="@+id/tvHLastPurchase"
             app:layout_constraintEnd_toStartOf="@+id/guideline8"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvHLastPurchase" />
+            app:layout_constraintTop_toTopOf="@+id/tvHLastPurchase"
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/tvLStore"
@@ -206,6 +221,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:textColor="@android:color/holo_red_dark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/guideline8"
             app:layout_constraintTop_toBottomOf="@+id/tvLDate" />
@@ -283,8 +299,9 @@
             android:layout_marginTop="8dp"
             android:background="?android:attr/listDivider"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvProduct" />
+            app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
         <View
             android:id="@+id/divider2"
@@ -294,7 +311,7 @@
             android:background="?android:attr/listDivider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvHLastPurchase" />
+            app:layout_constraintTop_toBottomOf="@+id/tvProduct" />
 
         <View
             android:id="@+id/divider3"

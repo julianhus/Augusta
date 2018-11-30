@@ -59,10 +59,16 @@ public class CompareProductsFragment extends Fragment {
         });
         //
         ibSearch = view.findViewById(R.id.ibSearch);
+        ibSearch.setBackgroundColor(Color.parseColor("#81C784"));
         ibSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadInfoCompare(etBarCode.getText().toString());
+                if (!etBarCode.getText().toString().isEmpty()) {
+                    loadInfoCompare(etBarCode.getText().toString());
+                } else {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Codigo de Barras sin informacion", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             }
         });
         //
@@ -86,7 +92,6 @@ public class CompareProductsFragment extends Fragment {
     }
 
     private void loadInfoCompare(String scanContent) {
-        Button bProduct = view.findViewById(R.id.bProduct);
         MyOpenHelper dbHelper = new MyOpenHelper(getApplicationContext());
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         try {
@@ -118,7 +123,6 @@ public class CompareProductsFragment extends Fragment {
 
                 if (producto.getId() != 0) {
                     tvProduct.setText(producto.getDescripcion() + " " + producto.getMarca() + " " + producto.getValorMedida() + " " + producto.getMedida());
-
                     Iterator<TiendaProducto> iTiendaProducto = producto.getTiendaProductos().iterator();
                     ValorProducto valorProductoHigher = new ValorProducto();
                     ValorProducto valorProductolower = null;
@@ -140,60 +144,68 @@ public class CompareProductsFragment extends Fragment {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss");
                     String dateTimeH, dateTimeL;
                     //
-                    tvHPrice.setText("$"+String.valueOf(NumberFormat.getInstance().format(valorProductoHigher.getValor())));
-                    dateTimeH = dateFormat.format(valorProductoHigher.getFechaRegistro());
-                    tvHDate.setText(dateTimeH);
-                    Date dateH = new Date();
-
-                    boolean flagDate = false;
-                    Iterator<MercadoProducto> iMercadoProducto = valorProductoHigher.getMercadoProductos().iterator();
-                    while (iMercadoProducto.hasNext()) {
-                        MercadoProducto tMercadoProducto = iMercadoProducto.next();
-                        if (tMercadoProducto.getMercado().getId() != 0) {
-                            if (dateH.before(tMercadoProducto.getMercado().getFechaRegistro())) {
-                                dateH = tMercadoProducto.getMercado().getFechaRegistro();
-                                flagDate = true;
-                            }
+                    try {
+                        if (valorProductoHigher.getValor() > 0) {
+                            tvHPrice.setText("$" + String.valueOf(NumberFormat.getInstance().format(valorProductoHigher.getValor())));
                         }
+                        dateTimeH = dateFormat.format(valorProductoHigher.getFechaRegistro());
+                        tvHDate.setText(dateTimeH);
+                        //
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    //
-                    if (flagDate == true) {
-                        dateTimeH = dateFormat.format(dateH);
-                        tvHLastPurchase.setText(dateTimeH);
-                    }
-                    //
-                    tvHStore.setText(String.valueOf(valorProductoHigher.getIdTiendaProducto().getTienda().getDescripcion() + " " + valorProductoHigher.getIdTiendaProducto().getTienda().getDireccion()));
-                    //
-                    if (valorProductolower.getId() > 0) {
-                        tvLPrice.setText("$"+String.valueOf(NumberFormat.getInstance().format(valorProductolower.getValor())));
-                        dateTimeL = dateFormat.format(valorProductolower.getFechaRegistro());
-                        tvLDate.setText(dateTimeL);
-                        Date dateL = new Date();
-
-                        flagDate = false;
-                        iMercadoProducto = valorProductolower.getMercadoProductos().iterator();
+                    Date dateH = new Date();
+                    boolean flagDate = false;
+                    try {
+                        Iterator<MercadoProducto> iMercadoProducto = valorProductoHigher.getMercadoProductos().iterator();
                         while (iMercadoProducto.hasNext()) {
                             MercadoProducto tMercadoProducto = iMercadoProducto.next();
                             if (tMercadoProducto.getMercado().getId() != 0) {
-                                if (dateH.before(tMercadoProducto.getMercado().getFechaRegistro())) {
+                                //if (dateH.before(tMercadoProducto.getMercado().getFechaRegistro())) {
                                     dateH = tMercadoProducto.getMercado().getFechaRegistro();
                                     flagDate = true;
-                                }
+                                //}
                             }
                         }
                         //
                         if (flagDate == true) {
                             dateTimeH = dateFormat.format(dateH);
-                            tvLLastPurchase.setText(dateTimeH);
+                            tvHLastPurchase.setText(dateTimeH);
                         }
                         //
-
-                        tvLStore.setText(String.valueOf(valorProductolower.getIdTiendaProducto().getTienda().getDescripcion() + " " + valorProductolower.getIdTiendaProducto().getTienda().getDireccion()));
+                        tvHStore.setText(String.valueOf(valorProductoHigher.getIdTiendaProducto().getTienda().getDescripcion() + " " + valorProductoHigher.getIdTiendaProducto().getTienda().getDireccion()));
                         //
+                        if (valorProductolower.getId() > 0) {
+                            tvLPrice.setText("$" + String.valueOf(NumberFormat.getInstance().format(valorProductolower.getValor())));
+                            dateTimeL = dateFormat.format(valorProductolower.getFechaRegistro());
+                            tvLDate.setText(dateTimeL);
+                            Date dateL = new Date();
+
+                            flagDate = false;
+                            iMercadoProducto = valorProductolower.getMercadoProductos().iterator();
+                            while (iMercadoProducto.hasNext()) {
+                                MercadoProducto tMercadoProducto = iMercadoProducto.next();
+                                if (tMercadoProducto.getMercado().getId() != 0) {
+                                    //if (dateH.before(tMercadoProducto.getMercado().getFechaRegistro())) {
+                                        dateH = tMercadoProducto.getMercado().getFechaRegistro();
+                                        flagDate = true;
+                                    //}
+                                }
+                            }
+                            //
+                            if (flagDate == true) {
+                                dateTimeH = dateFormat.format(dateH);
+                                tvLLastPurchase.setText(dateTimeH);
+                            }
+                            //
+
+                            tvLStore.setText(String.valueOf(valorProductolower.getIdTiendaProducto().getTienda().getDescripcion() + " " + valorProductolower.getIdTiendaProducto().getTienda().getDireccion()));
+                            //
+                        }
+                        etBarCode.setText("");
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                    etBarCode.setText("");
-
-
                 } else {
                     Toast toast = Toast.makeText(getApplicationContext(), R.string.product_no_found, Toast.LENGTH_SHORT);
                     toast.show();
@@ -214,14 +226,14 @@ public class CompareProductsFragment extends Fragment {
             ArrayList<Producto> productos = dbHelper.getProductos(db);
             //
             ArrayList<String> barcode = new ArrayList<>();
-            for(int i = 0; i < productos.size(); i++){
+            for (int i = 0; i < productos.size(); i++) {
                 barcode.add(productos.get(i).getBarCode());
             }
             String[] sBarcode = new String[barcode.size()];
             sBarcode = barcode.toArray(sBarcode);
-            ArrayAdapter<String> abarcode = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, sBarcode){
+            ArrayAdapter<String> abarcode = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, sBarcode) {
                 @Override
-                public View getView(int position, View convertView, ViewGroup parent){
+                public View getView(int position, View convertView, ViewGroup parent) {
                     // Get the Item from ListView
                     View view = super.getView(position, convertView, parent);
 

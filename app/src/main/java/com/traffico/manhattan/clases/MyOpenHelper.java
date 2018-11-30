@@ -583,12 +583,14 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
             valorProducto.setValor(cp.getInt(cp.getColumnIndex("valor")));
             valorProducto.setValorEquivalente(cp.getInt(cp.getColumnIndex("valor_equivalente")));
             //
-            dtStart = cp.getString(cp.getColumnIndex("fecha_registro_valor_producto"));
+
             try {
+                dtStart = cp.getString(cp.getColumnIndex("fecha_registro_valor_producto"));
                 Date date = format.parse(dtStart);
-                System.out.println(date);
                 valorProducto.setFechaRegistro(date);
             } catch (ParseException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             mercadoProducto.setValorProducto(valorProducto);
@@ -753,13 +755,13 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
                     //
                     Iterator<MercadoProducto> iMercadoProducto = tMercado.getMercadoProductos().iterator();
                     boolean flagMP = false;
-                    while (iMercadoProducto.hasNext()){
+                    while (iMercadoProducto.hasNext()) {
                         MercadoProducto tMercadoProducto = iMercadoProducto.next();
-                        if(tMercadoProducto.getId() == mercadoProducto.getId()){
+                        if (tMercadoProducto.getId() == mercadoProducto.getId()) {
                             flagMP = true;
                         }
                     }
-                    if(flagMP == false){
+                    if (flagMP == false) {
                         tMercado.getMercadoProductos().add(mercadoProducto);
                     }
                     //
