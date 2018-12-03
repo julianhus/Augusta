@@ -6,6 +6,13 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality. 
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -13,7 +20,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.traffico.manhattan.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,94 +49,109 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.traffico.manhattan.MenuActivity"
+            android:name=".MenuActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
-            android:name="com.traffico.manhattan.EditProfileActivity"
-            android:parentActivityName="com.traffico.manhattan.MenuActivity">
+            android:name=".EditProfileActivity"
+            android:parentActivityName=".MenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.traffico.manhattan.MenuActivity" />
         </activity>
         <activity
-            android:name="com.traffico.manhattan.StoreActivity"
-            android:parentActivityName="com.traffico.manhattan.StoreListActivity">
+            android:name=".StoreActivity"
+            android:parentActivityName=".StoreListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.traffico.manhattan.StoreListActivity" />
         </activity>
         <activity
-            android:name="com.traffico.manhattan.StoreListActivity"
-            android:parentActivityName="com.traffico.manhattan.MenuActivity">
+            android:name=".StoreListActivity"
+            android:parentActivityName=".MenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.traffico.manhattan.MenuActivity" />
         </activity>
         <activity
-            android:name="com.traffico.manhattan.UpdateStoreActivity"
-            android:parentActivityName="com.traffico.manhattan.StoreListActivity">
+            android:name=".UpdateStoreActivity"
+            android:parentActivityName=".StoreListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.traffico.manhattan.StoreListActivity" />
         </activity>
         <activity
-            android:name="com.traffico.manhattan.ProductListActivity"
-            android:parentActivityName="com.traffico.manhattan.MenuActivity">
+            android:name=".ProductListActivity"
+            android:parentActivityName=".MenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.traffico.manhattan.MenuActivity" />
         </activity>
         <activity
-            android:name="com.traffico.manhattan.ProductActivity"
+            android:name=".ProductActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:parentActivityName="com.traffico.manhattan.ProductListActivity">
+            android:parentActivityName=".ProductListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.traffico.manhattan.ProductListActivity" />
         </activity>
         <activity
-            android:name="com.traffico.manhattan.UpdateProductActivity"
-            android:parentActivityName="com.traffico.manhattan.ProductListActivity">
+            android:name=".UpdateProductActivity"
+            android:parentActivityName=".ProductListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.traffico.manhattan.ProductListActivity" />
         </activity>
         <activity
-            android:name="com.traffico.manhattan.RecordPriceStoreActivity"
-            android:parentActivityName="com.traffico.manhattan.MenuActivity">
+            android:name=".RecordPriceStoreActivity"
+            android:parentActivityName=".MenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.traffico.manhattan.MenuActivity" />
         </activity>
         <activity
-            android:name="com.traffico.manhattan.RecordPriceProductActivity"
-            android:parentActivityName="com.traffico.manhattan.RecordPriceStoreActivity">
+            android:name=".RecordPriceProductActivity"
+            android:parentActivityName=".RecordPriceStoreActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.traffico.manhattan.RecordPriceStoreActivity" />
         </activity>
         <activity
-            android:name="com.traffico.manhattan.RecordPriceActivity"
-            android:parentActivityName="com.traffico.manhattan.RecordPriceStoreActivity">
+            android:name=".RecordPriceActivity"
+            android:parentActivityName=".RecordPriceStoreActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.traffico.manhattan.RecordPriceStoreActivity" />
         </activity>
         <activity
-            android:name="com.traffico.manhattan.ShoppingStoreActivity"
-            android:parentActivityName="com.traffico.manhattan.MenuActivity">
+            android:name=".ShoppingStoreActivity"
+            android:parentActivityName=".MenuActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.traffico.manhattan.MenuActivity" />
         </activity>
         <activity
-            android:name="com.traffico.manhattan.ShoppingActivity"
+            android:name=".ShoppingActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:parentActivityName="com.traffico.manhattan.ShoppingStoreActivity">
+            android:parentActivityName=".ShoppingStoreActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.traffico.manhattan.ShoppingStoreActivity" />
         </activity>
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".MapsActivity"
+            android:label="@string/title_activity_maps"></activity>
     </application>
 
 </manifest>

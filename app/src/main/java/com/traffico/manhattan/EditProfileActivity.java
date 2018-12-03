@@ -146,11 +146,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
 
     public void showMap(View view) {
-        /*Uri gmmIntentUri = Uri.parse("geo:4.6750226,-74.1171807");
-        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-        mapIntent.setPackage("com.google.android.apps.maps");
-        if (mapIntent.resolveActivity(getPackageManager()) != null) {
-            startActivity(mapIntent);
-        }*/
+        Intent iMaps = new Intent(EditProfileActivity.this, MapsActivity.class);
+        iMaps.putExtra("Llamada","EditProfileActivity");
+        startActivity(iMaps);
     }
 }

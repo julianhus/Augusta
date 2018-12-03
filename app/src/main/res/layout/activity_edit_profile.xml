@@ -51,7 +51,7 @@
             app:layout_constraintBaseline_toBaselineOf="@+id/etAddress"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <!--
+
 
         <TextView
             android:id="@+id/textView9"
@@ -86,7 +86,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/etLocation"
             app:srcCompat="@android:drawable/ic_menu_mapmode" />
-        -->
+
 
         <TextView
             android:id="@+id/tvMail"
@@ -115,7 +115,8 @@
             android:text="@string/your_google"
             app:layout_constraintBottom_toBottomOf="@+id/imageButton2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageButton2" />
+            app:layout_constraintTop_toTopOf="@+id/imageButton2"
+            app:layout_constraintVertical_bias="0.49" />
 
         <EditText
             android:id="@+id/etName"
@@ -175,8 +176,9 @@
             android:inputType="textEmailAddress"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/etAddress" />
+            app:layout_constraintTop_toBottomOf="@+id/etLocation" />
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline2"
@@ -195,6 +197,7 @@
             android:onClick="upDate"
             android:text="@string/update"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageButton2" />
 
