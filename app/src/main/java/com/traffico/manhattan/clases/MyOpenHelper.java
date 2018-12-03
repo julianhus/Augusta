@@ -96,6 +96,11 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
             cv.put("email", usuario.getEmail());
             cv.put("facebook", usuario.getFacebook());
             cv.put("google", usuario.getGoogle());
+            //
+            Date date = new Date();
+            String fecha = format.format(date);
+            //
+            cv.put("fecha_registro", fecha + "");
             return db.insert("usuario", null, cv);
         } catch (Exception e) {
             //Log.e("Error", "insertUsuario: " + e.getMessage(), null);

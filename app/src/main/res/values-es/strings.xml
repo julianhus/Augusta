@@ -77,4 +77,6 @@
     <string name="millimeters">Milímetros</string>
     <string name="liters">Litros</string>
     <string name="milliliters">Mililitros</string>
+    <string name="this_product_can_be_cheaper">Este producto puede estar más barato($ %1$s) en %2$s</string>
+    <string name="i_have_read_and_accept">He leído y acepto la política de privacidad y tratamiento de datos</string>
 </resources>

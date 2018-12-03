@@ -4,14 +4,17 @@ import android.content.Intent;
 import android.content.pm.*;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,12 +56,20 @@ public class MainActivity extends AppCompatActivity {
     EditText eTAddress;
     //EditText eTLocation;
     EditText eTEMail;
+    //
+    Button bSingIn;
+    //
+    CheckBox cbPolicy;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //
+        bSingIn = findViewById(R.id.bSingIn);
+        bSingIn.setEnabled(false);
+        cbPolicy = findViewById(R.id.cbPolicy);
         //
         loginWithFacebook();
         //
@@ -89,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
             //
             loginButton = (LoginButton) findViewById(R.id.login_button);
+            loginButton.setEnabled(false);
             loginButton.setReadPermissions("email");
             loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                 @Override
@@ -265,5 +277,26 @@ public class MainActivity extends AppCompatActivity {
         } else {
             return true;
         }
+    }
+
+    public void onCheckboxClicked(View view) {
+        boolean checked = ((CheckBox) view).isChecked();
+        if(checked){
+            bSingIn.setEnabled(true);
+            loginButton.setEnabled(true);
+        }
+        else{
+            bSingIn.setEnabled(false);
+            loginButton.setEnabled(false);
+        }
+
+    }
+
+    public void downloadPolicy(View view){
+        //
+        Uri uri = Uri.parse("https://drive.google.com/file/d/1NMneDgeyDZw7BJhJ6oHiOLYrAhtHcwK3/view?usp=sharing");
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
+        //
     }
 }

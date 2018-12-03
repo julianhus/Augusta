@@ -81,4 +81,6 @@
     <string name="millimeters">Millimeters</string>
     <string name="liters">Liters</string>
     <string name="milliliters">Milliliters</string>
+    <string name="this_product_can_be_cheaper">This product can be cheaper($ %1$s) in %2$s</string>
+    <string name="i_have_read_and_accept">I have read and accept the privacy policy and data processing</string>
 </resources>

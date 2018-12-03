@@ -91,7 +91,7 @@ public class CompareProductsFragment extends Fragment {
 
     }
 
-    private void loadInfoCompare(String scanContent) {
+    public void loadInfoCompare(String scanContent) {
         MyOpenHelper dbHelper = new MyOpenHelper(getApplicationContext());
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         try {

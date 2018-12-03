@@ -1,14 +1,12 @@
 package com.traffico.manhattan;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.annotation.RequiresApi;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +25,9 @@ import com.traffico.manhattan.entidades.Tienda;
 import com.traffico.manhattan.entidades.TiendaProducto;
 import com.traffico.manhattan.entidades.ValorProducto;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -112,9 +112,9 @@ public class ShoppingRecordPriceFragment extends Fragment {
         try {
             ArrayList<ValorProducto> valorProductoList = dbHelper.getValorProductos(db, tienda, producto);
             final ListView lvValorProducto = view.findViewById(R.id.lvProductPrice);
-            ArrayAdapter<ValorProducto> aValorProducto = new ArrayAdapter<ValorProducto>(getApplicationContext(), android.R.layout.simple_list_item_1, valorProductoList){
+            ArrayAdapter<ValorProducto> aValorProducto = new ArrayAdapter<ValorProducto>(getApplicationContext(), android.R.layout.simple_list_item_1, valorProductoList) {
                 @Override
-                public View getView(int position, View convertView, ViewGroup parent){
+                public View getView(int position, View convertView, ViewGroup parent) {
                     // Get the Item from ListView
                     View view = super.getView(position, convertView, parent);
 
@@ -140,6 +140,9 @@ public class ShoppingRecordPriceFragment extends Fragment {
                         dialog.setTitle(R.string.do_you_want);
                         //
                         //Insertar Validacion de Precios, imprimir el mensaje en tvCompare
+                        String messageCompare = comparePrice(valorProducto);
+                        TextView tvCompare = vAlertDialog.findViewById(R.id.tvCompare);
+                        tvCompare.setText(messageCompare);
                         //
                         dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
@@ -165,6 +168,44 @@ public class ShoppingRecordPriceFragment extends Fragment {
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), R.string.product_without_price, Toast.LENGTH_SHORT).show();
             //Log.e("Error", "loadProductPrice: " + e.getMessage(), null);
+        }
+    }
+
+
+    private String comparePrice(ValorProducto valorProductoSelected) {
+        MyOpenHelper dbHelper = new MyOpenHelper(getApplicationContext());
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        try {
+            Producto producto = new Producto();
+            producto = dbHelper.getProductoValorProducto(db, this.producto.getBarCode(), producto);
+            Iterator<TiendaProducto> iTiendaProducto = producto.getTiendaProductos().iterator();
+            ValorProducto valorProductoHigher = new ValorProducto();
+            ValorProducto valorProductolower = null;
+            while (iTiendaProducto.hasNext()) {
+                TiendaProducto tiendaProducto = iTiendaProducto.next();
+                Iterator<ValorProducto> iValorProducto = tiendaProducto.getValorProductos().iterator();
+                while (iValorProducto.hasNext()) {
+                    ValorProducto valorProducto = iValorProducto.next();
+                    if (valorProducto.getValor() > valorProductoHigher.getValor()) {
+                        valorProductolower = valorProductoHigher;
+                        valorProductoHigher = valorProducto;
+                    }
+                    if (valorProducto.getValor() < valorProductoHigher.getValor()) {
+                        valorProductolower = valorProducto;
+                    }
+                }
+            }
+            if (valorProductolower.getValor() < valorProductoSelected.getValor()) {
+                String message = valorProductolower.getIdTiendaProducto().getTienda().getDescripcion() + " " +
+                        valorProductolower.getIdTiendaProducto().getTienda().getDireccion();
+                return getString(R.string.this_product_can_be_cheaper, NumberFormat.getInstance().format(valorProductolower.getValor()), message);
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            Toast toast = Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT);
+            toast.show();
+            return null;
         }
     }
 
@@ -213,7 +254,9 @@ public class ShoppingRecordPriceFragment extends Fragment {
                         Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT).show();
                     }
                 }
-            }else{Toast.makeText(getApplicationContext(), R.string.redInfo, Toast.LENGTH_SHORT).show();}
+            } else {
+                Toast.makeText(getApplicationContext(), R.string.redInfo, Toast.LENGTH_SHORT).show();
+            }
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT).show();
             //Log.e("RecordPriceActivity", "recordPrice: " + e.getMessage(), null);

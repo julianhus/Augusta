@@ -1,5 +1,6 @@
 package com.traffico.manhattan.entidades;
 
+import java.util.Date;
 import java.util.List;
 
 public class Usuario {
@@ -12,6 +13,7 @@ public class Usuario {
     private String facebook;
     private String google;
     private Municipio municipio;
+    private Date fechaRegistro;
     private List<Mercado> mercados;
 
     public Usuario() {
@@ -79,6 +81,14 @@ public class Usuario {
 
     public void setGoogle(String google) {
         this.google = google;
+    }
+
+    public Date getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(Date fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
     }
 
     public Municipio getMunicipio() {
