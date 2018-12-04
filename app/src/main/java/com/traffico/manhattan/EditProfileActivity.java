@@ -14,9 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.android.gms.maps.model.LatLng;
 import com.traffico.manhattan.clases.MyOpenHelper;
 import com.traffico.manhattan.entidades.Usuario;
 
+import java.io.Serializable;
 import java.util.regex.Pattern;
 
 public class EditProfileActivity extends AppCompatActivity {
@@ -30,14 +32,17 @@ public class EditProfileActivity extends AppCompatActivity {
     EditText eTName;
     EditText eTLastName;
     EditText eTAddress;
-    //EditText eTLocation;
+    EditText eTLocation;
     EditText eTEMail;
+    //
+    LatLng latLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         getSupportActionBar().setTitle(R.string.profile);
+
         MyOpenHelper dbHelper = new MyOpenHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         if (db != null) {
@@ -45,12 +50,22 @@ public class EditProfileActivity extends AppCompatActivity {
             EditText name = findViewById(R.id.etName);
             EditText lastName = findViewById(R.id.etLastName);
             EditText address = findViewById(R.id.etAddress);
-            //EditText location = findViewById(R.id.etLocation);
+            EditText location = findViewById(R.id.etLocation);
+            location.setEnabled(false);
             EditText email = findViewById(R.id.etMail);
             name.setText(usuario.getNombre());
             lastName.setText(usuario.getApellido());
             address.setText(usuario.getDireccion());
-            //location.setText(usuario.getCoordenadas());
+            //
+            Intent iMaps = getIntent();
+            latLng = (LatLng) iMaps.getExtras().get("Ubicacion");
+            if (latLng != null) {
+                location.setText(latLng.latitude + ":" + latLng.longitude);
+                location.setEnabled(false);
+            } else {
+                location.setText(usuario.getCoordenadas());
+            }
+            //
             email.setText(usuario.getEmail());
             if (usuario.getFacebook() != null) {
                 email.setEnabled(false);
@@ -68,30 +83,34 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     public void upDate(View view) {
-        if (validate()) {
-            usuario.setNombre(eTName.getText().toString());
-            usuario.setApellido(eTLastName.getText().toString());
-            usuario.setDireccion(eTAddress.getText().toString());
-            //usuario.setCoordenadas(eTLocation.getText().toString());
-            usuario.setEmail(eTEMail.getText().toString());
-            MyOpenHelper dbHelper = new MyOpenHelper(this);
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
-            if (db != null) {
-                dbHelper.updateUsuario(db, usuario);
-                Toast toast = Toast.makeText(getApplicationContext(), R.string.updated, Toast.LENGTH_SHORT);
-                toast.show();
-                final Intent mainActivity = new Intent(this, MainActivity.class);
-                //
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Magic here
-                        startActivity(mainActivity);
-                    }
-                }, 1000); // Millisecon
+        try {
+            if (validate()) {
+                usuario.setNombre(eTName.getText().toString());
+                usuario.setApellido(eTLastName.getText().toString());
+                usuario.setDireccion(eTAddress.getText().toString());
+                usuario.setCoordenadas(eTLocation.getText().toString());
+                usuario.setEmail(eTEMail.getText().toString());
+                MyOpenHelper dbHelper = new MyOpenHelper(this);
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                if (db != null) {
+                    dbHelper.updateUsuario(db, usuario);
+                    Toast toast = Toast.makeText(getApplicationContext(), R.string.updated, Toast.LENGTH_SHORT);
+                    toast.show();
+                    final Intent mainActivity = new Intent(this, MainActivity.class);
+                    //
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            // Magic here
+                            startActivity(mainActivity);
+                        }
+                    }, 1000); // Millisecon
+                }
+            } else {
+                Toast.makeText(getBaseContext(), R.string.redInfo, Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(getBaseContext(), R.string.redInfo, Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -105,7 +124,7 @@ public class EditProfileActivity extends AppCompatActivity {
             eTName = findViewById(R.id.etName);
             eTLastName = findViewById(R.id.etLastName);
             eTAddress = findViewById(R.id.etAddress);
-            //eTLocation = findViewById(R.id.etLocation);
+            eTLocation = findViewById(R.id.etLocation);
             eTEMail = findViewById(R.id.etMail);
             //
             boolean flagName, flagLastName, flagEMail = true;
@@ -147,7 +166,11 @@ public class EditProfileActivity extends AppCompatActivity {
 
     public void showMap(View view) {
         Intent iMaps = new Intent(EditProfileActivity.this, MapsActivity.class);
-        iMaps.putExtra("Llamada","EditProfileActivity");
+        iMaps.putExtra("Llamada", "EditProfileActivity");
+        eTLocation = findViewById(R.id.etLocation);
+        if (!eTLocation.getText().toString().equals("")) {
+            iMaps.putExtra("latLng", eTLocation.getText());
+        }
         startActivity(iMaps);
     }
 }

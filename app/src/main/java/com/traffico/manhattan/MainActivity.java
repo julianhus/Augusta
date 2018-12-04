@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,7 @@ import com.facebook.login.widget.LoginButton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.traffico.manhattan.clases.MyOpenHelper;
 import com.traffico.manhattan.entidades.Usuario;
 
@@ -54,12 +56,16 @@ public class MainActivity extends AppCompatActivity {
     EditText eTName;
     EditText eTLastName;
     EditText eTAddress;
-    //EditText eTLocation;
+    EditText eTLocation;
     EditText eTEMail;
     //
     Button bSingIn;
     //
     CheckBox cbPolicy;
+    //
+    ImageButton ibMap;
+    //
+    LatLng latLng;
 
 
     @Override
@@ -70,6 +76,18 @@ public class MainActivity extends AppCompatActivity {
         bSingIn = findViewById(R.id.bSingIn);
         bSingIn.setEnabled(false);
         cbPolicy = findViewById(R.id.cbPolicy);
+        ibMap = findViewById(R.id.ibMap);
+        ibMap.setEnabled(false);
+        eTLocation = findViewById(R.id.etLocation);
+        eTLocation.setEnabled(false);
+        //
+        Intent iMaps = getIntent();
+        latLng = (LatLng) iMaps.getExtras().get("Ubicacion");
+        if (latLng != null) {
+            eTLocation.setText(latLng.latitude + ":" + latLng.longitude);
+            eTLocation.setEnabled(false);
+        }
+        //
         //
         loginWithFacebook();
         //
@@ -202,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
                 usuario.setNombre(eTName.getText().toString());
                 usuario.setApellido(eTLastName.getText().toString());
                 usuario.setDireccion(eTAddress.getText().toString());
-                //usuario.setCoordenadas(eTLocation.getText().toString());
+                usuario.setCoordenadas(eTLocation.getText().toString());
                 usuario.setEmail(eTEMail.getText().toString());
                 usuario.setFacebook(userIdFacebook);
                 usuario.setGoogle("");
@@ -245,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
         eTName = findViewById(R.id.etName);
         eTLastName = findViewById(R.id.etLastName);
         eTAddress = findViewById(R.id.etAddress);
-        //eTLocation = findViewById(R.id.etLocation);
+        eTLocation = findViewById(R.id.etLocation);
         eTEMail = findViewById(R.id.etMail);
         //
         boolean flagName, flagLastName, flagEMail = true;
@@ -281,22 +299,61 @@ public class MainActivity extends AppCompatActivity {
 
     public void onCheckboxClicked(View view) {
         boolean checked = ((CheckBox) view).isChecked();
-        if(checked){
+        if (checked) {
             bSingIn.setEnabled(true);
             loginButton.setEnabled(true);
-        }
-        else{
+            ibMap.setEnabled(true);
+            ibMap.setBackgroundColor(Color.parseColor("#81C784"));
+        } else {
             bSingIn.setEnabled(false);
             loginButton.setEnabled(false);
+            ibMap.setEnabled(false);
+            ibMap.setBackgroundColor(Color.parseColor("#E0E0E0"));
         }
 
     }
 
-    public void downloadPolicy(View view){
+    public void downloadPolicy(View view) {
         //
         Uri uri = Uri.parse("https://drive.google.com/file/d/1NMneDgeyDZw7BJhJ6oHiOLYrAhtHcwK3/view?usp=sharing");
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
         //
+    }
+
+    public void showMap(View view) {
+        Intent iMaps = new Intent(MainActivity.this, MapsActivity.class);
+        iMaps.putExtra("Llamada", "MainActivity");
+        eTLocation = findViewById(R.id.etLocation);
+        if (!eTLocation.getText().toString().equals("")) {
+            iMaps.putExtra("latLng", eTLocation.getText());
+        }
+        startActivity(iMaps);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState){
+        eTName = findViewById(R.id.etName);
+        eTLastName = findViewById(R.id.etLastName);
+        eTAddress = findViewById(R.id.etAddress);
+        eTLocation = findViewById(R.id.etLocation);
+        eTEMail = findViewById(R.id.etMail);
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("Nombre", eTName.getText().toString());
+        outState.putSerializable("Apelido", eTLastName.getText().toString());
+        outState.putSerializable("Direccion", eTAddress.getText().toString());
+        outState.putSerializable("eMail", eTEMail.getText().toString());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState){
+        eTName = findViewById(R.id.etName);
+        eTLastName = findViewById(R.id.etLastName);
+        eTAddress = findViewById(R.id.etAddress);
+        eTLocation = findViewById(R.id.etLocation);
+        eTEMail = findViewById(R.id.etMail);
+        super.onRestoreInstanceState(savedInstanceState);
+        eTName.setText(savedInstanceState.getSerializable("Nombre").toString());
+
     }
 }

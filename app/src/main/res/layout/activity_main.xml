@@ -44,7 +44,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/ibGoogle"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginTop="8dp"
@@ -73,9 +73,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="@string/your_google"
-            app:layout_constraintBottom_toBottomOf="@+id/imageButton"
+            app:layout_constraintBottom_toBottomOf="@+id/ibGoogle"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageButton" />
+            app:layout_constraintTop_toTopOf="@+id/ibGoogle" />
 
         <EditText
             android:id="@+id/etMail"
@@ -89,10 +89,10 @@
             android:inputType="textEmailAddress"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/etAddress" />
+            app:layout_constraintTop_toBottomOf="@+id/etLocation" />
 
-        <!--
         <TextView
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
@@ -109,16 +109,25 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:ems="10"
             android:hint="@string/your_location"
             android:inputType="textPersonName"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ibMap"
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/etAddress" />
 
-        -->
+        <ImageButton
+            android:id="@+id/ibMap"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:onClick="showMap"
+            app:layout_constraintBottom_toBottomOf="@+id/etLocation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/etLocation"
+            app:srcCompat="@android:drawable/ic_menu_mapmode" />
+
 
         <EditText
             android:id="@+id/etName"
@@ -245,7 +254,7 @@
             android:layout_marginEnd="8dp"
             android:onClick="downloadPolicy"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageButton"
+            app:layout_constraintTop_toBottomOf="@+id/ibGoogle"
             app:srcCompat="@android:drawable/stat_sys_download" />
 
     </android.support.constraint.ConstraintLayout>
