@@ -329,9 +329,10 @@ public class MainActivity extends AppCompatActivity {
             iMaps.putExtra("latLng", eTLocation.getText());
         }
         startActivity(iMaps);
+        finish();
     }
 
-    @Override
+    /*@Override
     protected void onSaveInstanceState(Bundle outState){
         eTName = findViewById(R.id.etName);
         eTLastName = findViewById(R.id.etLastName);
@@ -355,5 +356,5 @@ public class MainActivity extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         eTName.setText(savedInstanceState.getSerializable("Nombre").toString());
 
-    }
+    }*/
 }

@@ -55,6 +55,30 @@ public class MapsActivity extends AppCompatActivity implements
         //
     }
 
+    public void onBackPressed() {
+        Intent iMaps;
+        switch (llamada) {
+            case "EditProfileActivity":
+                iMaps = new Intent(MapsActivity.this, EditProfileActivity.class);
+                startActivity(iMaps);
+                finish();
+                break;
+            case "MainActivity":
+                iMaps = new Intent(MapsActivity.this, MainActivity.class);
+                startActivity(iMaps);
+                finish();
+                break;
+            case "StoreActivity":
+                iMaps = new Intent(MapsActivity.this, StoreActivity.class);
+                startActivity(iMaps);
+                finish();
+                break;
+            default:
+                Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         try {
@@ -62,7 +86,7 @@ public class MapsActivity extends AppCompatActivity implements
             LatLng colombia;
 
             if (lat == null) {
-                colombia = new LatLng(4.6420884, -78.834157);
+                colombia = new LatLng(4.6420884, -72.834157);
             } else {
                 double iLat = Double.parseDouble(lat);
                 double iLon = Double.parseDouble(lon);
@@ -116,7 +140,20 @@ public class MapsActivity extends AppCompatActivity implements
                     markerOptions.position(latLng);
                     // Setting the title for the marker.
                     // This will be displayed on taping the marker
-                    markerOptions.title("Residencia");
+                    switch (llamada) {
+                        case "EditProfileActivity":
+                            markerOptions.title("Residencia");
+                            break;
+                        case "MainActivity":
+                            markerOptions.title("Residencia");
+                            break;
+                        case "StoreActivity":
+                            markerOptions.title("Tienda");
+                            break;
+                        default:
+                            Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT).show();
+                            break;
+                    }
                     // Clears the previously touched position
                     mMap.clear();
                     // Animating to the touched position
@@ -136,11 +173,19 @@ public class MapsActivity extends AppCompatActivity implements
                                         iMaps = new Intent(MapsActivity.this, EditProfileActivity.class);
                                         iMaps.putExtra("Ubicacion", latLng);
                                         startActivity(iMaps);
+                                        finish();
                                         break;
                                     case "MainActivity":
                                         iMaps = new Intent(MapsActivity.this, MainActivity.class);
                                         iMaps.putExtra("Ubicacion", latLng);
                                         startActivity(iMaps);
+                                        finish();
+                                        break;
+                                    case "StoreActivity":
+                                        iMaps = new Intent(MapsActivity.this, StoreActivity.class);
+                                        iMaps.putExtra("Ubicacion", latLng);
+                                        startActivity(iMaps);
+                                        finish();
                                         break;
                                     default:
                                         Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT).show();

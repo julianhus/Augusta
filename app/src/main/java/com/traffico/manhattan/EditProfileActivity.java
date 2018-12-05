@@ -10,6 +10,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,13 +37,16 @@ public class EditProfileActivity extends AppCompatActivity {
     EditText eTEMail;
     //
     LatLng latLng;
+    //
+    ImageButton ibMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         getSupportActionBar().setTitle(R.string.profile);
-
+        ibMap = findViewById(R.id.ibMap);
+        ibMap.setBackgroundColor(Color.parseColor("#81C784"));
         MyOpenHelper dbHelper = new MyOpenHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         if (db != null) {

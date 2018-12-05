@@ -12,10 +12,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.traffico.manhattan.clases.MyOpenHelper;
 import com.traffico.manhattan.entidades.Departamento;
 import com.traffico.manhattan.entidades.Municipio;
@@ -26,15 +28,29 @@ import java.util.ArrayList;
 public class StoreActivity extends AppCompatActivity {
 
     String llamada;
+    ImageButton ibMap;
+    LatLng latLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store);
         getSupportActionBar().setTitle(R.string.store);
+        ibMap = findViewById(R.id.ibMap);
+        ibMap.setBackgroundColor(Color.parseColor("#81C784"));
+        EditText location = findViewById(R.id.etLocation);
+        location.setEnabled(false);
         //
         Intent iStoreActivity = getIntent();
         llamada = (String) iStoreActivity.getSerializableExtra("Llamada");
+        //
+        //
+        Intent iMaps = getIntent();
+        latLng = (LatLng) iMaps.getExtras().get("Ubicacion");
+        if (latLng != null) {
+            location.setText(latLng.latitude + ":" + latLng.longitude);
+            location.setEnabled(false);
+        }
         //
         MyOpenHelper dbHelper = new MyOpenHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -104,7 +120,7 @@ public class StoreActivity extends AppCompatActivity {
     public void createStore(View view) {
         EditText eTDescription = findViewById(R.id.etDescription);
         EditText eTAddress = findViewById(R.id.etAddress);
-        //EditText eTLocation = findViewById(R.id.etLocation);
+        EditText eTLocation = findViewById(R.id.etLocation);
         Spinner sMunicipio = findViewById(R.id.sCity);
         boolean flagCheck = validate(true);
         if (!flagCheck) {
@@ -113,7 +129,7 @@ public class StoreActivity extends AppCompatActivity {
             Tienda tienda = new Tienda();
             tienda.setDescripcion(eTDescription.getText().toString());
             tienda.setDireccion(eTAddress.getText().toString());
-            //tienda.setCoordenadas(eTLocation.getText().toString());
+            tienda.setCoordenadas(eTLocation.getText().toString());
             Municipio municipio = new Municipio();
             municipio = (Municipio) sMunicipio.getSelectedItem();
             tienda.setMunicipio(municipio);
@@ -151,12 +167,10 @@ public class StoreActivity extends AppCompatActivity {
         }
     }
 
-
-
     private boolean validate(boolean flagCheck) {
         EditText eTDescription = findViewById(R.id.etDescription);
         EditText eTAddress = findViewById(R.id.etAddress);
-        //EditText eTLocation = findViewById(R.id.etLocation);
+        EditText eTLocation = findViewById(R.id.etLocation);
         TextView tvCity = findViewById(R.id.tvCity);
         TextView tvState = findViewById(R.id.tvState);
         TextView tvDescription = findViewById(R.id.tvDesciption);
@@ -198,5 +212,11 @@ public class StoreActivity extends AppCompatActivity {
             tvDescription.setTextColor(-1979711488);
         }
         return flagCheck;
+    }
+
+    public void showMap(View view) {
+        Intent iMaps = new Intent(StoreActivity.this, MapsActivity.class);
+        iMaps.putExtra("Llamada", "StoreActivity");
+        startActivity(iMaps);
     }
 }
