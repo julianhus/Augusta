@@ -118,59 +118,63 @@ public class StoreActivity extends AppCompatActivity {
     }
 
     public void createStore(View view) {
-        EditText eTDescription = findViewById(R.id.etDescription);
-        EditText eTAddress = findViewById(R.id.etAddress);
-        EditText eTLocation = findViewById(R.id.etLocation);
-        Spinner sMunicipio = findViewById(R.id.sCity);
-        boolean flagCheck = validate(true);
-        if (!flagCheck) {
-            Toast.makeText(getBaseContext(), R.string.redInfo, Toast.LENGTH_SHORT).show();
-        } else {
-            Tienda tienda = new Tienda();
-            tienda.setDescripcion(eTDescription.getText().toString());
-            tienda.setDireccion(eTAddress.getText().toString());
-            tienda.setCoordenadas(eTLocation.getText().toString());
-            Municipio municipio = new Municipio();
-            municipio = (Municipio) sMunicipio.getSelectedItem();
-            tienda.setMunicipio(municipio);
-            MyOpenHelper dbHelper = new MyOpenHelper(this);
-            SQLiteDatabase db = dbHelper.getWritableDatabase();
-            if (db != null) {
-                long flagInsert = dbHelper.insertTienda(db, tienda);
-                if (flagInsert > 0) {
-                    Toast.makeText(getBaseContext(), R.string.created, Toast.LENGTH_SHORT).show();
-                    Intent storeIntent = new Intent();
-                    if (llamada.equals("StoreListActivity")) {
-                        storeIntent = new Intent(this, StoreListActivity.class);
-                    }
-                    if (llamada.equals("RecordPriceStoreActivity")) {
-                        storeIntent = new Intent(this, RecordPriceStoreActivity.class);
-                    }
-                    if (llamada.equals("ShoppingStoreActivity")) {
-                        storeIntent = new Intent(this, ShoppingStoreActivity.class);
-                    }
-                    //
-                    final Intent finalStoreIntent = storeIntent;
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            // Magic here
-                            startActivity(finalStoreIntent);
+        try {
+            EditText eTDescription = findViewById(R.id.etDescription);
+            EditText eTAddress = findViewById(R.id.etAddress);
+            EditText eTLocation = findViewById(R.id.etLocation);
+            Spinner sMunicipio = findViewById(R.id.sCity);
+            boolean flagCheck = validate(true);
+            if (!flagCheck) {
+                Toast.makeText(getBaseContext(), R.string.redInfo, Toast.LENGTH_SHORT).show();
+            } else {
+                Tienda tienda = new Tienda();
+                tienda.setDescripcion(eTDescription.getText().toString());
+                tienda.setDireccion(eTAddress.getText().toString());
+                tienda.setCoordenadas(eTLocation.getText().toString());
+                Municipio municipio = new Municipio();
+                municipio = (Municipio) sMunicipio.getSelectedItem();
+                tienda.setMunicipio(municipio);
+                MyOpenHelper dbHelper = new MyOpenHelper(this);
+                SQLiteDatabase db = dbHelper.getWritableDatabase();
+                if (db != null) {
+                    long flagInsert = dbHelper.insertTienda(db, tienda);
+                    if (flagInsert > 0) {
+                        Toast.makeText(getBaseContext(), R.string.created, Toast.LENGTH_SHORT).show();
+                        Intent storeIntent = new Intent();
+                        if (llamada.equals("StoreListActivity")) {
+                            storeIntent = new Intent(this, StoreListActivity.class);
                         }
-                    }, 1000); // Millisecon
-                    //
-                }else {
-                    Toast.makeText(getBaseContext(), "Fail", Toast.LENGTH_SHORT).show();
+                        if (llamada.equals("RecordPriceStoreActivity")) {
+                            storeIntent = new Intent(this, RecordPriceStoreActivity.class);
+                        }
+                        if (llamada.equals("ShoppingStoreActivity")) {
+                            storeIntent = new Intent(this, ShoppingStoreActivity.class);
+                        }
+                        //
+                        final Intent finalStoreIntent = storeIntent;
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                // Magic here
+                                startActivity(finalStoreIntent);
+                            }
+                        }, 1000); // Millisecon
+                        //
+                    } else {
+                        Toast.makeText(getBaseContext(), "Fail", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
 
+            }
+        } catch (Exception e) {
+            Toast.makeText(getBaseContext(), "Fail", Toast.LENGTH_SHORT).show();
         }
     }
 
     private boolean validate(boolean flagCheck) {
         EditText eTDescription = findViewById(R.id.etDescription);
         EditText eTAddress = findViewById(R.id.etAddress);
-        EditText eTLocation = findViewById(R.id.etLocation);
+        //EditText eTLocation = findViewById(R.id.etLocation);
         TextView tvCity = findViewById(R.id.tvCity);
         TextView tvState = findViewById(R.id.tvState);
         TextView tvDescription = findViewById(R.id.tvDesciption);
@@ -216,7 +220,8 @@ public class StoreActivity extends AppCompatActivity {
 
     public void showMap(View view) {
         Intent iMaps = new Intent(StoreActivity.this, MapsActivity.class);
-        iMaps.putExtra("Llamada", "StoreActivity");
+        iMaps.putExtra("Llamada", llamada);
+        iMaps.putExtra("LlamadaMaps", "StoreActivity");
         startActivity(iMaps);
     }
 }

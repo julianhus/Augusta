@@ -36,13 +36,27 @@
                 android:layout_weight="1"
                 android:text="@string/shopping_list" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/bMaps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/title_activity_maps" />
+
             <TextView
                 android:id="@+id/tvVersion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/version"
                 android:textAlignment="viewEnd" />
-
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

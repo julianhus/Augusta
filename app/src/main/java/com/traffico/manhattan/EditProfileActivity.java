@@ -170,7 +170,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     public void showMap(View view) {
         Intent iMaps = new Intent(EditProfileActivity.this, MapsActivity.class);
-        iMaps.putExtra("Llamada", "EditProfileActivity");
+        iMaps.putExtra("LlamadaMaps", "EditProfileActivity");
         eTLocation = findViewById(R.id.etLocation);
         if (!eTLocation.getText().toString().equals("")) {
             iMaps.putExtra("latLng", eTLocation.getText());

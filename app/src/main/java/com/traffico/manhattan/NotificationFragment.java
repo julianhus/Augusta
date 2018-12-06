@@ -7,12 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.android.gms.maps.MapFragment;
+
 
 public class NotificationFragment extends Fragment {
 
     View view;
     Button bCompareBy;
     Button bShoppingList;
+    Button bMaps;
 
 
     @Override
@@ -23,6 +26,7 @@ public class NotificationFragment extends Fragment {
         //
         bCompareBy = view.findViewById(R.id.bCompareBy);
         bShoppingList = view.findViewById(R.id.bShoppingList);
+        bMaps = view.findViewById(R.id.bMaps);
         bCompareBy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -33,6 +37,12 @@ public class NotificationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ((MenuActivity)getActivity()).loadFragment(new ShoppingListFragment());
+            }
+        });
+        bMaps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                ((MenuActivity)getActivity()).loadFragment(new MapsFragment());
             }
         });
         return view;

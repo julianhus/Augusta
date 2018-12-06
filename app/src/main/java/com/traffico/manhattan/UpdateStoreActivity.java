@@ -10,10 +10,12 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.traffico.manhattan.clases.MyOpenHelper;
 import com.traffico.manhattan.entidades.Departamento;
 import com.traffico.manhattan.entidades.Municipio;
@@ -25,6 +27,7 @@ public class UpdateStoreActivity extends AppCompatActivity {
 
     Tienda tienda;
     Spinner sMunicipio, sDepartamento;
+    ImageButton ibMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,21 @@ public class UpdateStoreActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.update_store);
         Intent iUpdateStore = getIntent();
         tienda = (Tienda) iUpdateStore.getSerializableExtra("Store");
+        //
+        LatLng latLng;
+        latLng = (LatLng) iUpdateStore.getExtras().get("Ubicacion");
+        EditText etLocation = findViewById(R.id.etLocation);
+        if (latLng != null) {
+            etLocation.setText(latLng.latitude + ":" + latLng.longitude);
+        }else{
+            etLocation.setText(tienda.getCoordenadas());
+        }
+        //
+        ibMap = findViewById(R.id.ibMap);
+        ibMap.setBackgroundColor(Color.parseColor("#81C784"));
+        EditText location = findViewById(R.id.etLocation);
+        location.setEnabled(false);
+        //
         sDepartamento = findViewById(R.id.sState);
         sMunicipio = findViewById(R.id.sCity);
         MyOpenHelper dbHelper = new MyOpenHelper(this);
@@ -40,8 +58,6 @@ public class UpdateStoreActivity extends AppCompatActivity {
         if (db != null) {
             loadSpinners(db, dbHelper);
         }
-        //EditText etLocation = findViewById(R.id.etLocation);
-        //etLocation.setText(tienda.getCoordenadas());
         EditText etAddress = findViewById(R.id.etAddress);
         etAddress.setText(tienda.getDireccion());
         EditText etDescription = findViewById(R.id.etDescription);
@@ -125,7 +141,7 @@ public class UpdateStoreActivity extends AppCompatActivity {
     public void updateStore(View view){
         EditText eTDescription = findViewById(R.id.etDescription);
         EditText eTAddress = findViewById(R.id.etAddress);
-        //EditText eTLocation = findViewById(R.id.etLocation);
+        EditText eTLocation = findViewById(R.id.etLocation);
         Spinner sMunicipio = findViewById(R.id.sCity);
         boolean flagCheck = validate(true);
         if (!flagCheck) {
@@ -133,7 +149,7 @@ public class UpdateStoreActivity extends AppCompatActivity {
         } else {
             tienda.setDescripcion(eTDescription.getText().toString());
             tienda.setDireccion(eTAddress.getText().toString());
-            //tienda.setCoordenadas(eTLocation.getText().toString());
+            tienda.setCoordenadas(eTLocation.getText().toString());
             Municipio municipio = (Municipio) sMunicipio.getSelectedItem();
             tienda.setMunicipio(municipio);
             MyOpenHelper dbHelper = new MyOpenHelper(this);
@@ -194,4 +210,15 @@ public class UpdateStoreActivity extends AppCompatActivity {
             }
             return flagCheck;
         }
+
+    public void showMap(View view) {
+        Intent iMaps = new Intent(UpdateStoreActivity.this, MapsActivity.class);
+        iMaps.putExtra("LlamadaMaps", "UpdateStoreActivity");
+        EditText eTLocation = findViewById(R.id.etLocation);
+        if (!eTLocation.getText().toString().equals("")) {
+            iMaps.putExtra("latLng", eTLocation.getText());
+        }
+        iMaps.putExtra("Store", tienda);
+        startActivity(iMaps);
+    }
 }

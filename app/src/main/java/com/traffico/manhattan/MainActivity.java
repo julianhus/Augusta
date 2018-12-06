@@ -1,16 +1,15 @@
 package com.traffico.manhattan;
 
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.*;
+
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Html;
-import android.util.Base64;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -35,11 +34,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.android.gms.maps.model.LatLng;
+
 import com.traffico.manhattan.clases.MyOpenHelper;
 import com.traffico.manhattan.entidades.Usuario;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
@@ -200,8 +198,7 @@ public class MainActivity extends AppCompatActivity {
 
             });
         } catch (Exception e) {
-            Toast toast = Toast.makeText(getApplicationContext(), "Fallo la aplicacion, Intente nuevamente", Toast.LENGTH_SHORT);
-            toast.show();
+            Toast.makeText(getApplicationContext(), "Fallo la aplicacion, Intente nuevamente", Toast.LENGTH_SHORT).show();
             //Log.e("Error", "loginWithFacebook: " + e.getMessage(), null);
         }
     }
@@ -229,8 +226,10 @@ public class MainActivity extends AppCompatActivity {
                 if (db != null) {
                     Long flagInsert = dbHelper.insertUsuario(db, usuario);
                     if (flagInsert > 0) {
-                        Toast toast = Toast.makeText(getApplicationContext(), "Usuario Registrado", Toast.LENGTH_SHORT);
-                        toast.show();
+                        Toast.makeText(getApplicationContext(), R.string.registered_user, Toast.LENGTH_SHORT).show();
+                        if (eTLocation.getText().toString().isEmpty()) {
+                            Toast.makeText(getApplicationContext(), R.string.remember_to_register_your_location, Toast.LENGTH_SHORT).show();
+                        }
                         final Intent mainActivity = new Intent(this, MainActivity.class);
                         //
                         new Handler().postDelayed(new Runnable() {
@@ -242,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
                         }, 1000); // Millisecond 1000 = 1 sec
                         //
                     } else {
-                        Toast toast = Toast.makeText(getApplicationContext(), "Fallo el Registro", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 }
@@ -323,38 +322,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void showMap(View view) {
         Intent iMaps = new Intent(MainActivity.this, MapsActivity.class);
-        iMaps.putExtra("Llamada", "MainActivity");
-        eTLocation = findViewById(R.id.etLocation);
-        if (!eTLocation.getText().toString().equals("")) {
-            iMaps.putExtra("latLng", eTLocation.getText());
-        }
+        iMaps.putExtra("LlamadaMaps", "MainActivity");
         startActivity(iMaps);
         finish();
     }
-
-    /*@Override
-    protected void onSaveInstanceState(Bundle outState){
-        eTName = findViewById(R.id.etName);
-        eTLastName = findViewById(R.id.etLastName);
-        eTAddress = findViewById(R.id.etAddress);
-        eTLocation = findViewById(R.id.etLocation);
-        eTEMail = findViewById(R.id.etMail);
-        super.onSaveInstanceState(outState);
-        outState.putSerializable("Nombre", eTName.getText().toString());
-        outState.putSerializable("Apelido", eTLastName.getText().toString());
-        outState.putSerializable("Direccion", eTAddress.getText().toString());
-        outState.putSerializable("eMail", eTEMail.getText().toString());
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState){
-        eTName = findViewById(R.id.etName);
-        eTLastName = findViewById(R.id.etLastName);
-        eTAddress = findViewById(R.id.etAddress);
-        eTLocation = findViewById(R.id.etLocation);
-        eTEMail = findViewById(R.id.etMail);
-        super.onRestoreInstanceState(savedInstanceState);
-        eTName.setText(savedInstanceState.getSerializable("Nombre").toString());
-
-    }*/
 }

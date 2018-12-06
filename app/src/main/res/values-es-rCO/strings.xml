@@ -82,4 +82,7 @@
     <string name="title_activity_maps">Mapa</string>
     <string name="select_this_place">Seleccionar este lugar?</string>
     <string name="residency">Residencia</string>
+    <string name="register_your_location">Registar tu hubicacion</string>
+    <string name="remember_to_register_your_location">Recuerda registrar tu ubicación en tu perfil</string>
+    <string name="registered_user">Usuario Registrado</string>
 </resources>
