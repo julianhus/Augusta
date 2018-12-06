@@ -3,6 +3,7 @@ package com.traffico.manhattan;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
@@ -14,18 +15,23 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.traffico.manhattan.clases.MyOpenHelper;
+import com.traffico.manhattan.entidades.Usuario;
 
 
 public class MapsActivity extends AppCompatActivity implements
         GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener,
+        GoogleMap.OnMapClickListener,
         OnMapReadyCallback {
 
     private GoogleMap mMap;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     //
-    String llamada;
+    String llamada, lat, lon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +44,19 @@ public class MapsActivity extends AppCompatActivity implements
         //
         Intent iMapsActivity = getIntent();
         llamada = (String) iMapsActivity.getSerializableExtra("Llamada");
+        //
+        try {
+            if (iMapsActivity.getExtras().get("latLng") != null) {
+                String latLng = iMapsActivity.getExtras().get("latLng").toString();
+                if (latLng != null) {
+                    int flagPos = latLng.indexOf(":");
+                    lat = latLng.substring(0, flagPos);
+                    lon = latLng.substring(flagPos + 1, latLng.length());
+                }
+            }
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void onBackPressed() {
@@ -69,25 +88,61 @@ public class MapsActivity extends AppCompatActivity implements
         try {
             mMap = googleMap;
             LatLng ubicacion = null;
+            MarkerOptions markerOptions = new MarkerOptions();
             switch (llamada) {
                 case "EditProfileActivity":
+                    double iLat = Double.parseDouble(lat);
+                    double iLon = Double.parseDouble(lon);
+                    LatLng residencia = new LatLng(iLat, iLon);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(residencia, 15));
+                    markerOptions.position(residencia);
+                    markerOptions.title("Tu Residencia");
+                    ubicacion = residencia;
+                    break;
+                case "StoreActivity":
+                    Usuario usuario = new Usuario();
+                    MyOpenHelper dbHelper = new MyOpenHelper(this);
+                    SQLiteDatabase db = dbHelper.getWritableDatabase();
+                    if (db != null) {
+                        usuario = dbHelper.getUsuario(db);
+                        int flagPos = usuario.getCoordenadas().indexOf(":");
+                        lat = usuario.getCoordenadas().substring(0, flagPos);
+                        lon = usuario.getCoordenadas().substring(flagPos + 1, usuario.getCoordenadas().length());
+                        iLat = Double.parseDouble(lat);
+                        iLon = Double.parseDouble(lon);
+                        residencia = new LatLng(iLat, iLon);
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(residencia, 15));
+                        markerOptions.position(residencia);
+                        markerOptions.title("Tu Residencia");
+                        ubicacion = residencia;
+                    }
                     break;
                 default:
-                    LatLng colombia = new LatLng(4.6420884, -72.834157);;
+                    LatLng colombia = new LatLng(4.6420884, -72.834157);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(colombia, 5));
                     ubicacion = colombia;
                     break;
             }
+            mMap.addMarker(markerOptions);
             mMap.animateCamera(CameraUpdateFactory.newLatLng(ubicacion));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(ubicacion));
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion, 5));
             mMap.animateCamera(CameraUpdateFactory.newLatLng(ubicacion));
             mMap.setOnMyLocationButtonClickListener(this);
             mMap.setOnMyLocationClickListener(this);
+            mMap.setOnMapClickListener(this);
             enableMyLocation();
-            //
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        MarkerOptions mStore = new MarkerOptions();
+        mStore.position(latLng).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+        mStore.title("Tienda");
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.addMarker(mStore);
     }
 
     @Override
