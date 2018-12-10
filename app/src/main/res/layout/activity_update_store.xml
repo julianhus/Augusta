@@ -32,33 +32,33 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="@string/location"
-        app:layout_constraintBottom_toBottomOf="@+id/etLocation"
+        app:layout_constraintBottom_toBottomOf="@+id/ibMap"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/etLocation" />
+        app:layout_constraintTop_toTopOf="@+id/ibMap" />
 
     <EditText
         android:id="@+id/etLocation"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:ems="10"
         android:hint="@string/location"
         android:inputType="textPersonName"
         android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/ibMap"
         app:layout_constraintEnd_toStartOf="@+id/ibMap"
-        app:layout_constraintStart_toEndOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/sCity" />
+        app:layout_constraintStart_toEndOf="@+id/guideline3" />
 
     <ImageButton
         android:id="@+id/ibMap"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:onClick="showMap"
-        app:layout_constraintBottom_toBottomOf="@+id/etLocation"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/etLocation"
+        app:layout_constraintTop_toBottomOf="@+id/sCity"
         app:srcCompat="@android:drawable/ic_menu_mapmode" />
 
     <TextView
@@ -118,7 +118,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/etLocation" />
+        app:layout_constraintTop_toBottomOf="@+id/ibMap" />
 
     <EditText
         android:id="@+id/etDescription"

@@ -52,39 +52,40 @@
             app:layout_constraintStart_toStartOf="parent" />
 
 
-
         <TextView
             android:id="@+id/textView9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="@string/your_location"
-            app:layout_constraintBaseline_toBaselineOf="@+id/etLocation"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintBottom_toBottomOf="@+id/ibMap"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ibMap" />
 
         <EditText
             android:id="@+id/etLocation"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="@string/your_location"
             android:inputType="textPersonName"
             android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ibMap"
             app:layout_constraintEnd_toStartOf="@+id/ibMap"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/etAddress" />
+            app:layout_constraintTop_toBottomOf="@+id/ibMap" />
 
         <ImageButton
             android:id="@+id/ibMap"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:onClick="showMap"
-            app:layout_constraintBottom_toBottomOf="@+id/etLocation"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/etLocation"
+            app:layout_constraintTop_toBottomOf="@+id/etAddress"
             app:srcCompat="@android:drawable/ic_menu_mapmode" />
 
 
@@ -178,7 +179,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toBottomOf="@+id/etLocation" />
+            app:layout_constraintTop_toBottomOf="@+id/ibMap" />
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline2"

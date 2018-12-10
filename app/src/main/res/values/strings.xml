@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Cheap</string>
-    <string name="version" translatable="false">1.1.0</string>
+    <string name="version" translatable="false">1.1.1</string>
     <string name="facebook_app_id" translatable="false">245836276287371</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb245836276287371</string>
     <string name="Tell_us">Tell us who you are ...</string>

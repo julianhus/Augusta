@@ -302,15 +302,21 @@ public class MapsActivity extends AppCompatActivity implements
                 LatLng residencia;
                 MarkerOptions markerOptions = new MarkerOptions();
                 Usuario usuario = dbHelper.getUsuario(db);
-                int flagPos = usuario.getCoordenadas().indexOf(":");
-                String lat = usuario.getCoordenadas().substring(0, flagPos);
-                String lon = usuario.getCoordenadas().substring(flagPos + 1, usuario.getCoordenadas().length());
-                Double iLat = Double.parseDouble(lat);
-                Double iLon = Double.parseDouble(lon);
-                residencia = new LatLng(iLat, iLon);
-                markerOptions.position(residencia).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                markerOptions.title(usuario.getNombre() + " " + usuario.getApellido());
-                mMap.addMarker(markerOptions);
+                int flagPos;
+                Double iLat;
+                Double iLon;
+                //
+                if (usuario.getId() > 0) {
+                    flagPos = usuario.getCoordenadas().indexOf(":");
+                    String lat = usuario.getCoordenadas().substring(0, flagPos);
+                    String lon = usuario.getCoordenadas().substring(flagPos + 1, usuario.getCoordenadas().length());
+                    iLat = Double.parseDouble(lat);
+                    iLon = Double.parseDouble(lon);
+                    residencia = new LatLng(iLat, iLon);
+                    markerOptions.position(residencia).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                    markerOptions.title(usuario.getNombre() + " " + usuario.getApellido());
+                    mMap.addMarker(markerOptions);
+                }
                 //
                 ArrayList<Tienda> tiendas = dbHelper.getTiendas(db);
                 Iterator<Tienda> iTienda = tiendas.iterator();
