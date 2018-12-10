@@ -306,7 +306,7 @@ public class MapsActivity extends AppCompatActivity implements
                 Double iLat;
                 Double iLon;
                 //
-                if (usuario.getId() > 0) {
+                if (usuario.getId() > 0 && !usuario.getCoordenadas().isEmpty()) {
                     flagPos = usuario.getCoordenadas().indexOf(":");
                     String lat = usuario.getCoordenadas().substring(0, flagPos);
                     String lon = usuario.getCoordenadas().substring(flagPos + 1, usuario.getCoordenadas().length());
