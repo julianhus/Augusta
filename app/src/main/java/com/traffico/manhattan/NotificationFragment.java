@@ -1,5 +1,6 @@
 package com.traffico.manhattan;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -43,6 +44,9 @@ public class NotificationFragment extends Fragment {
             @Override
             public void onClick(View v) {
 //                ((MenuActivity)getActivity()).loadFragment(new MapsFragment());
+                Intent iMaps = new Intent(((MenuActivity)getActivity()), MapsActivity.class);
+                iMaps.putExtra("LlamadaMaps", "NotificationFragment");
+                startActivity(iMaps);
             }
         });
         return view;

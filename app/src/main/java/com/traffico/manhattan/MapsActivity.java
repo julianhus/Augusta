@@ -98,6 +98,9 @@ public class MapsActivity extends AppCompatActivity implements
                 startActivity(iMaps);
                 finish();
                 break;
+            case "NotificationFragment":
+                finish();
+                break;
             default:
                 Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT).show();
                 break;
@@ -166,6 +169,7 @@ public class MapsActivity extends AppCompatActivity implements
     public void onMapClick(final LatLng latLng) {
         Marker maProfile = null;
         Marker maStore = null;
+        boolean flagCase = true;
         //
         switch (llamadaMaps) {
             case "MainActivity":
@@ -196,68 +200,73 @@ public class MapsActivity extends AppCompatActivity implements
                 mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
                 maStore = mMap.addMarker(mStore);
                 break;
+            default:
+                flagCase = false;
+                break;
         }
-        AlertDialog.Builder dialog = new AlertDialog.Builder(MapsActivity.this);
-        dialog.setCancelable(false);
-        dialog.setTitle(R.string.do_you_want);
-        dialog.setMessage(R.string.select_this_place);
-        dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (llamadaMaps) {
-                    case "MainActivity":
-                        Intent iMaps;
-                        iMaps = new Intent(MapsActivity.this, MainActivity.class);
-                        iMaps.putExtra("Ubicacion", latLng);
-                        startActivity(iMaps);
-                        finish();
-                        break;
-                    case "EditProfileActivity":
-                        iMaps = new Intent(MapsActivity.this, EditProfileActivity.class);
-                        iMaps.putExtra("Ubicacion", latLng);
-                        startActivity(iMaps);
-                        finish();
-                        break;
-                    case "StoreActivity":
-                        iMaps = new Intent(MapsActivity.this, StoreActivity.class);
-                        iMaps.putExtra("Llamada", llamada);
-                        iMaps.putExtra("Ubicacion", latLng);
-                        startActivity(iMaps);
-                        finish();
-                        break;
-                    case "UpdateStoreActivity":
-                        iMaps = new Intent(MapsActivity.this, UpdateStoreActivity.class);
-                        iMaps.putExtra("Store", tienda);
-                        iMaps.putExtra("Ubicacion", latLng);
-                        startActivity(iMaps);
-                        finish();
-                        break;
+        if (flagCase) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(MapsActivity.this);
+            dialog.setCancelable(false);
+            dialog.setTitle(R.string.do_you_want);
+            dialog.setMessage(R.string.select_this_place);
+            dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (llamadaMaps) {
+                        case "MainActivity":
+                            Intent iMaps;
+                            iMaps = new Intent(MapsActivity.this, MainActivity.class);
+                            iMaps.putExtra("Ubicacion", latLng);
+                            startActivity(iMaps);
+                            finish();
+                            break;
+                        case "EditProfileActivity":
+                            iMaps = new Intent(MapsActivity.this, EditProfileActivity.class);
+                            iMaps.putExtra("Ubicacion", latLng);
+                            startActivity(iMaps);
+                            finish();
+                            break;
+                        case "StoreActivity":
+                            iMaps = new Intent(MapsActivity.this, StoreActivity.class);
+                            iMaps.putExtra("Llamada", llamada);
+                            iMaps.putExtra("Ubicacion", latLng);
+                            startActivity(iMaps);
+                            finish();
+                            break;
+                        case "UpdateStoreActivity":
+                            iMaps = new Intent(MapsActivity.this, UpdateStoreActivity.class);
+                            iMaps.putExtra("Store", tienda);
+                            iMaps.putExtra("Ubicacion", latLng);
+                            startActivity(iMaps);
+                            finish();
+                            break;
+                    }
                 }
-            }
-        });
-        final Marker finalMaProfile = maProfile;
-        final Marker finalMaStore = maStore;
-        dialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (llamadaMaps) {
-                    case "MainActivity":
-                        finalMaProfile.remove();
-                        break;
-                    case "EditProfileActivity":
-                        finalMaProfile.remove();
-                        break;
-                    case "StoreActivity":
-                        finalMaStore.remove();
-                        break;
-                    case "UpdateStoreActivity":
-                        finalMaStore.remove();
-                        break;
-                }
+            });
+            final Marker finalMaProfile = maProfile;
+            final Marker finalMaStore = maStore;
+            dialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (llamadaMaps) {
+                        case "MainActivity":
+                            finalMaProfile.remove();
+                            break;
+                        case "EditProfileActivity":
+                            finalMaProfile.remove();
+                            break;
+                        case "StoreActivity":
+                            finalMaStore.remove();
+                            break;
+                        case "UpdateStoreActivity":
+                            finalMaStore.remove();
+                            break;
+                    }
 
-            }
-        });
-        dialog.show();
+                }
+            });
+            dialog.show();
+        }
     }
 
     @Override
@@ -300,12 +309,12 @@ public class MapsActivity extends AppCompatActivity implements
                 Double iLon = Double.parseDouble(lon);
                 residencia = new LatLng(iLat, iLon);
                 markerOptions.position(residencia).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-                markerOptions.title("Tu Residencia");
+                markerOptions.title(usuario.getNombre() + " " + usuario.getApellido());
                 mMap.addMarker(markerOptions);
                 //
                 ArrayList<Tienda> tiendas = dbHelper.getTiendas(db);
                 Iterator<Tienda> iTienda = tiendas.iterator();
-                while (iTienda.hasNext()){
+                while (iTienda.hasNext()) {
                     Tienda tienda = iTienda.next();
                     //
                     LatLng lTienda;

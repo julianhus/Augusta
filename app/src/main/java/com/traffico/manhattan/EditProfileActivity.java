@@ -3,6 +3,7 @@ package com.traffico.manhattan;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +41,8 @@ public class EditProfileActivity extends AppCompatActivity {
     LatLng latLng;
     //
     ImageButton ibMap;
+    //
+    ImageView iCheck;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
