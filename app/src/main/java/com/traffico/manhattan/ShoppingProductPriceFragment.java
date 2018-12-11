@@ -16,6 +16,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.traffico.manhattan.clases.CustomAdapterListViewShoppingProduct;
+import com.traffico.manhattan.clases.CustomAdapterListViewStore;
 import com.traffico.manhattan.clases.MyOpenHelper;
 import com.traffico.manhattan.entidades.MercadoProducto;
 
@@ -59,7 +61,11 @@ public class ShoppingProductPriceFragment extends Fragment {
                 ArrayList<MercadoProducto> mercadoProductoList = (ArrayList<MercadoProducto>) ((ShoppingActivity) getActivity()).tienda.getMercadoActivo().getMercadoProductos();
                 //
                 final ListView lvMercadoProducto = view.findViewById(R.id.lvShoppingProductPrice);
-                ArrayAdapter<MercadoProducto> aMercadoProducto = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, mercadoProductoList);
+                //ArrayAdapter<MercadoProducto> aMercadoProducto = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, mercadoProductoList);
+                //
+                int imageEdit = R.drawable.ic_menu_edit;
+                CustomAdapterListViewShoppingProduct aMercadoProducto = new CustomAdapterListViewShoppingProduct(view.getContext(), mercadoProductoList, imageEdit);
+                //
                 lvMercadoProducto.setAdapter(aMercadoProducto);
                 TextView tvTotalVal = ((ShoppingActivity) getActivity()).findViewById(R.id.tvTotalVal);
                 tvTotalVal.setText(String.valueOf(((ShoppingActivity) getActivity()).tienda.getMercadoActivo().getTotal()));

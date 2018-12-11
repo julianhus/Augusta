@@ -3,15 +3,15 @@ package com.traffico.manhattan;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.traffico.manhattan.clases.CustomAdapterListViewShopping;
+import com.traffico.manhattan.clases.CustomAdapterListViewStore;
 import com.traffico.manhattan.clases.MyOpenHelper;
 import com.traffico.manhattan.entidades.Mercado;
 
@@ -50,10 +50,18 @@ public class ShoppingListFragment extends Fragment {
 
     private void loadShopping(SQLiteDatabase db, MyOpenHelper dbHelper) {
         try {
+            CustomAdapterListViewShopping adapter;
+            int imageEdit = R.drawable.ic_menu_view;
+
+            ArrayList<Mercado> mercadoList = dbHelper.getMercado(db);
+            ListView lvShopping = view.findViewById(R.id.lvShopping);
+            adapter = new CustomAdapterListViewShopping(view.getContext(), mercadoList, imageEdit);
+            lvShopping.setAdapter(adapter);
+            /*
             ArrayList<Mercado> mercadoList = dbHelper.getMercado(db);
             ListView lvShopping = view.findViewById(R.id.lvShopping);
             ArrayAdapter<Mercado> aMercado = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, mercadoList);
-            lvShopping.setAdapter(aMercado);
+            lvShopping.setAdapter(aMercado);*/
         } catch (Exception e) {
             Toast.makeText(view.getContext(),R.string.empty_shopping, Toast.LENGTH_SHORT).show();
             //Log.e("ShoppingListFragment", "loadShopping: " + e.getMessage(), null);

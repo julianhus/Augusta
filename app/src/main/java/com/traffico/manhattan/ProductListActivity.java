@@ -5,15 +5,17 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.traffico.manhattan.clases.CustomAdapterListViewProduct;
+import com.traffico.manhattan.clases.CustomAdapterListViewStore;
 import com.traffico.manhattan.clases.MyOpenHelper;
 import com.traffico.manhattan.entidades.Producto;
+import com.traffico.manhattan.entidades.Tienda;
 
 import java.util.ArrayList;
 
@@ -48,6 +50,25 @@ public class ProductListActivity extends AppCompatActivity {
 
     private void loadProduct(SQLiteDatabase db, MyOpenHelper dbHelper) {
         try {
+
+            CustomAdapterListViewProduct adapter;
+            int imageEdit = R.drawable.ic_menu_edit;
+
+            ArrayList<Producto> productoList = dbHelper.getProductos(db);
+            final ListView lvProduct = findViewById(R.id.lvProducts);
+            adapter = new CustomAdapterListViewProduct(this, productoList, imageEdit);
+            lvProduct.setAdapter(adapter);
+            lvProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent iUpdateProduct = new Intent(ProductListActivity.this, UpdateProductActivity.class);
+                    Producto producto = (Producto) lvProduct.getItemAtPosition(position);
+                    iUpdateProduct.putExtra("Product",producto);
+                    startActivity(iUpdateProduct);
+
+                }
+            });
+            /*
             ArrayList<Producto> productoList = dbHelper.getProductos(db);
             final ListView lvProduct = findViewById(R.id.lvProducts);
             ArrayAdapter<Producto> aProducto = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, productoList);
@@ -63,6 +84,7 @@ public class ProductListActivity extends AppCompatActivity {
 
                 }
             });
+            */
             //
         } catch (Exception e) {
             Toast.makeText(getBaseContext(),R.string.empty_products, Toast.LENGTH_SHORT).show();

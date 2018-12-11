@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.traffico.manhattan.clases.CustomAdapterListViewProduct;
 import com.traffico.manhattan.clases.MyOpenHelper;
 import com.traffico.manhattan.entidades.Producto;
 import com.traffico.manhattan.entidades.Tienda;
@@ -56,7 +57,25 @@ public class RecordPriceProductActivity extends AppCompatActivity {
     }
 
     private void loadProduct(SQLiteDatabase db, MyOpenHelper dbHelper) {
-        try {
+        try {CustomAdapterListViewProduct adapter;
+            int imageEdit = R.drawable.ic_menu_add;
+
+            ArrayList<Producto> productoList = dbHelper.getProductos(db);
+            final ListView lvProduct = findViewById(R.id.lvProducts);
+            adapter = new CustomAdapterListViewProduct(this, productoList, imageEdit);
+            lvProduct.setAdapter(adapter);
+
+            lvProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent iRecordPrice = new Intent(RecordPriceProductActivity.this, RecordPriceActivity.class);
+                    Producto producto = (Producto) lvProduct.getItemAtPosition(position);
+                    iRecordPrice.putExtra("Product",producto);
+                    iRecordPrice.putExtra("Store",tienda);
+                    startActivity(iRecordPrice );
+                }
+            });
+            /*
             ArrayList<Producto> productoList = dbHelper.getProductos(db);
             final ListView lvProduct = findViewById(R.id.lvProducts);
             ArrayAdapter<Producto> aProducto = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, productoList);
@@ -71,7 +90,7 @@ public class RecordPriceProductActivity extends AppCompatActivity {
                     iRecordPrice.putExtra("Store",tienda);
                     startActivity(iRecordPrice );
                 }
-            });
+            });*/
             //
         } catch (Exception e) {
             Toast.makeText(getBaseContext(),R.string.empty_products, Toast.LENGTH_SHORT).show();

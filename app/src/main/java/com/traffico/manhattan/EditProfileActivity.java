@@ -42,7 +42,7 @@ public class EditProfileActivity extends AppCompatActivity {
     //
     ImageButton ibMap;
     //
-    ImageView iCheck;
+    ImageView ivCheckMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,8 @@ public class EditProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile);
         getSupportActionBar().setTitle(R.string.profile);
         ibMap = findViewById(R.id.ibMap);
-        ibMap.setBackgroundColor(Color.parseColor("#81C784"));
+        ibMap.setBackgroundColor(Color.parseColor("#FF008577"));
+        ivCheckMap =findViewById(R.id.ivCheckMap);
         MyOpenHelper dbHelper = new MyOpenHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         if (db != null) {
@@ -81,6 +82,11 @@ public class EditProfileActivity extends AppCompatActivity {
                 email.setEnabled(true);
                 //loginWithFacebook();
             }
+            //
+            if (!location.getText().toString().isEmpty()) {
+                ivCheckMap.setBackgroundColor(Color.parseColor("#FF008577"));
+            }
+            //
         }
     }
 

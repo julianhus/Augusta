@@ -5,13 +5,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.traffico.manhattan.clases.CustomAdapterListViewStore;
 import com.traffico.manhattan.clases.MyOpenHelper;
 import com.traffico.manhattan.entidades.Tienda;
 
@@ -34,7 +33,7 @@ public class StoreListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent iStore = new Intent(StoreListActivity.this, StoreActivity.class);
-                iStore.putExtra("Llamada","StoreListActivity");
+                iStore.putExtra("Llamada", "StoreListActivity");
                 startActivity(iStore);
             }
         });
@@ -48,6 +47,24 @@ public class StoreListActivity extends AppCompatActivity {
 
     private void loadStores(SQLiteDatabase db, MyOpenHelper dbHelper) {
         try {
+            CustomAdapterListViewStore adapter;
+            int imageEdit = R.drawable.ic_menu_edit;
+
+            ArrayList<Tienda> tiendaList = dbHelper.getTiendas(db);
+            final ListView lvStores = findViewById(R.id.lvStores);
+            adapter = new CustomAdapterListViewStore(this, tiendaList, imageEdit);
+            lvStores.setAdapter(adapter);
+            lvStores.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent iUpdateStore = new Intent(StoreListActivity.this, UpdateStoreActivity.class);
+                    Tienda tienda = (Tienda) lvStores.getItemAtPosition(position);
+                    iUpdateStore.putExtra("Store",tienda);
+                    startActivity(iUpdateStore);
+
+                }
+            });
+            /*
             ArrayList<Tienda> tiendaList = dbHelper.getTiendas(db);
             final ListView lvStores = findViewById(R.id.lvStores);
             ArrayAdapter<Tienda> aTienda = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tiendaList);
@@ -62,8 +79,9 @@ public class StoreListActivity extends AppCompatActivity {
 
                 }
             });
+        */
         } catch (Exception e) {
-            Toast.makeText(getBaseContext(),R.string.empty_stores, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), R.string.empty_stores, Toast.LENGTH_SHORT).show();
             //Log.e("Error", "loadStores: " + e.getMessage(), null);
         }
     }

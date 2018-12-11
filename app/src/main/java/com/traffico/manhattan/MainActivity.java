@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,8 @@ import com.traffico.manhattan.clases.MyOpenHelper;
 import com.traffico.manhattan.entidades.Usuario;
 
 import java.util.regex.Pattern;
+
+import static com.traffico.manhattan.R.color.colorPrimary;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -64,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
     ImageButton ibMap;
     //
     LatLng latLng;
+    //
+    ImageView ivCheckMap;
 
 
     @Override
@@ -78,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         ibMap.setEnabled(false);
         eTLocation = findViewById(R.id.etLocation);
         eTLocation.setEnabled(false);
+        ivCheckMap =findViewById(R.id.ivCheckMap);
         //
         Intent iMaps = getIntent();
         latLng = (LatLng) iMaps.getExtras().get("Ubicacion");
@@ -86,6 +92,9 @@ public class MainActivity extends AppCompatActivity {
             eTLocation.setEnabled(false);
         }
         //
+        if (!eTLocation.getText().toString().isEmpty()) {
+            ivCheckMap.setBackgroundColor(Color.parseColor("#FF008577"));
+        }
         //
         loginWithFacebook();
         //
@@ -302,7 +311,8 @@ public class MainActivity extends AppCompatActivity {
             bSingIn.setEnabled(true);
             loginButton.setEnabled(true);
             ibMap.setEnabled(true);
-            ibMap.setBackgroundColor(Color.parseColor("#81C784"));
+            //ibMap.setBackgroundColor(Color.parseColor("#81C784"));
+            ibMap.setBackgroundColor(Color.parseColor("#FF008577"));
         } else {
             bSingIn.setEnabled(false);
             loginButton.setEnabled(false);

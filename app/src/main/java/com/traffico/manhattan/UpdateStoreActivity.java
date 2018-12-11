@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ public class UpdateStoreActivity extends AppCompatActivity {
     Tienda tienda;
     Spinner sMunicipio, sDepartamento;
     ImageButton ibMap;
+    ImageView ivCheckMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +49,13 @@ public class UpdateStoreActivity extends AppCompatActivity {
         }
         //
         ibMap = findViewById(R.id.ibMap);
-        ibMap.setBackgroundColor(Color.parseColor("#81C784"));
-        EditText location = findViewById(R.id.etLocation);
-        location.setEnabled(false);
+        ibMap.setBackgroundColor(Color.parseColor("#FF008577"));
+        ivCheckMap =findViewById(R.id.ivCheckMap);
+        etLocation.setEnabled(false);
+        //
+        if (!etLocation.getText().toString().isEmpty()) {
+            ivCheckMap.setBackgroundColor(Color.parseColor("#FF008577"));
+        }
         //
         sDepartamento = findViewById(R.id.sState);
         sMunicipio = findViewById(R.id.sCity);

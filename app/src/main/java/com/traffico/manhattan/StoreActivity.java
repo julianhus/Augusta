@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ public class StoreActivity extends AppCompatActivity {
     String llamada;
     ImageButton ibMap;
     LatLng latLng;
+    ImageView ivCheckMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,8 @@ public class StoreActivity extends AppCompatActivity {
         setContentView(R.layout.activity_store);
         getSupportActionBar().setTitle(R.string.store);
         ibMap = findViewById(R.id.ibMap);
-        ibMap.setBackgroundColor(Color.parseColor("#81C784"));
+        ibMap.setBackgroundColor(Color.parseColor("#FF008577"));
+        ivCheckMap =findViewById(R.id.ivCheckMap);
         EditText location = findViewById(R.id.etLocation);
         location.setEnabled(false);
         //
@@ -57,6 +60,11 @@ public class StoreActivity extends AppCompatActivity {
         if (db != null) {
             loadSpinners(db, dbHelper);
         }
+        //
+        if (!location.getText().toString().isEmpty()) {
+            ivCheckMap.setBackgroundColor(Color.parseColor("#FF008577"));
+        }
+        //
     }
 
     @Override

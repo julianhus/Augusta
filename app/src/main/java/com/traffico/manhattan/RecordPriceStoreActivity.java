@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.traffico.manhattan.clases.CustomAdapterListViewStore;
 import com.traffico.manhattan.clases.MyOpenHelper;
 import com.traffico.manhattan.entidades.Tienda;
 
@@ -48,7 +49,24 @@ public class RecordPriceStoreActivity extends AppCompatActivity {
 
     private void loadStores(SQLiteDatabase db, MyOpenHelper dbHelper) {
         try {
+            CustomAdapterListViewStore adapter;
+            int imageEdit = R.drawable.ic_input_get;
+
             ArrayList<Tienda> tiendaList = dbHelper.getTiendas(db);
+            final ListView lvStores = findViewById(R.id.lvStores);
+            adapter = new CustomAdapterListViewStore(this, tiendaList, imageEdit);
+            lvStores.setAdapter(adapter);
+            lvStores.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent iRecordPriceProduct = new Intent(RecordPriceStoreActivity.this, RecordPriceProductActivity.class);
+                    Tienda tienda = (Tienda) lvStores.getItemAtPosition(position);
+                    iRecordPriceProduct.putExtra("Store",tienda);
+                    startActivity(iRecordPriceProduct);
+
+                }
+            });
+            /*ArrayList<Tienda> tiendaList = dbHelper.getTiendas(db);
             final ListView lvStores = findViewById(R.id.lvStores);
             ArrayAdapter<Tienda> aTienda = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tiendaList);
             lvStores.setAdapter(aTienda);
@@ -61,7 +79,7 @@ public class RecordPriceStoreActivity extends AppCompatActivity {
                     startActivity(iRecordPriceProduct);
 
                 }
-            });
+            });*/
         } catch (Exception e) {
             Toast.makeText(getBaseContext(),R.string.empty_stores, Toast.LENGTH_SHORT).show();
             //Log.e("Error", "loadStores: " + e.getMessage(), null);
