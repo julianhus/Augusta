@@ -93,4 +93,6 @@
     <string name="register_your_location">Register your location</string>
     <string name="remember_to_register_your_location">Remember to register your location in your profile</string>
     <string name="registered_user">Registered User</string>
+    <string name="required">Required</string>
+    <string name="optional">Optional</string>
 </resources>

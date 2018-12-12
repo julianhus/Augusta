@@ -85,4 +85,6 @@
     <string name="register_your_location">Registar tu hubicacion</string>
     <string name="remember_to_register_your_location">Recuerda registrar tu ubicación en tu perfil</string>
     <string name="registered_user">Usuario Registrado</string>
+    <string name="required">Requerido</string>
+    <string name="optional">Opcional</string>
 </resources>

@@ -23,11 +23,14 @@ import com.traffico.manhattan.google.zxing.integration.android.IntentResult;
 import com.traffico.manhattan.interfaces.StringCreacion;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ProductActivity extends AppCompatActivity implements View.OnClickListener, StringCreacion {
 
-    private ImageButton bScann, ibSearch;
-    private EditText etBarCode, ettrademark, etDescripcion;
+    private ImageButton bScann, ibSearch, ibClean;
+    private Button bProduct;
+    private EditText etBarCode, ettrademark, etDescripcion, etMeasure, etWeight;
     private TextView tvBarCode, tvTrademark, tvProduct;
     String llamada;
     Tienda tienda;
@@ -43,11 +46,24 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         llamada = (String) iProductActivity.getSerializableExtra("Llamada");
         tienda = (Tienda) iProductActivity.getSerializableExtra("Store");
         //
+        tvBarCode = findViewById(R.id.tvBarCode);
+        tvTrademark = findViewById(R.id.tvTrademark);
+        tvProduct = findViewById(R.id.tvProduct);
+
+        etBarCode = findViewById(R.id.etBarCode);
+        ettrademark = findViewById(R.id.ettrademark);
+        etDescripcion = findViewById(R.id.etProduct);
+        etMeasure = findViewById(R.id.etMeasure);
+        etWeight = findViewById(R.id.etWeight);
+        //
         etBarCode = findViewById(R.id.etBarCode);
         bScann = findViewById(R.id.iBScan);
         bScann.setOnClickListener((View.OnClickListener) this);
         ibSearch = findViewById(R.id.ibSearch);
         ibSearch.setOnClickListener((View.OnClickListener) this);
+        bProduct = findViewById(R.id.bProduct);
+        ibClean = findViewById(R.id.ibClean);
+        ibClean.setOnClickListener((View.OnClickListener) this);
         autocomplete();
     }
 
@@ -64,6 +80,9 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         }
         if (view.getId() == R.id.ibSearch) {
             loadProduct();
+        }
+        if (view.getId() == R.id.ibClean) {
+            clean();
         }
     }
 
@@ -84,7 +103,6 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void loadProduct() {
-        Button bProduct = findViewById(R.id.bProduct);
         MyOpenHelper dbHelper = new MyOpenHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         if (db != null) {
@@ -104,6 +122,8 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 etWeight.setText("" + producto.getValorMedida());
                 etWeight.setEnabled(false);
                 bProduct.setEnabled(false);
+                bScann.setEnabled(false);
+                validate();
             } else {
                 bProduct.setEnabled(true);
                 Toast.makeText(getBaseContext(), R.string.product_no_found, Toast.LENGTH_SHORT).show();
@@ -120,9 +140,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
                 producto.setBarCode(etBarCode.getText().toString());
                 producto.setMarca(ettrademark.getText().toString());
                 producto.setDescripcion(etDescripcion.getText().toString());
-                EditText etMeasure = findViewById(R.id.etMeasure);
                 producto.setMedida(etMeasure.getText().toString());
-                EditText etWeight = findViewById(R.id.etWeight);
                 try {
                     producto.setValorMedida(Float.parseFloat(etWeight.getText().toString()));
                 } catch (Exception e) {
@@ -158,14 +176,6 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private boolean validate() {
-        tvBarCode = findViewById(R.id.tvBarCode);
-        tvTrademark = findViewById(R.id.tvTrademark);
-        tvProduct = findViewById(R.id.tvProduct);
-        //
-        etBarCode = findViewById(R.id.etBarCode);
-        ettrademark = findViewById(R.id.ettrademark);
-        etDescripcion = findViewById(R.id.etProduct);
-        //
         boolean flagBarCode, flagTradeMark, flagProduct = true;
         if (etBarCode.getText().toString().isEmpty()) {
             tvBarCode.setTextColor(Color.rgb(200, 0, 0));
@@ -208,9 +218,9 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         if (db != null) {
             ArrayList<Producto> productos = dbHelper.getProductos(db);
             //
-            ArrayList<String> barcode = new ArrayList<>();
-            ArrayList<String> marca = new ArrayList<>();
-            ArrayList<String> producto = new ArrayList<>();
+            Set<String> barcode = new HashSet<>();
+            Set<String> marca = new HashSet<>();
+            Set<String> producto = new HashSet<>();
             for (int i = 0; i < productos.size(); i++) {
                 barcode.add(productos.get(i).getBarCode());
                 marca.add(productos.get(i).getMarca());
@@ -235,7 +245,26 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             AutoCompleteTextView etBarCode = (AutoCompleteTextView) findViewById(R.id.etBarCode);
             etBarCode.setAdapter(abarcode);
         }
-        //
+    }
+
+    private void clean() {
+        if (!bScann.isEnabled()) {
+            bScann.setEnabled(true);
+            etBarCode.setEnabled(true);
+            tvBarCode.setTextColor(-1979711488);
+            ettrademark.setEnabled(true);
+            tvTrademark.setTextColor(-1979711488);
+            etDescripcion.setEnabled(true);
+            tvProduct.setTextColor(-1979711488);
+            etMeasure.setEnabled(true);
+            etWeight.setEnabled(true);
+            bProduct.setEnabled(true);
+            etBarCode.setText("");
+            ettrademark.setText("");
+            etDescripcion.setText("");
+            etMeasure.setText("");
+            etWeight.setText("");
+        }
     }
 
 }

@@ -16,10 +16,9 @@
             android:id="@+id/ibSearch"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginEnd="8dp"
             android:layout_weight="1"
             app:layout_constraintBottom_toBottomOf="@+id/etBarCode"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ibClean"
             app:layout_constraintTop_toTopOf="@+id/etBarCode"
             app:srcCompat="@android:drawable/ic_menu_search" />
 
@@ -47,7 +46,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:ems="10"
-            android:hint="@string/bar_code"
+            android:hint="@string/required"
             android:inputType="number"
             android:maxLength="13"
             android:textSize="14sp"
@@ -73,7 +72,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:ems="10"
-            android:hint="@string/trademark"
+            android:hint="@string/required"
             android:inputType="textPersonName"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -98,7 +97,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:ems="10"
-            android:hint="@string/product"
+            android:hint="@string/required"
             android:inputType="textPersonName"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -123,7 +122,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:ems="10"
-            android:hint="@string/measure"
+            android:hint="@string/optional"
             android:inputType="textAutoComplete"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -148,7 +147,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:ems="10"
-            android:hint="@string/weight_size"
+            android:hint="@string/optional"
             android:inputType="numberDecimal"
             android:maxLength="6"
             android:textSize="14sp"
@@ -181,6 +180,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etWeight" />
+
+        <ImageButton
+            android:id="@+id/ibClean"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/etBarCode"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/etBarCode"
+            app:srcCompat="@android:drawable/ic_input_delete" />
 
     </android.support.constraint.ConstraintLayout>
 

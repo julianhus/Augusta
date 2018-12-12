@@ -22,6 +22,8 @@ import com.traffico.manhattan.google.zxing.integration.android.IntentResult;
 import com.traffico.manhattan.interfaces.StringCreacion;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -29,12 +31,9 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 public class ShoppingProductFragment extends Fragment implements View.OnClickListener, StringCreacion {
 
     View view;
-    private EditText etBarCode;
-    private ImageButton bScann;
-    private ImageButton ibBack;
-    private ImageButton ibSafe;
-    private ImageButton ibForward;
-    private ImageButton ibSearch;
+    private EditText etBarCode, ettrademark, etDescription, etMeasure, etWeight;
+    private TextView tvBarCode, tvTrademark, tvProduct;
+    private ImageButton bScann, ibClean, ibBack, ibSafe, ibForward, ibSearch;
     private Producto producto;
 
     @Override
@@ -43,8 +42,21 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_product_shopping, container, false);
         etBarCode = view.findViewById(R.id.etBarCode);
+        ettrademark = view.findViewById(R.id.ettrademark);
+        etDescription = view.findViewById(R.id.etProduct);
+        etMeasure = view.findViewById(R.id.etMeasure);
+        etWeight = view.findViewById(R.id.etWeight);
+        //
+        tvBarCode = view.findViewById(R.id.tvBarCode);
+        tvTrademark = view.findViewById(R.id.tvTrademark);
+        tvProduct = view.findViewById(R.id.tvProduct);
+        //
         bScann = view.findViewById(R.id.iBScan);
         bScann.setOnClickListener((View.OnClickListener) this);
+        ibClean = view.findViewById(R.id.ibClean);
+        ibClean.setBackgroundColor(Color.parseColor("#81C784"));
+        //
+        ibClean.setOnClickListener((View.OnClickListener) this);
         ibBack = view.findViewById(R.id.ibBack);
         ibBack.setBackgroundColor(Color.parseColor("#81C784"));
         ibBack.setOnClickListener((View.OnClickListener) this);
@@ -68,6 +80,9 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
         if (view.getId() == R.id.iBScan) {
             IntentIntegrator scanIntegrator = new IntentIntegrator(ShoppingProductFragment.this);
             scanIntegrator.initiateScan();
+        }
+        if (view.getId() == R.id.ibClean) {
+            clean();
         }
         if (view.getId() == R.id.ibBack) {
             ((ShoppingActivity) getActivity()).loadFragment(new ShoppingProductPriceFragment());
@@ -110,16 +125,16 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
                 producto = dbHelper.getProducto(db, etBarCode.getText().toString());
                 if (producto.getId() > 0) {
                     etBarCode.setEnabled(false);
-                    EditText ettrademark = view.findViewById(R.id.ettrademark);
+                    ettrademark = view.findViewById(R.id.ettrademark);
                     ettrademark.setText(producto.getMarca());
                     ettrademark.setEnabled(false);
-                    EditText etDescription = view.findViewById(R.id.etProduct);
+                    etDescription = view.findViewById(R.id.etProduct);
                     etDescription.setText(producto.getDescripcion());
                     etDescription.setEnabled(false);
-                    EditText etMeasure = view.findViewById(R.id.etMeasure);
+                    etMeasure = view.findViewById(R.id.etMeasure);
                     etMeasure.setText(producto.getMedida());
                     etMeasure.setEnabled(false);
-                    EditText etWeight = view.findViewById(R.id.etWeight);
+                    etWeight = view.findViewById(R.id.etWeight);
                     etWeight.setText("" + producto.getValorMedida());
                     etWeight.setEnabled(false);
                     ibForward.setEnabled(true);
@@ -209,9 +224,9 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
         if (db != null) {
             ArrayList<Producto> productos = dbHelper.getProductos(db);
             //
-            ArrayList<String> barcode = new ArrayList<>();
-            ArrayList<String> marca = new ArrayList<>();
-            ArrayList<String> producto = new ArrayList<>();
+            Set<String> barcode = new HashSet<>();
+            Set<String> marca = new HashSet<>();
+            Set<String> producto = new HashSet<>();
             for (int i = 0; i < productos.size(); i++) {
                 barcode.add(productos.get(i).getBarCode());
                 marca.add(productos.get(i).getMarca());
@@ -285,13 +300,13 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
     }
 
     private boolean validate() {
-        TextView tvBarCode = view.findViewById(R.id.tvBarCode);
-        TextView tvTrademark = view.findViewById(R.id.tvTrademark);
-        TextView tvProduct = view.findViewById(R.id.tvProduct);
+        tvBarCode = view.findViewById(R.id.tvBarCode);
+        tvTrademark = view.findViewById(R.id.tvTrademark);
+        tvProduct = view.findViewById(R.id.tvProduct);
         //
-        EditText etBarCode = view.findViewById(R.id.etBarCode);
-        EditText ettrademark = view.findViewById(R.id.ettrademark);
-        EditText etDescripcion = view.findViewById(R.id.etProduct);
+        etBarCode = view.findViewById(R.id.etBarCode);
+        ettrademark = view.findViewById(R.id.ettrademark);
+        etDescription = view.findViewById(R.id.etProduct);
         //
         boolean flagBarCode, flagTradeMark, flagProduct = true;
         if (etBarCode.getText().toString().isEmpty()) {
@@ -309,7 +324,7 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
             flagTradeMark = true;
         }
 
-        if (etDescripcion.getText().toString().isEmpty()) {
+        if (etDescription.getText().toString().isEmpty()) {
             tvProduct.setTextColor(Color.rgb(200, 0, 0));
             flagProduct = false;
         } else {
@@ -321,6 +336,26 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
             return false;
         } else {
             return true;
+        }
+    }
+
+    private void clean() {
+        if (ibForward.isEnabled()) {
+            ibForward.setEnabled(false);
+            ibForward.setBackgroundColor(Color.parseColor("#E0E0E0"));
+            etBarCode.setEnabled(true);
+            tvBarCode.setTextColor(-1979711488);
+            ettrademark.setEnabled(true);
+            tvTrademark.setTextColor(-1979711488);
+            etDescription.setEnabled(true);
+            tvProduct.setTextColor(-1979711488);
+            etMeasure.setEnabled(true);
+            etWeight.setEnabled(true);
+            etBarCode.setText("");
+            ettrademark.setText("");
+            etDescription.setText("");
+            etMeasure.setText("");
+            etWeight.setText("");
         }
     }
 }
