@@ -11,35 +11,36 @@ import android.widget.TextView;
 
 import com.traffico.manhattan.R;
 import com.traffico.manhattan.entidades.Producto;
+import com.traffico.manhattan.entidades.ValorProducto;
 
 import java.util.ArrayList;
 
-public class CustomAdapterListViewProduct extends BaseAdapter {
+public class CustomAdapterListViewShoppingRecordPrice extends BaseAdapter {
 
     Context context;
-    ArrayList<Producto> productos;
+    ArrayList<ValorProducto> valorProductos;
     int imageEdit;
     LayoutInflater inflater;
 
-    public CustomAdapterListViewProduct(Context context, ArrayList<Producto> productos, int imageEdit) {
+    public CustomAdapterListViewShoppingRecordPrice(Context context, ArrayList<ValorProducto> valorProductos, int imageEdit) {
         this.context = context;
-        this.productos = productos;
+        this.valorProductos = valorProductos;
         this.imageEdit = imageEdit;
     }
 
     @Override
     public int getCount() {
-        return productos.size();
+        return valorProductos.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return productos.get(position);
+        return valorProductos.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return productos.get(position).getId();
+        return valorProductos.get(position).getId();
     }
 
     @Override
@@ -56,9 +57,11 @@ public class CustomAdapterListViewProduct extends BaseAdapter {
         imgImg = itemView.findViewById(R.id.list_row_image);
 
         // Capture position and set to the TextViews
-        txtTitle.setText(productos.get(position).toString());
+        txtTitle.setText(valorProductos.get(position).toString());
         txtTitle.setTextColor(Color.BLACK);
-        imgImg.setImageResource(imageEdit);
+        if (position == 0) {
+            imgImg.setImageResource(imageEdit);
+        }
 
         return itemView;
 

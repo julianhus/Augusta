@@ -50,7 +50,7 @@ public class ShoppingStoreActivity extends AppCompatActivity {
     private void loadStores(SQLiteDatabase db, MyOpenHelper dbHelper) {
         try {
             CustomAdapterListViewStore adapter;
-            int imageEdit = R.drawable.ic_carrito;
+            int imageEdit = R.drawable.ic_input_get;
 
             ArrayList<Tienda> tiendaList = dbHelper.getTiendas(db);
             final ListView lvStores = findViewById(R.id.lvStores);

@@ -85,15 +85,12 @@
     <string name="i_have_read_and_accept">I have read and accept the privacy policy and data processing</string>
     <string name="title_activity_maps">Map</string>
     <!--    Permissions    -->
-    <string name="permission_rationale_location">Access to the location service is required to demonstrate the \'my location\' feature, which shows your current location on the map.</string>
-    <string name="location_permission_denied">This sample requires location permission to enable the \'my location\' layer. Please try again and grant access to use the location.\nIf the permission has been permanently denied, it can be enabled from the System Settings &gt; Apps &gt; \'Google Maps API Demos\'.</string>
-    <string name="permission_required_toast">Location permission is required for this demo.</string>
+    <string name="permission_rationale_location" translatable="false">Access to the location service is required to demonstrate the \'my location\' feature, which shows your current location on the map.</string>
+    <string name="location_permission_denied" translatable="false">This sample requires location permission to enable the \'my location\' layer. Please try again and grant access to use the location.\nIf the permission has been permanently denied, it can be enabled from the System Settings &gt; Apps &gt; \'Google Maps API Demos\'.</string>
+    <string name="permission_required_toast" translatable="false">Location permission is required for this demo.</string>
     <string name="select_this_place">select this place?</string>
     <string name="residency">Residency</string>
     <string name="register_your_location">Register your location</string>
     <string name="remember_to_register_your_location">Remember to register your location in your profile</string>
     <string name="registered_user">Registered User</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

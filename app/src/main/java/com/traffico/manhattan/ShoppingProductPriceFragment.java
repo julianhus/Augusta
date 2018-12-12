@@ -21,6 +21,7 @@ import com.traffico.manhattan.clases.CustomAdapterListViewStore;
 import com.traffico.manhattan.clases.MyOpenHelper;
 import com.traffico.manhattan.entidades.MercadoProducto;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -68,7 +69,7 @@ public class ShoppingProductPriceFragment extends Fragment {
                 //
                 lvMercadoProducto.setAdapter(aMercadoProducto);
                 TextView tvTotalVal = ((ShoppingActivity) getActivity()).findViewById(R.id.tvTotalVal);
-                tvTotalVal.setText(String.valueOf(((ShoppingActivity) getActivity()).tienda.getMercadoActivo().getTotal()));
+                tvTotalVal.setText("$"+String.valueOf(NumberFormat.getInstance().format(((ShoppingActivity) getActivity()).tienda.getMercadoActivo().getTotal())));
                 TextView tvTotalPr = ((ShoppingActivity) getActivity()).findViewById(R.id.tvTotalPr);
                 Iterator<MercadoProducto> iMercadoProducto = mercadoProductoList.iterator();
                 int totalPr = 0;

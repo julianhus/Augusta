@@ -1,6 +1,7 @@
 package com.traffico.manhattan.clases;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +57,7 @@ public class CustomAdapterListViewShopping extends BaseAdapter {
 
             // Capture position and set to the TextViews
             txtTitle.setText(mercados.get(position).toString());
+            txtTitle.setTextColor(Color.BLACK);
             imgImg.setImageResource(imageEdit);
 
             return itemView;

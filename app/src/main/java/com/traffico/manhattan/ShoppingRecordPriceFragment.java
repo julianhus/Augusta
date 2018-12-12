@@ -15,10 +15,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.traffico.manhattan.clases.CustomAdapterListViewShoppingRecordPrice;
+import com.traffico.manhattan.clases.CustomAdapterListViewStore;
 import com.traffico.manhattan.clases.MyOpenHelper;
 import com.traffico.manhattan.entidades.Producto;
 import com.traffico.manhattan.entidades.Tienda;
@@ -110,6 +113,14 @@ public class ShoppingRecordPriceFragment extends Fragment {
 
     private void loadProductPrice(SQLiteDatabase db, MyOpenHelper dbHelper) {
         try {
+            CustomAdapterListViewShoppingRecordPrice adapter;
+            int imageEdit = R.drawable.ic_menu_send;
+
+            ArrayList<ValorProducto> valorProductoList = dbHelper.getValorProductos(db, tienda, producto);
+            final ListView lvValorProducto = view.findViewById(R.id.lvProductPrice);
+            adapter = new CustomAdapterListViewShoppingRecordPrice(view.getContext(), valorProductoList, imageEdit);
+            lvValorProducto.setAdapter(adapter);
+            /*
             ArrayList<ValorProducto> valorProductoList = dbHelper.getValorProductos(db, tienda, producto);
             final ListView lvValorProducto = view.findViewById(R.id.lvProductPrice);
             ArrayAdapter<ValorProducto> aValorProducto = new ArrayAdapter<ValorProducto>(getApplicationContext(), android.R.layout.simple_list_item_1, valorProductoList) {
@@ -117,18 +128,14 @@ public class ShoppingRecordPriceFragment extends Fragment {
                 public View getView(int position, View convertView, ViewGroup parent) {
                     // Get the Item from ListView
                     View view = super.getView(position, convertView, parent);
-
                     // Initialize a TextView for ListView each Item
                     TextView tv = (TextView) view.findViewById(android.R.id.text1);
-
                     // Set the text color of TextView (ListView Item)
                     tv.setTextColor(Color.BLACK);
-
-                    // Generate ListView Item using TextView
                     return view;
                 }
             };
-            lvValorProducto.setAdapter(aValorProducto);
+            lvValorProducto.setAdapter(aValorProducto);*/
             lvValorProducto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
