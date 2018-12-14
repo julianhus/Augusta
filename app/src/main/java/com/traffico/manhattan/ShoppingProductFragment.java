@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.traffico.manhattan.clases.CustomAdapterListViewProduct;
 import com.traffico.manhattan.clases.MyOpenHelper;
 import com.traffico.manhattan.entidades.Producto;
 import com.traffico.manhattan.google.zxing.integration.android.IntentIntegrator;
@@ -33,7 +34,7 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
     View view;
     private EditText etBarCode, ettrademark, etDescription, etMeasure, etWeight;
     private TextView tvBarCode, tvTrademark, tvProduct;
-    private ImageButton bScann, ibClean, ibBack, ibSafe, ibForward, ibSearch;
+    private ImageButton bScann, ibClean, ibBack, ibSafe, ibForward, ibSearch, ibSearchTrademark, ibSearchProduct;
     private Producto producto;
 
     @Override
@@ -41,6 +42,9 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_product_shopping, container, false);
+        //
+        producto = getArguments() != null ? (Producto) getArguments().getSerializable("Producto") : producto;
+        //
         etBarCode = view.findViewById(R.id.etBarCode);
         ettrademark = view.findViewById(R.id.ettrademark);
         etDescription = view.findViewById(R.id.etProduct);
@@ -54,11 +58,11 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
         bScann = view.findViewById(R.id.iBScan);
         bScann.setOnClickListener((View.OnClickListener) this);
         ibClean = view.findViewById(R.id.ibClean);
-        ibClean.setBackgroundColor(Color.parseColor("#81C784"));
+        ibClean.setBackgroundColor(Color.parseColor("#FF008577"));
         //
         ibClean.setOnClickListener((View.OnClickListener) this);
         ibBack = view.findViewById(R.id.ibBack);
-        ibBack.setBackgroundColor(Color.parseColor("#81C784"));
+        ibBack.setBackgroundColor(Color.parseColor("#FF008577"));
         ibBack.setOnClickListener((View.OnClickListener) this);
         ibSafe = view.findViewById(R.id.ibSafe);
         ibSafe.setOnClickListener((View.OnClickListener) this);
@@ -69,10 +73,18 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
         ibForward.setEnabled(false);
         ibForward.setBackgroundColor(Color.parseColor("#E0E0E0"));
         ibSearch = view.findViewById(R.id.ibSearch);
-        ibSearch.setBackgroundColor(Color.parseColor("#81C784"));
+        ibSearch.setBackgroundColor(Color.parseColor("#FF008577"));
         ibSearch.setOnClickListener((View.OnClickListener) this);
+        ibSearchTrademark = view.findViewById(R.id.ibSearchTrademark);
+        ibSearchTrademark.setBackgroundColor(Color.parseColor("#FF008577"));
+        ibSearchTrademark.setOnClickListener((View.OnClickListener) this);
         autocomplete();
-
+        //
+        if(producto != null){
+            etBarCode.setText(producto.getBarCode());
+            loadProduct();
+        }
+        //
         return view;
     }
 
@@ -100,6 +112,9 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
         if (view.getId() == R.id.ibSearch) {
             loadProduct();
         }
+        if (view.getId() == R.id.ibSearchTrademark) {
+            loadProductForSelect(ettrademark.getText().toString(),0);
+        }
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -118,42 +133,65 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
     }
 
     private void loadProduct() {
-        MyOpenHelper dbHelper = new MyOpenHelper(getApplicationContext());
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        if (db != null) {
-            if (!etBarCode.getText().toString().isEmpty()) {
-                producto = dbHelper.getProducto(db, etBarCode.getText().toString());
-                if (producto.getId() > 0) {
-                    etBarCode.setEnabled(false);
-                    ettrademark = view.findViewById(R.id.ettrademark);
-                    ettrademark.setText(producto.getMarca());
-                    ettrademark.setEnabled(false);
-                    etDescription = view.findViewById(R.id.etProduct);
-                    etDescription.setText(producto.getDescripcion());
-                    etDescription.setEnabled(false);
-                    etMeasure = view.findViewById(R.id.etMeasure);
-                    etMeasure.setText(producto.getMedida());
-                    etMeasure.setEnabled(false);
-                    etWeight = view.findViewById(R.id.etWeight);
-                    etWeight.setText("" + producto.getValorMedida());
-                    etWeight.setEnabled(false);
-                    ibForward.setEnabled(true);
-                    ibForward.setBackgroundColor(Color.parseColor("#81C784"));
-                    ibSafe.setEnabled(false);
-                    ibSafe.setBackgroundColor(Color.parseColor("#E0E0E0"));
+        try {
+            MyOpenHelper dbHelper = new MyOpenHelper(getApplicationContext());
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            if (db != null) {
+                if (!etBarCode.getText().toString().isEmpty()) {
+                    producto = dbHelper.getProducto(db, etBarCode.getText().toString());
+                    if (producto.getId() > 0) {
+                        etBarCode.setEnabled(false);
+                        ettrademark = view.findViewById(R.id.ettrademark);
+                        ettrademark.setText(producto.getMarca());
+                        ettrademark.setEnabled(false);
+                        etDescription = view.findViewById(R.id.etProduct);
+                        etDescription.setText(producto.getDescripcion());
+                        etDescription.setEnabled(false);
+                        etMeasure = view.findViewById(R.id.etMeasure);
+                        etMeasure.setText(producto.getMedida());
+                        etMeasure.setEnabled(false);
+                        etWeight = view.findViewById(R.id.etWeight);
+                        etWeight.setText("" + producto.getValorMedida());
+                        etWeight.setEnabled(false);
+                        ibForward.setEnabled(true);
+                        ibForward.setBackgroundColor(Color.parseColor("#FF008577"));
+                        ibSafe.setEnabled(false);
+                        ibSafe.setBackgroundColor(Color.parseColor("#E0E0E0"));
+                    } else {
+                        ibSafe.setEnabled(true);
+                        ibSafe.setBackgroundColor(Color.parseColor("#FF008577"));
+                        Toast toast = Toast.makeText(getApplicationContext(), R.string.product_no_found, Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
                 } else {
-                    ibSafe.setEnabled(true);
-                    ibSafe.setBackgroundColor(Color.parseColor("#81C784"));
-                    Toast toast = Toast.makeText(getApplicationContext(), R.string.product_no_found, Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getApplicationContext(), "Codigo de Barras sin informacion", Toast.LENGTH_SHORT);
                     toast.show();
                 }
-            } else {
-                Toast toast = Toast.makeText(getApplicationContext(), "Codigo de Barras sin informacion", Toast.LENGTH_SHORT);
-                toast.show();
             }
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT);
         }
 
     }
+
+    private void loadProductForSelect(String flagProduct, int i) {
+        try {
+            MyOpenHelper dbHelper = new MyOpenHelper(getApplicationContext());
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            if (db != null) {
+                ArrayList<Producto> productoList = dbHelper.getProductos(db, flagProduct, i);
+
+                Fragment selectProductFragment = new SelectProductFragment();
+                Bundle arg = new Bundle();
+                arg.putSerializable("ProductoList", productoList);
+                selectProductFragment.setArguments(arg);
+                ((ShoppingActivity) getActivity()).loadFragment(selectProductFragment);
+            }
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT);
+        }
+    }
+
 
     public void insertProduct() {
         if (validate()) {

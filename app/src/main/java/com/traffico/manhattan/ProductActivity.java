@@ -60,9 +60,11 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         bScann = findViewById(R.id.iBScan);
         bScann.setOnClickListener((View.OnClickListener) this);
         ibSearch = findViewById(R.id.ibSearch);
+        ibSearch.setBackgroundColor(Color.parseColor("#FF008577"));
         ibSearch.setOnClickListener((View.OnClickListener) this);
         bProduct = findViewById(R.id.bProduct);
         ibClean = findViewById(R.id.ibClean);
+        ibClean.setBackgroundColor(Color.parseColor("#FF008577"));
         ibClean.setOnClickListener((View.OnClickListener) this);
         autocomplete();
     }

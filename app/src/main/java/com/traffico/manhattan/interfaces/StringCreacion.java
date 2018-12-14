@@ -64,6 +64,7 @@ public interface StringCreacion {
                     "left outer join producto p on p.id = tp.id_producto " +
                     "order by m.fecha_registro desc";
     public static final String QRY_PRODUCTO = "select id, barcode, marca, descripcion, medida, valor_medida from producto order by marca, descripcion desc";
+    public static final String QRY_PRODUCTO_0 = "select id, barcode, marca, descripcion, medida, valor_medida from producto where marca = ? order by marca, descripcion desc";
     public static final String QRY_PRODUCTO_BARCODE = "select id, barcode, marca, descripcion, medida, valor_medida from producto where barcode = ?";
     public static final String QRY_PRODUCTO_BARCODE_VALOR_PRODUCTO =
                     "select re.*, " +

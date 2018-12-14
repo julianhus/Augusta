@@ -93,7 +93,7 @@ public class ShoppingRecordPriceFragment extends Fragment {
             }
         });
         bRecordPrice = view.findViewById(R.id.bRecordPrice);
-        bRecordPrice.setBackgroundColor(Color.parseColor("#81C784"));
+        bRecordPrice.setBackgroundColor(Color.parseColor("#FF008577"));
         bRecordPrice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,7 +101,7 @@ public class ShoppingRecordPriceFragment extends Fragment {
             }
         });
         ibBack = view.findViewById(R.id.ibBack);
-        ibBack.setBackgroundColor(Color.parseColor("#81C784"));
+        ibBack.setBackgroundColor(Color.parseColor("#FF008577"));
         ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -12,35 +12,35 @@
         android:orientation="vertical">
 
 
-    <ImageButton
-        android:id="@+id/iBScan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.531"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_barcode" />
+        <ImageButton
+            android:id="@+id/iBScan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.531"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_barcode" />
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.3" />
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.3" />
 
-    <TextView
-        android:id="@+id/tvBarCode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/bar_code"
-        app:layout_constraintBottom_toBottomOf="@+id/etBarCode"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/etBarCode" />
+        <TextView
+            android:id="@+id/tvBarCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/bar_code"
+            app:layout_constraintBottom_toBottomOf="@+id/etBarCode"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/etBarCode" />
 
         <AutoCompleteTextView
             android:id="@+id/etBarCode"
@@ -48,6 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="1dp"
             android:layout_weight="1"
             android:ems="10"
             android:hint="@string/required"
@@ -62,6 +63,7 @@
             android:id="@+id/ibSearch"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_marginEnd="1dp"
             android:layout_weight="1"
             app:layout_constraintBottom_toBottomOf="@+id/etBarCode"
             app:layout_constraintEnd_toStartOf="@+id/ibClean"
@@ -79,15 +81,15 @@
             app:layout_constraintTop_toTopOf="@+id/ibSearch"
             app:srcCompat="@android:drawable/ic_input_delete" />
 
-    <TextView
-        android:id="@+id/tvTrademark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/trademark"
-        app:layout_constraintBottom_toBottomOf="@+id/ettrademark"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/ettrademark" />
+        <TextView
+            android:id="@+id/tvTrademark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/trademark"
+            app:layout_constraintBottom_toBottomOf="@+id/ettrademark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ettrademark" />
 
         <AutoCompleteTextView
             android:id="@+id/ettrademark"
@@ -95,24 +97,35 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="1dp"
             android:ems="10"
             android:hint="@string/required"
             android:inputType="textPersonName"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ibSearchTrademark"
             app:layout_constraintStart_toEndOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/etBarCode" />
 
-    <TextView
-        android:id="@+id/tvProduct"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/product"
-        app:layout_constraintBottom_toBottomOf="@+id/etProduct"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/etProduct" />
+        <ImageButton
+            android:id="@+id/ibSearchTrademark"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toBottomOf="@+id/ettrademark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/ettrademark"
+            app:srcCompat="@android:drawable/ic_menu_search" />
+
+        <TextView
+            android:id="@+id/tvProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/product"
+            app:layout_constraintBottom_toBottomOf="@+id/etProduct"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/etProduct" />
 
         <AutoCompleteTextView
             android:id="@+id/etProduct"
@@ -120,24 +133,35 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="1dp"
             android:ems="10"
             android:hint="@string/required"
             android:inputType="textPersonName"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ibSearchProduct"
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/ettrademark" />
 
-    <TextView
-        android:id="@+id/tvMeasure"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/measure"
-        app:layout_constraintBottom_toBottomOf="@+id/etMeasure"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/etMeasure" />
+        <ImageButton
+            android:id="@+id/ibSearchProduct"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toBottomOf="@+id/etProduct"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/etProduct"
+            app:srcCompat="@android:drawable/ic_menu_search" />
+
+        <TextView
+            android:id="@+id/tvMeasure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/measure"
+            app:layout_constraintBottom_toBottomOf="@+id/etMeasure"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/etMeasure" />
 
         <AutoCompleteTextView
             android:id="@+id/etMeasure"
@@ -154,15 +178,15 @@
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/etProduct" />
 
-    <TextView
-        android:id="@+id/tvWeight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="@string/weight_size"
-        app:layout_constraintBottom_toBottomOf="@+id/etWeight"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/etWeight" />
+        <TextView
+            android:id="@+id/tvWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/weight_size"
+            app:layout_constraintBottom_toBottomOf="@+id/etWeight"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/etWeight" />
 
         <EditText
             android:id="@+id/etWeight"

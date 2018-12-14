@@ -242,6 +242,27 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
         return productos;
     }
 
+    public ArrayList<Producto> getProductos(SQLiteDatabase db, String flagProduct, int i) {
+        ArrayList<Producto> productos = new ArrayList<>();
+        String qry;
+        Cursor cProductos = null;
+        if (i == 0) {
+            cProductos = db.rawQuery(QRY_PRODUCTO_0, new String[]{flagProduct});
+        }
+
+        while (cProductos.moveToNext()) {
+            Producto producto = new Producto();
+            producto.setId(cProductos.getInt(0));
+            producto.setBarCode(cProductos.getString(1));
+            producto.setMarca(cProductos.getString(2));
+            producto.setDescripcion(cProductos.getString(3));
+            producto.setMedida(cProductos.getString(4));
+            producto.setValorMedida(cProductos.getFloat(5));
+            productos.add(producto);
+        }
+        return productos;
+    }
+
     public Producto getProducto(SQLiteDatabase db, String scanContent) {
         Producto producto = new Producto();
         String[] args = new String[]{scanContent};

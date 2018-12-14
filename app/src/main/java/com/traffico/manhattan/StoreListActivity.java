@@ -64,6 +64,9 @@ public class StoreListActivity extends AppCompatActivity {
 
                 }
             });
+            if(tiendaList.size() == 0){
+                Toast.makeText(getBaseContext(), R.string.empty_stores, Toast.LENGTH_SHORT).show();
+            }
             /*
             ArrayList<Tienda> tiendaList = dbHelper.getTiendas(db);
             final ListView lvStores = findViewById(R.id.lvStores);

@@ -326,14 +326,16 @@ public class MapsActivity extends AppCompatActivity implements
                     LatLng lTienda;
                     markerOptions = new MarkerOptions();
                     flagPos = tienda.getCoordenadas().indexOf(":");
-                    lat = tienda.getCoordenadas().substring(0, flagPos);
-                    lon = tienda.getCoordenadas().substring(flagPos + 1, tienda.getCoordenadas().length());
-                    iLat = Double.parseDouble(lat);
-                    iLon = Double.parseDouble(lon);
-                    lTienda = new LatLng(iLat, iLon);
-                    markerOptions.position(lTienda).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-                    markerOptions.title(tienda.getDescripcion());
-                    mMap.addMarker(markerOptions);
+                    if (flagPos > 0) {
+                        lat = tienda.getCoordenadas().substring(0, flagPos);
+                        lon = tienda.getCoordenadas().substring(flagPos + 1, tienda.getCoordenadas().length());
+                        iLat = Double.parseDouble(lat);
+                        iLon = Double.parseDouble(lon);
+                        lTienda = new LatLng(iLat, iLon);
+                        markerOptions.position(lTienda).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                        markerOptions.title(tienda.getDescripcion());
+                        mMap.addMarker(markerOptions);
+                    }
                     //
                 }
             }

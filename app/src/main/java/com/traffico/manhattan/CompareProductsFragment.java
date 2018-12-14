@@ -59,7 +59,7 @@ public class CompareProductsFragment extends Fragment {
         });
         //
         ibSearch = view.findViewById(R.id.ibSearch);
-        ibSearch.setBackgroundColor(Color.parseColor("#81C784"));
+        ibSearch.setBackgroundColor(Color.parseColor("#FF008577"));
         ibSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

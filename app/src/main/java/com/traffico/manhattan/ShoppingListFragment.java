@@ -1,5 +1,6 @@
 package com.traffico.manhattan;
 
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -42,7 +43,7 @@ public class ShoppingListFragment extends Fragment {
                 arg.putSerializable("Mercado", mercado);
                 Fragment shoppingListProductFragment = new ShoppingListProductFragment();
                 shoppingListProductFragment.setArguments(arg);
-                ((MenuActivity)getActivity()).loadFragment(shoppingListProductFragment);
+                ((MenuActivity) getActivity()).loadFragment(shoppingListProductFragment);
             }
         });
         return view;
@@ -54,16 +55,21 @@ public class ShoppingListFragment extends Fragment {
             int imageEdit = R.drawable.ic_menu_view;
 
             ArrayList<Mercado> mercadoList = dbHelper.getMercado(db);
-            ListView lvShopping = view.findViewById(R.id.lvShopping);
-            adapter = new CustomAdapterListViewShopping(view.getContext(), mercadoList, imageEdit);
-            lvShopping.setAdapter(adapter);
+            if (mercadoList.size() != 0) {
+                ListView lvShopping = view.findViewById(R.id.lvShopping);
+                adapter = new CustomAdapterListViewShopping(view.getContext(), mercadoList, imageEdit);
+                lvShopping.setAdapter(adapter);
             /*
             ArrayList<Mercado> mercadoList = dbHelper.getMercado(db);
             ListView lvShopping = view.findViewById(R.id.lvShopping);
             ArrayAdapter<Mercado> aMercado = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, mercadoList);
             lvShopping.setAdapter(aMercado);*/
+            } else {
+                ((MenuActivity) getActivity()).loadFragment(new NotificationFragment());
+                Toast.makeText(view.getContext(), R.string.empty_shopping, Toast.LENGTH_SHORT).show();
+            }
         } catch (Exception e) {
-            Toast.makeText(view.getContext(),R.string.empty_shopping, Toast.LENGTH_SHORT).show();
+            Toast.makeText(view.getContext(), R.string.empty_shopping, Toast.LENGTH_SHORT).show();
             //Log.e("ShoppingListFragment", "loadShopping: " + e.getMessage(), null);
         }
     }
