@@ -78,6 +78,9 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
         ibSearchTrademark = view.findViewById(R.id.ibSearchTrademark);
         ibSearchTrademark.setBackgroundColor(Color.parseColor("#FF008577"));
         ibSearchTrademark.setOnClickListener((View.OnClickListener) this);
+        ibSearchProduct = view.findViewById(R.id.ibSearchProduct);
+        ibSearchProduct.setBackgroundColor(Color.parseColor("#FF008577"));
+        ibSearchProduct.setOnClickListener((View.OnClickListener) this);
         autocomplete();
         //
         if(producto != null){
@@ -114,6 +117,9 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
         }
         if (view.getId() == R.id.ibSearchTrademark) {
             loadProductForSelect(ettrademark.getText().toString(),0);
+        }
+        if (view.getId() == R.id.ibSearchProduct) {
+            loadProductForSelect(etDescription.getText().toString(),1);
         }
     }
 

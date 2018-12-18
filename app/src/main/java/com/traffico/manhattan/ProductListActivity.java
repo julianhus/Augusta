@@ -21,6 +21,8 @@ import java.util.ArrayList;
 
 public class ProductListActivity extends AppCompatActivity {
 
+    FloatingActionButton fab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,18 +30,20 @@ public class ProductListActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.products);
         MyOpenHelper dbHelper = new MyOpenHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        if (db != null) {
-            loadProduct(db, dbHelper);
-        }
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAddProduct);
+
+        fab = (FloatingActionButton) findViewById(R.id.fabAddProduct);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent iProduct = new Intent(ProductListActivity.this, ProductActivity.class);
-                iProduct.putExtra("Llamada","ProductListActivity");
+                iProduct.putExtra("Llamada", "ProductListActivity");
                 startActivity(iProduct);
             }
         });
+
+        if (db != null) {
+            loadProduct(db, dbHelper);
+        }
     }
 
     @Override
@@ -63,11 +67,15 @@ public class ProductListActivity extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent iUpdateProduct = new Intent(ProductListActivity.this, UpdateProductActivity.class);
                     Producto producto = (Producto) lvProduct.getItemAtPosition(position);
-                    iUpdateProduct.putExtra("Product",producto);
+                    iUpdateProduct.putExtra("Product", producto);
                     startActivity(iUpdateProduct);
 
                 }
             });
+            if (productoList.size() == 0) {
+                Toast.makeText(getBaseContext(), R.string.empty_products, Toast.LENGTH_SHORT).show();
+                fab.callOnClick();
+            }
             /*
             ArrayList<Producto> productoList = dbHelper.getProductos(db);
             final ListView lvProduct = findViewById(R.id.lvProducts);
@@ -87,7 +95,7 @@ public class ProductListActivity extends AppCompatActivity {
             */
             //
         } catch (Exception e) {
-            Toast.makeText(getBaseContext(),R.string.empty_products, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), R.string.empty_products, Toast.LENGTH_SHORT).show();
             //Log.e("Error", "loadProduct: " + e.getMessage(), null);
         }
     }

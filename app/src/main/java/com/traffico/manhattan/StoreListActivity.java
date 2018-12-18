@@ -18,6 +18,8 @@ import java.util.ArrayList;
 
 public class StoreListActivity extends AppCompatActivity {
 
+    FloatingActionButton fab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,10 +27,8 @@ public class StoreListActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.stores);
         MyOpenHelper dbHelper = new MyOpenHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        if (db != null) {
-            loadStores(db, dbHelper);
-        }
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAddProduct);
+
+        fab = (FloatingActionButton) findViewById(R.id.fabAddProduct);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -37,6 +37,10 @@ public class StoreListActivity extends AppCompatActivity {
                 startActivity(iStore);
             }
         });
+
+        if (db != null) {
+            loadStores(db, dbHelper);
+        }
     }
 
     @Override
@@ -66,6 +70,7 @@ public class StoreListActivity extends AppCompatActivity {
             });
             if(tiendaList.size() == 0){
                 Toast.makeText(getBaseContext(), R.string.empty_stores, Toast.LENGTH_SHORT).show();
+                fab.callOnClick();
             }
             /*
             ArrayList<Tienda> tiendaList = dbHelper.getTiendas(db);

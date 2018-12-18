@@ -20,6 +20,8 @@ import java.util.ArrayList;
 
 public class ShoppingStoreActivity extends AppCompatActivity {
 
+    FloatingActionButton fab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,18 +29,20 @@ public class ShoppingStoreActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.stores);
         MyOpenHelper dbHelper = new MyOpenHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        if (db != null) {
-            loadStores(db, dbHelper);
-        }
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAddProduct);
+
+        fab = (FloatingActionButton) findViewById(R.id.fabAddProduct);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent iStore = new Intent(ShoppingStoreActivity.this, StoreActivity.class);
-                iStore.putExtra("Llamada","ShoppingStoreActivity");
+                iStore.putExtra("Llamada", "ShoppingStoreActivity");
                 startActivity(iStore);
             }
         });
+
+        if (db != null) {
+            loadStores(db, dbHelper);
+        }
     }
 
     @Override
@@ -61,11 +65,16 @@ public class ShoppingStoreActivity extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent iShopping = new Intent(ShoppingStoreActivity.this, ShoppingActivity.class);
                     Tienda tienda = (Tienda) lvStores.getItemAtPosition(position);
-                    iShopping.putExtra("Store",tienda);
+                    iShopping.putExtra("Store", tienda);
                     startActivity(iShopping);
 
                 }
             });
+
+            if (tiendaList.size() == 0) {
+                Toast.makeText(getBaseContext(), R.string.empty_stores, Toast.LENGTH_SHORT).show();
+                fab.callOnClick();
+            }
 
             /*
             ArrayList<Tienda> tiendaList = dbHelper.getTiendas(db);
@@ -83,7 +92,7 @@ public class ShoppingStoreActivity extends AppCompatActivity {
                 }
             });*/
         } catch (Exception e) {
-            Toast.makeText(getBaseContext(),R.string.empty_stores, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), R.string.empty_stores, Toast.LENGTH_SHORT).show();
             //Log.e("Error", "loadStores: " + e.getMessage(), null);
         }
     }

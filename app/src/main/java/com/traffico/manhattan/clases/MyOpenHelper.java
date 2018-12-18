@@ -249,6 +249,9 @@ public class MyOpenHelper extends SQLiteOpenHelper implements StringCreacion {
         if (i == 0) {
             cProductos = db.rawQuery(QRY_PRODUCTO_0, new String[]{flagProduct});
         }
+        if (i == 1) {
+            cProductos = db.rawQuery(QRY_PRODUCTO_1, new String[]{flagProduct});
+        }
 
         while (cProductos.moveToNext()) {
             Producto producto = new Producto();
