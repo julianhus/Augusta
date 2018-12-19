@@ -50,6 +50,7 @@ public class ProductListActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent iMenu = new Intent(ProductListActivity.this, MenuActivity.class);
         startActivity(iMenu);
+        finish();
     }
 
     private void loadProduct(SQLiteDatabase db, MyOpenHelper dbHelper) {

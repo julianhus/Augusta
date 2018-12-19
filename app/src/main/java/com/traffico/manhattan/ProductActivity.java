@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -48,7 +47,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         //
         tvBarCode = findViewById(R.id.tvBarCode);
         tvTrademark = findViewById(R.id.tvTrademark);
-        tvProduct = findViewById(R.id.tvProduct);
+        tvProduct = findViewById(R.id.tViewProduct);
 
         etBarCode = findViewById(R.id.etBarCode);
         ettrademark = findViewById(R.id.ettrademark);
@@ -73,6 +72,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     public void onBackPressed() {
         Intent iMenu = new Intent(ProductActivity.this, MenuActivity.class);
         startActivity(iMenu);
+        finish();
     }
 
     public void onClick(View view) {

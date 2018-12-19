@@ -27,6 +27,7 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getActivity(), R.string.profile, Toast.LENGTH_LONG).show();
                 Intent iProfile = new Intent(getActivity(), EditProfileActivity.class);
                 getActivity().startActivity(iProfile);
+                ((MenuActivity) getActivity()).finish();
             }
         });
         bStore = view.findViewById(R.id.bStore);
@@ -36,6 +37,7 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getActivity(), R.string.store, Toast.LENGTH_LONG).show();
                 Intent iStore = new Intent(getActivity(),StoreListActivity.class);
                 getActivity().startActivity(iStore);
+                ((MenuActivity) getActivity()).finish();
             }
         });
         bProduct = view.findViewById(R.id.bProduct);
@@ -45,6 +47,7 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getActivity(), R.string.product, Toast.LENGTH_LONG).show();
                 Intent iProduct = new Intent(getActivity(),ProductListActivity.class);
                 getActivity().startActivity(iProduct);
+                ((MenuActivity) getActivity()).finish();
             }
         });
         return view;

@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
@@ -27,6 +29,8 @@ import com.traffico.manhattan.entidades.Usuario;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
 
 
 public class MapsActivity extends AppCompatActivity implements
@@ -105,6 +109,7 @@ public class MapsActivity extends AppCompatActivity implements
                 Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT).show();
                 break;
         }
+        finish();
     }
 
     @Override
@@ -208,7 +213,7 @@ public class MapsActivity extends AppCompatActivity implements
             AlertDialog.Builder dialog = new AlertDialog.Builder(MapsActivity.this);
             dialog.setCancelable(false);
             dialog.setTitle(R.string.do_you_want);
-            dialog.setMessage(R.string.select_this_place);
+            dialog.setMessage(getAddress(latLng) + "\n\n" + getString(R.string.select_this_place));
             dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -217,12 +222,14 @@ public class MapsActivity extends AppCompatActivity implements
                             Intent iMaps;
                             iMaps = new Intent(MapsActivity.this, MainActivity.class);
                             iMaps.putExtra("Ubicacion", latLng);
+                            iMaps.putExtra("Address", getAddress(latLng));
                             startActivity(iMaps);
                             finish();
                             break;
                         case "EditProfileActivity":
                             iMaps = new Intent(MapsActivity.this, EditProfileActivity.class);
                             iMaps.putExtra("Ubicacion", latLng);
+                            iMaps.putExtra("Address", getAddress(latLng));
                             startActivity(iMaps);
                             finish();
                             break;
@@ -230,6 +237,7 @@ public class MapsActivity extends AppCompatActivity implements
                             iMaps = new Intent(MapsActivity.this, StoreActivity.class);
                             iMaps.putExtra("Llamada", llamada);
                             iMaps.putExtra("Ubicacion", latLng);
+                            iMaps.putExtra("Address", getAddress(latLng));
                             startActivity(iMaps);
                             finish();
                             break;
@@ -237,6 +245,7 @@ public class MapsActivity extends AppCompatActivity implements
                             iMaps = new Intent(MapsActivity.this, UpdateStoreActivity.class);
                             iMaps.putExtra("Store", tienda);
                             iMaps.putExtra("Ubicacion", latLng);
+                            iMaps.putExtra("Address", getAddress(latLng));
                             startActivity(iMaps);
                             finish();
                             break;
@@ -267,6 +276,29 @@ public class MapsActivity extends AppCompatActivity implements
             });
             dialog.show();
         }
+    }
+
+    private String getAddress(LatLng latLng) {
+        //
+        String address = "";
+        try {
+            Geocoder geo = new Geocoder(MapsActivity.this.getApplicationContext(), Locale.getDefault());
+            List<Address> addresses = geo.getFromLocation(latLng.latitude, latLng.longitude, 1);
+            if (addresses.isEmpty()) {
+                address = "Waiting for Location";
+                Toast.makeText(getApplicationContext(), "Waiting for Location", Toast.LENGTH_LONG).show();
+            } else {
+                if (addresses.size() > 0) {
+                    address = addresses.get(0).getThoroughfare() + " # " + addresses.get(0).getSubThoroughfare();
+                    Toast.makeText(getApplicationContext(), addresses.get(0).getThoroughfare() + " # " + addresses.get(0).getSubThoroughfare(), Toast.LENGTH_LONG).show();
+                }
+            }
+            return address;
+        } catch (Exception e) {
+            e.printStackTrace(); // getFromLocation() may sometimes fail
+        }
+        //
+        return address;
     }
 
     @Override

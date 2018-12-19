@@ -15,7 +15,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.traffico.manhattan.clases.CustomAdapterListViewProduct;
 import com.traffico.manhattan.clases.MyOpenHelper;
 import com.traffico.manhattan.entidades.Producto;
 import com.traffico.manhattan.google.zxing.integration.android.IntentIntegrator;
@@ -53,7 +52,7 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
         //
         tvBarCode = view.findViewById(R.id.tvBarCode);
         tvTrademark = view.findViewById(R.id.tvTrademark);
-        tvProduct = view.findViewById(R.id.tvProduct);
+        tvProduct = view.findViewById(R.id.tViewProduct);
         //
         bScann = view.findViewById(R.id.iBScan);
         bScann.setOnClickListener((View.OnClickListener) this);
@@ -83,7 +82,7 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
         ibSearchProduct.setOnClickListener((View.OnClickListener) this);
         autocomplete();
         //
-        if(producto != null){
+        if (producto != null) {
             etBarCode.setText(producto.getBarCode());
             loadProduct();
         }
@@ -116,10 +115,10 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
             loadProduct();
         }
         if (view.getId() == R.id.ibSearchTrademark) {
-            loadProductForSelect(ettrademark.getText().toString(),0);
+            loadProductForSelect(ettrademark.getText().toString(), 0);
         }
         if (view.getId() == R.id.ibSearchProduct) {
-            loadProductForSelect(etDescription.getText().toString(),1);
+            loadProductForSelect(etDescription.getText().toString(), 1);
         }
     }
 
@@ -186,12 +185,16 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             if (db != null) {
                 ArrayList<Producto> productoList = dbHelper.getProductos(db, flagProduct, i);
-
-                Fragment selectProductFragment = new SelectProductFragment();
-                Bundle arg = new Bundle();
-                arg.putSerializable("ProductoList", productoList);
-                selectProductFragment.setArguments(arg);
-                ((ShoppingActivity) getActivity()).loadFragment(selectProductFragment);
+                if (productoList.size() > 0) {
+                    Fragment selectProductFragment = new SelectProductFragment();
+                    Bundle arg = new Bundle();
+                    arg.putSerializable("Llamada", "ShoppingProductFragment");
+                    arg.putSerializable("ProductoList", productoList);
+                    selectProductFragment.setArguments(arg);
+                    ((ShoppingActivity) getActivity()).loadFragment(selectProductFragment);
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.product_no_found, Toast.LENGTH_SHORT).show();
+                }
             }
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT);
@@ -346,7 +349,7 @@ public class ShoppingProductFragment extends Fragment implements View.OnClickLis
     private boolean validate() {
         tvBarCode = view.findViewById(R.id.tvBarCode);
         tvTrademark = view.findViewById(R.id.tvTrademark);
-        tvProduct = view.findViewById(R.id.tvProduct);
+        tvProduct = view.findViewById(R.id.tViewProduct);
         //
         etBarCode = view.findViewById(R.id.etBarCode);
         ettrademark = view.findViewById(R.id.ettrademark);

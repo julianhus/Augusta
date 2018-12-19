@@ -5,13 +5,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -29,7 +27,9 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -37,9 +37,9 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 public class CompareProductsFragment extends Fragment {
 
     View view;
-    private ImageButton bScann;
-    private ImageButton ibSearch;
-    private EditText etBarCode;
+    private ImageButton bScann, ibSearch, ibSearchTrademark, ibSearchProduct;
+    private EditText etBarCode, ettrademark, etProduct;
+    private Producto producto;
 
 
     @Override
@@ -48,8 +48,15 @@ public class CompareProductsFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_compare_products, container, false);
         //
-        bScann = view.findViewById(R.id.iBScan);
+        producto = getArguments() != null ? (Producto) getArguments().getSerializable("Producto") : producto;
+        if (producto != null) {
+            loadInfoCompare(producto.getBarCode());
+        }
+        //
         etBarCode = view.findViewById(R.id.etBarCode);
+        ettrademark = view.findViewById(R.id.ettrademark);
+        etProduct = view.findViewById(R.id.etProduct);
+        bScann = view.findViewById(R.id.iBScan);
         bScann.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,14 +73,54 @@ public class CompareProductsFragment extends Fragment {
                 if (!etBarCode.getText().toString().isEmpty()) {
                     loadInfoCompare(etBarCode.getText().toString());
                 } else {
-                    Toast toast = Toast.makeText(getApplicationContext(), "Codigo de Barras sin informacion", Toast.LENGTH_SHORT);
-                    toast.show();
+                    Toast.makeText(getApplicationContext(), "Codigo de Barras sin informacion", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+        //
+        ibSearchTrademark = view.findViewById(R.id.ibSearchTrademark);
+        ibSearchTrademark.setBackgroundColor(Color.parseColor("#FF008577"));
+        ibSearchTrademark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadProductForSelect(ettrademark.getText().toString(), 0);
+            }
+        });
+        //
+        ibSearchProduct = view.findViewById(R.id.ibSearchProduct);
+        ibSearchProduct.setBackgroundColor(Color.parseColor("#FF008577"));
+        ibSearchProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadProductForSelect(etProduct.getText().toString(), 1);
             }
         });
         //
         autocomplete();
         return view;
+    }
+
+    private void loadProductForSelect(String flagProduct, int i) {
+        try {
+
+            MyOpenHelper dbHelper = new MyOpenHelper(getApplicationContext());
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            if (db != null) {
+                ArrayList<Producto> productoList = dbHelper.getProductos(db, flagProduct, i);
+                if(productoList.size() > 0){
+                    Fragment selectProductFragment = new SelectProductFragment();
+                    Bundle arg = new Bundle();
+                    arg.putSerializable("Llamada", "CompareProductsFragment");
+                    arg.putSerializable("ProductoList", productoList);
+                    selectProductFragment.setArguments(arg);
+                    ((MenuActivity) getActivity()).loadFragment(selectProductFragment);
+                }else{
+                    Toast.makeText(getApplicationContext(), R.string.product_no_found, Toast.LENGTH_SHORT).show();
+                }
+            }
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT);
+        }
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -162,8 +209,8 @@ public class CompareProductsFragment extends Fragment {
                             MercadoProducto tMercadoProducto = iMercadoProducto.next();
                             if (tMercadoProducto.getMercado().getId() != 0) {
                                 //if (dateH.before(tMercadoProducto.getMercado().getFechaRegistro())) {
-                                    dateH = tMercadoProducto.getMercado().getFechaRegistro();
-                                    flagDate = true;
+                                dateH = tMercadoProducto.getMercado().getFechaRegistro();
+                                flagDate = true;
                                 //}
                             }
                         }
@@ -187,8 +234,8 @@ public class CompareProductsFragment extends Fragment {
                                 MercadoProducto tMercadoProducto = iMercadoProducto.next();
                                 if (tMercadoProducto.getMercado().getId() != 0) {
                                     //if (dateH.before(tMercadoProducto.getMercado().getFechaRegistro())) {
-                                        dateH = tMercadoProducto.getMercado().getFechaRegistro();
-                                        flagDate = true;
+                                    dateH = tMercadoProducto.getMercado().getFechaRegistro();
+                                    flagDate = true;
                                     //}
                                 }
                             }
@@ -202,19 +249,20 @@ public class CompareProductsFragment extends Fragment {
                             tvLStore.setText(String.valueOf(valorProductolower.getIdTiendaProducto().getTienda().getDescripcion() + " " + valorProductolower.getIdTiendaProducto().getTienda().getDireccion()));
                             //
                         }
-                        etBarCode.setText("");
                     } catch (Exception e) {
                         e.printStackTrace();
+                    }finally {
+                        etBarCode.setText("");
+                        ettrademark.setText("");
+                        etProduct.setText("");
                     }
                 } else {
-                    Toast toast = Toast.makeText(getApplicationContext(), R.string.product_no_found, Toast.LENGTH_SHORT);
-                    toast.show();
+                    Toast.makeText(getApplicationContext(), R.string.product_no_found, Toast.LENGTH_SHORT).show();
                     tvProduct.setText(R.string.product);
                 }
             }
         } catch (Exception e) {
-            Toast toast = Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT);
-            toast.show();
+            e.printStackTrace();
             //Log.e("CompareProductsFragment", "loadInfoCompare: " + e);
         }
     }
@@ -225,28 +273,30 @@ public class CompareProductsFragment extends Fragment {
         if (db != null) {
             ArrayList<Producto> productos = dbHelper.getProductos(db);
             //
-            ArrayList<String> barcode = new ArrayList<>();
+            Set<String> barcode = new HashSet<>();
+            Set<String> marca = new HashSet<>();
+            Set<String> producto = new HashSet<>();
             for (int i = 0; i < productos.size(); i++) {
                 barcode.add(productos.get(i).getBarCode());
+                marca.add(productos.get(i).getMarca());
+                producto.add(productos.get(i).getDescripcion());
             }
+            //
+            String[] marcas = new String[marca.size()];
+            marcas = marca.toArray(marcas);
+            ArrayAdapter<String> aTrademark = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, marcas);
+            AutoCompleteTextView ettrademark = (AutoCompleteTextView) view.findViewById(R.id.ettrademark);
+            ettrademark.setAdapter(aTrademark);
+            //
+            String[] sProductos = new String[producto.size()];
+            sProductos = producto.toArray(sProductos);
+            ArrayAdapter<String> aProduct = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, sProductos);
+            AutoCompleteTextView etProduct = (AutoCompleteTextView) view.findViewById(R.id.etProduct);
+            etProduct.setAdapter(aProduct);
+            //
             String[] sBarcode = new String[barcode.size()];
             sBarcode = barcode.toArray(sBarcode);
-            ArrayAdapter<String> abarcode = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, sBarcode) {
-                @Override
-                public View getView(int position, View convertView, ViewGroup parent) {
-                    // Get the Item from ListView
-                    View view = super.getView(position, convertView, parent);
-
-                    // Initialize a TextView for ListView each Item
-                    TextView tv = (TextView) view.findViewById(android.R.id.text1);
-
-                    // Set the text color of TextView (ListView Item)
-                    tv.setTextColor(Color.BLACK);
-
-                    // Generate ListView Item using TextView
-                    return view;
-                }
-            };
+            ArrayAdapter<String> abarcode = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, sBarcode);
             AutoCompleteTextView etBarCode = (AutoCompleteTextView) view.findViewById(R.id.etBarCode);
             etBarCode.setAdapter(abarcode);
         }

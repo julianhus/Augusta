@@ -1,6 +1,5 @@
 package com.traffico.manhattan;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,16 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.traffico.manhattan.clases.CustomAdapterListViewShoppingRecordPrice;
-import com.traffico.manhattan.clases.CustomAdapterListViewStore;
 import com.traffico.manhattan.clases.MyOpenHelper;
 import com.traffico.manhattan.entidades.Producto;
 import com.traffico.manhattan.entidades.Tienda;
@@ -57,7 +53,7 @@ public class ShoppingRecordPriceFragment extends Fragment {
         //
         //vAlertDialog = inflater.inflate(R.layout.alert_dialog, null);
         //
-        tvProduct = view.findViewById(R.id.tvProduct);
+        tvProduct = view.findViewById(R.id.tViewProduct);
         producto = new Producto();
         producto = getArguments() != null ? (Producto) getArguments().getSerializable("Producto") : producto;
         tvProduct.setText(producto.toDescripcion());

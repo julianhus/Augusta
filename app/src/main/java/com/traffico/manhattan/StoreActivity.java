@@ -28,10 +28,12 @@ import java.util.ArrayList;
 
 public class StoreActivity extends AppCompatActivity {
 
-    String llamada;
+    String llamada, address;
     ImageButton ibMap;
     LatLng latLng;
     ImageView ivCheckMap;
+    //
+    EditText eTLocation, eTAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +43,9 @@ public class StoreActivity extends AppCompatActivity {
         ibMap = findViewById(R.id.ibMap);
         ibMap.setBackgroundColor(Color.parseColor("#FF008577"));
         ivCheckMap =findViewById(R.id.ivCheckMap);
-        EditText location = findViewById(R.id.etLocation);
-        location.setEnabled(false);
+        eTLocation = findViewById(R.id.etLocation);
+        eTLocation.setEnabled(false);
+        eTAddress = findViewById(R.id.etAddress);
         //
         Intent iStoreActivity = getIntent();
         llamada = (String) iStoreActivity.getSerializableExtra("Llamada");
@@ -50,9 +53,15 @@ public class StoreActivity extends AppCompatActivity {
         //
         Intent iMaps = getIntent();
         latLng = (LatLng) iMaps.getExtras().get("Ubicacion");
+        address = (String) iMaps.getExtras().get("Address");
+        //
         if (latLng != null) {
-            location.setText(latLng.latitude + ":" + latLng.longitude);
-            location.setEnabled(false);
+            eTLocation.setText(latLng.latitude + ":" + latLng.longitude);
+            eTLocation.setEnabled(false);
+        }
+        //
+        if(address != null){
+            eTAddress.setText(address);
         }
         //
         MyOpenHelper dbHelper = new MyOpenHelper(this);
@@ -61,7 +70,7 @@ public class StoreActivity extends AppCompatActivity {
             loadSpinners(db, dbHelper);
         }
         //
-        if (!location.getText().toString().isEmpty()) {
+        if (!eTLocation.getText().toString().isEmpty()) {
             ivCheckMap.setBackgroundColor(Color.parseColor("#FF008577"));
         }
         //
@@ -71,6 +80,7 @@ public class StoreActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent iMenu = new Intent(this, MenuActivity.class);
         startActivity(iMenu);
+        finish();
     }
 
     private void loadSpinners(SQLiteDatabase db, MyOpenHelper dbHelper) {

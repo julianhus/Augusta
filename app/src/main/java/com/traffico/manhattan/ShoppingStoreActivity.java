@@ -49,6 +49,7 @@ public class ShoppingStoreActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent iMenu = new Intent(ShoppingStoreActivity.this, MenuActivity.class);
         startActivity(iMenu);
+        finish();
     }
 
     private void loadStores(SQLiteDatabase db, MyOpenHelper dbHelper) {

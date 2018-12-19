@@ -64,6 +64,7 @@ public class ShoppingActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent iMenu = new Intent(this, MenuActivity.class);
         startActivity(iMenu);
+        finish();
     }
 
     public void loadFragment(Fragment fragment) {

@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -53,6 +52,7 @@ public class UpdateProductActivity extends AppCompatActivity implements StringCr
     public void onBackPressed() {
         Intent iMenu = new Intent(this, MenuActivity.class);
         startActivity(iMenu);
+        finish();
     }
 
     public void updateProduct(View view) {
@@ -98,7 +98,7 @@ public class UpdateProductActivity extends AppCompatActivity implements StringCr
     private boolean validate(boolean flagCheck) {
         TextView tvBarCode = findViewById(R.id.tvBarCode);
         TextView tvTrademark = findViewById(R.id.tvTrademark);
-        TextView tvProduct = findViewById(R.id.tvProduct);
+        TextView tvProduct = findViewById(R.id.tViewProduct);
         if (etBarCode.getText().toString().isEmpty()) {
             tvBarCode.setTextColor(Color.rgb(200, 0, 0));
             flagCheck = false;

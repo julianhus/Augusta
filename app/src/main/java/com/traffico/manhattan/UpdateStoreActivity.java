@@ -30,24 +30,30 @@ public class UpdateStoreActivity extends AppCompatActivity {
     Spinner sMunicipio, sDepartamento;
     ImageButton ibMap;
     ImageView ivCheckMap;
+    //
+    EditText etLocation, eTAddress, etDescription;
+    //
+    String address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_store);
         getSupportActionBar().setTitle(R.string.update_store);
+        //
+        etLocation = findViewById(R.id.etLocation);
+        eTAddress = findViewById(R.id.etAddress);
         Intent iUpdateStore = getIntent();
         tienda = (Tienda) iUpdateStore.getSerializableExtra("Store");
         //
         LatLng latLng;
         latLng = (LatLng) iUpdateStore.getExtras().get("Ubicacion");
-        EditText etLocation = findViewById(R.id.etLocation);
+        address = (String) iUpdateStore.getExtras().get("Address");
         if (latLng != null) {
             etLocation.setText(latLng.latitude + ":" + latLng.longitude);
         }else{
             etLocation.setText(tienda.getCoordenadas());
         }
-        //
         ibMap = findViewById(R.id.ibMap);
         ibMap.setBackgroundColor(Color.parseColor("#FF008577"));
         ivCheckMap =findViewById(R.id.ivCheckMap);
@@ -64,9 +70,13 @@ public class UpdateStoreActivity extends AppCompatActivity {
         if (db != null) {
             loadSpinners(db, dbHelper);
         }
-        EditText etAddress = findViewById(R.id.etAddress);
-        etAddress.setText(tienda.getDireccion());
-        EditText etDescription = findViewById(R.id.etDescription);
+        eTAddress.setText(tienda.getDireccion());
+        //
+        if(address != null){
+            eTAddress.setText(address);
+        }
+        //
+        etDescription = findViewById(R.id.etDescription);
         etDescription.setText(tienda.getDescripcion());
         Departamento departamento = new Departamento();
         for (int i = 0; i < sDepartamento.getAdapter().getCount(); i++) {
@@ -91,6 +101,7 @@ public class UpdateStoreActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent iMenu = new Intent(this, MenuActivity.class);
         startActivity(iMenu);
+        finish();
     }
 
     private void loadSpinners(SQLiteDatabase db, MyOpenHelper dbHelper) {

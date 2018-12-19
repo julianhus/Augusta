@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -41,7 +40,7 @@ public class RecordPriceActivity extends AppCompatActivity {
 
         TextView tvStore = findViewById(R.id.tvStore);
         tvStore.setText(tienda.toString());
-        TextView tvProduct = findViewById(R.id.tvProduct);
+        TextView tvProduct = findViewById(R.id.tViewProduct);
         tvProduct.setText(producto.toString());
 
         MyOpenHelper dbHelper = new MyOpenHelper(this);
@@ -82,6 +81,7 @@ public class RecordPriceActivity extends AppCompatActivity {
         Intent iRecordPriceProduct = new Intent(RecordPriceActivity.this, RecordPriceProductActivity.class);
         iRecordPriceProduct.putExtra("Store", tienda);
         startActivity(iRecordPriceProduct);
+        finish();
     }
 
     private void loadProductPrice(SQLiteDatabase db, MyOpenHelper dbHelper) {

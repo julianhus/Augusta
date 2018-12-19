@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     private LoginButton loginButton;
     //
-    String userIdFacebook;
+    String userIdFacebook, address;
     //
     TextView tVName;
     TextView tVLastName;
@@ -81,15 +81,22 @@ public class MainActivity extends AppCompatActivity {
         cbPolicy = findViewById(R.id.cbPolicy);
         ibMap = findViewById(R.id.ibMap);
         ibMap.setEnabled(false);
+        eTAddress = findViewById(R.id.etAddress);
         eTLocation = findViewById(R.id.etLocation);
         eTLocation.setEnabled(false);
         ivCheckMap =findViewById(R.id.ivCheckMap);
         //
         Intent iMaps = getIntent();
         latLng = (LatLng) iMaps.getExtras().get("Ubicacion");
+        address = (String) iMaps.getExtras().get("Address");
+        //
         if (latLng != null) {
             eTLocation.setText(latLng.latitude + ":" + latLng.longitude);
             eTLocation.setEnabled(false);
+        }
+        //
+        if(address != null){
+            eTAddress.setText(address);
         }
         //
         if (!eTLocation.getText().toString().isEmpty()) {
@@ -109,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
                     bSingIn.setEnabled(false);
                     Intent menu = new Intent(this, MenuActivity.class);
                     startActivity(menu);
+                    finish();
                 }
             }
         } catch (Exception e) {
@@ -190,11 +198,9 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
-                                        Toast toast = Toast.makeText(getApplicationContext(), "Fallo la conexión con Facebook, Intente nuevamente", Toast.LENGTH_SHORT);
-                                        toast.show();
+                                        Toast.makeText(getApplicationContext(), "Fallo la conexión con Facebook, Intente nuevamente", Toast.LENGTH_SHORT).show();
                                     } catch (Exception e) {
-                                        Toast toast = Toast.makeText(getApplicationContext(), "Fallo la conexión con Facebook, Intente nuevamente", Toast.LENGTH_SHORT);
-                                        toast.show();
+                                        Toast.makeText(getApplicationContext(), "Fallo la conexión con Facebook, Intente nuevamente", Toast.LENGTH_SHORT).show();
                                         //Log.e("Error", "loginWithFacebook_setFacebookData: " + e.getMessage(), null);
                                     }
                                 }
@@ -246,12 +252,12 @@ public class MainActivity extends AppCompatActivity {
                             public void run() {
                                 // Magic here
                                 startActivity(mainActivity);
+                                finish();
                             }
                         }, 1000); // Millisecond 1000 = 1 sec
                         //
                     } else {
-                        Toast toast = Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT);
-                        toast.show();
+                        Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT).show();
                     }
                 }
             } else {

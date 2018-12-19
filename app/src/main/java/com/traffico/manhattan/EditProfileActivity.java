@@ -43,6 +43,8 @@ public class EditProfileActivity extends AppCompatActivity {
     ImageButton ibMap;
     //
     ImageView ivCheckMap;
+    //
+    String address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,34 +58,40 @@ public class EditProfileActivity extends AppCompatActivity {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         if (db != null) {
             usuario = dbHelper.getUsuario(db);
-            EditText name = findViewById(R.id.etName);
-            EditText lastName = findViewById(R.id.etLastName);
-            EditText address = findViewById(R.id.etAddress);
-            EditText location = findViewById(R.id.etLocation);
-            location.setEnabled(false);
-            EditText email = findViewById(R.id.etMail);
-            name.setText(usuario.getNombre());
-            lastName.setText(usuario.getApellido());
-            address.setText(usuario.getDireccion());
+            eTName = findViewById(R.id.etName);
+            eTLastName = findViewById(R.id.etLastName);
+            eTAddress = findViewById(R.id.etAddress);
+            eTLocation = findViewById(R.id.etLocation);
+            eTLocation.setEnabled(false);
+            eTEMail = findViewById(R.id.etMail);
+            eTName.setText(usuario.getNombre());
+            eTLastName.setText(usuario.getApellido());
+            eTAddress.setText(usuario.getDireccion());
             //
             Intent iMaps = getIntent();
             latLng = (LatLng) iMaps.getExtras().get("Ubicacion");
+            address = (String) iMaps.getExtras().get("Address");
+
             if (latLng != null) {
-                location.setText(latLng.latitude + ":" + latLng.longitude);
-                location.setEnabled(false);
+                eTLocation.setText(latLng.latitude + ":" + latLng.longitude);
+                eTLocation.setEnabled(false);
             } else {
-                location.setText(usuario.getCoordenadas());
+                eTLocation.setText(usuario.getCoordenadas());
             }
             //
-            email.setText(usuario.getEmail());
+            if(address != null){
+                eTAddress.setText(address);
+            }
+            //
+            eTEMail.setText(usuario.getEmail());
             if (usuario.getFacebook() != null) {
-                email.setEnabled(false);
+                eTEMail.setEnabled(false);
             } else {
-                email.setEnabled(true);
+                eTEMail.setEnabled(true);
                 //loginWithFacebook();
             }
             //
-            if (!location.getText().toString().isEmpty()) {
+            if (!eTLocation.getText().toString().isEmpty()) {
                 ivCheckMap.setBackgroundColor(Color.parseColor("#FF008577"));
             }
             //
@@ -94,6 +102,7 @@ public class EditProfileActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent iMenu = new Intent(EditProfileActivity.this, MenuActivity.class);
         startActivity(iMenu);
+        finish();
     }
 
     public void upDate(View view) {
