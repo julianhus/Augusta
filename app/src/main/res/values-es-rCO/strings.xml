@@ -87,4 +87,5 @@
     <string name="registered_user">Usuario Registrado</string>
     <string name="required">Requerido</string>
     <string name="optional">Opcional</string>
+    <string name="location_without_address">Ubicación sin dirección</string>
 </resources>

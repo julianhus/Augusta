@@ -1,6 +1,7 @@
 package com.traffico.manhattan;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -8,13 +9,20 @@ import android.database.sqlite.SQLiteDatabase;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -37,16 +45,22 @@ public class MapsActivity extends AppCompatActivity implements
         GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener,
         GoogleMap.OnMapClickListener,
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         OnMapReadyCallback {
 
     private GoogleMap mMap;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    //
+    LocationManager locationManager;
     //
     String llamada, llamadaMaps, lat, lon;
     //
     boolean flagLatLng = false;
     //
     Tienda tienda;
+    //
+    double longitudeGPS, latitudeGPS;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +71,16 @@ public class MapsActivity extends AppCompatActivity implements
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         //
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        //
+        getUbicacionGPS();
+        //
         Intent iMapsActivity = getIntent();
         llamada = (String) iMapsActivity.getSerializableExtra("Llamada");
         llamadaMaps = (String) iMapsActivity.getSerializableExtra("LlamadaMaps");
         tienda = (Tienda) iMapsActivity.getSerializableExtra("Store");
+        //
+        titulo();
         //
         try {
             if (iMapsActivity.getExtras().get("latLng") != null) {
@@ -75,6 +95,24 @@ public class MapsActivity extends AppCompatActivity implements
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void titulo() {
+        switch (llamadaMaps) {
+            case "MainActivity":
+                getSupportActionBar().setTitle(R.string.app_name);
+                break;
+            case "EditProfileActivity":
+                getSupportActionBar().setTitle(R.string.profile);
+                break;
+            case "StoreActivity":
+                getSupportActionBar().setTitle(R.string.store);
+                break;
+            case "UpdateStoreActivity":
+                getSupportActionBar().setTitle(R.string.store);
+                break;
+        }
+
     }
 
     public void onBackPressed() {
@@ -115,12 +153,13 @@ public class MapsActivity extends AppCompatActivity implements
     @Override
     public void onMapReady(GoogleMap googleMap) {
         try {
-            enableMyLocation();
             mMap = googleMap;
+            enableMyLocation();
             allMarker();
-            LatLng colombia = new LatLng(4.6420884, -72.834157);
-            LatLng ubicacion = new LatLng(4.6420884, -72.834157);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(colombia, 5));
+            //LatLng colombia = new LatLng(4.6420884, -72.834157);
+            LatLng ubicacion = new LatLng(latitudeGPS, longitudeGPS);
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ubicacion, 5));
             MarkerOptions markerOptions = new MarkerOptions();
             double iLat;
             double iLon;
@@ -138,8 +177,6 @@ public class MapsActivity extends AppCompatActivity implements
                         ubicacion = residencia;
                     }
                     break;
-                case "StoreActivity":
-                    break;
                 case "UpdateStoreActivity":
                     if (flagLatLng) {
                         iLat = Double.parseDouble(lat);
@@ -153,9 +190,9 @@ public class MapsActivity extends AppCompatActivity implements
                     }
                     break;
                 default:
-                    colombia = new LatLng(4.6420884, -72.834157);
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(colombia, 5));
-                    ubicacion = colombia;
+                    //colombia = new LatLng(4.6420884, -72.834157);
+                    //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(colombia, 5));
+                    //ubicacion = colombia;
                     break;
             }
             mMap.animateCamera(CameraUpdateFactory.newLatLng(ubicacion));
@@ -288,9 +325,12 @@ public class MapsActivity extends AppCompatActivity implements
                 address = "Waiting for Location";
                 Toast.makeText(getApplicationContext(), "Waiting for Location", Toast.LENGTH_LONG).show();
             } else {
-                if (addresses.size() > 0) {
+                if (addresses.size() > 0 && addresses.get(0).getThoroughfare() != null && addresses.get(0).getSubThoroughfare() != null) {
                     address = addresses.get(0).getThoroughfare() + " # " + addresses.get(0).getSubThoroughfare();
                     Toast.makeText(getApplicationContext(), addresses.get(0).getThoroughfare() + " # " + addresses.get(0).getSubThoroughfare(), Toast.LENGTH_LONG).show();
+                } else {
+                    address = getString(R.string.location_without_address);
+                    Toast.makeText(getApplicationContext(), getString(R.string.location_without_address), Toast.LENGTH_LONG).show();
                 }
             }
             return address;
@@ -375,4 +415,95 @@ public class MapsActivity extends AppCompatActivity implements
             Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    //
+    private void getUbicacionGPS() {
+        if (!checkLocation()) return;
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2 * 20 * 1000, 10, locationListenerGPS);
+
+    }
+
+    private boolean checkLocation() {
+        if (!isLocationEnabled())
+            showAlert();
+        return isLocationEnabled();
+    }
+
+    private void showAlert() {
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("Enable Location")
+                .setMessage("Su ubicación esta desactivada.\npor favor active su ubicación " +
+                        "usa esta app")
+                .setPositiveButton("Configuración de ubicación", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(myIntent);
+                    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    }
+                });
+        dialog.show();
+    }
+
+    private boolean isLocationEnabled() {
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+    private final LocationListener locationListenerGPS = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            longitudeGPS = location.getLongitude();
+            latitudeGPS = location.getLatitude();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (!flagLatLng)
+                        onMapReady(mMap);
+                }
+            });
+        }
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {
+        }
+
+        @Override
+        public void onProviderEnabled(String s) {
+        }
+
+        @Override
+        public void onProviderDisabled(String s) {
+        }
+    };
+
+//
 }

@@ -95,5 +95,6 @@
     <string name="registered_user">Registered User</string>
     <string name="required">Required</string>
     <string name="optional">Optional</string>
+    <string name="location_without_address">Location without address</string>
 
 </resources>

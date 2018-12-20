@@ -23,6 +23,8 @@ import java.util.ArrayList;
 public class RecordPriceProductActivity extends AppCompatActivity {
 
     Tienda tienda;
+    //
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,19 +37,19 @@ public class RecordPriceProductActivity extends AppCompatActivity {
         tvStore.setText(tienda.toString());
         MyOpenHelper dbHelper = new MyOpenHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        if (db != null) {
-            loadProduct(db, dbHelper);
-        }
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAddProduct);
+        fab = (FloatingActionButton) findViewById(R.id.fabAddProduct);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent iProduct = new Intent(RecordPriceProductActivity.this, ProductActivity.class);
-                iProduct.putExtra("Store",tienda);
-                iProduct.putExtra("Llamada","RecordPriceProductActivity");
+                iProduct.putExtra("Store", tienda);
+                iProduct.putExtra("Llamada", "RecordPriceProductActivity");
                 startActivity(iProduct);
             }
         });
+        if (db != null) {
+            loadProduct(db, dbHelper);
+        }
     }
 
     @Override
@@ -58,7 +60,8 @@ public class RecordPriceProductActivity extends AppCompatActivity {
     }
 
     private void loadProduct(SQLiteDatabase db, MyOpenHelper dbHelper) {
-        try {CustomAdapterListViewProduct adapter;
+        try {
+            CustomAdapterListViewProduct adapter;
             int imageEdit = R.drawable.ic_menu_add;
 
             ArrayList<Producto> productoList = dbHelper.getProductos(db);
@@ -71,30 +74,18 @@ public class RecordPriceProductActivity extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Intent iRecordPrice = new Intent(RecordPriceProductActivity.this, RecordPriceActivity.class);
                     Producto producto = (Producto) lvProduct.getItemAtPosition(position);
-                    iRecordPrice.putExtra("Product",producto);
-                    iRecordPrice.putExtra("Store",tienda);
-                    startActivity(iRecordPrice );
+                    iRecordPrice.putExtra("Product", producto);
+                    iRecordPrice.putExtra("Store", tienda);
+                    startActivity(iRecordPrice);
                 }
             });
-            /*
-            ArrayList<Producto> productoList = dbHelper.getProductos(db);
-            final ListView lvProduct = findViewById(R.id.lvProducts);
-            ArrayAdapter<Producto> aProducto = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, productoList);
-            lvProduct.setAdapter(aProducto);
-            //
-            lvProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent iRecordPrice = new Intent(RecordPriceProductActivity.this, RecordPriceActivity.class);
-                    Producto producto = (Producto) lvProduct.getItemAtPosition(position);
-                    iRecordPrice.putExtra("Product",producto);
-                    iRecordPrice.putExtra("Store",tienda);
-                    startActivity(iRecordPrice );
-                }
-            });*/
+            if (productoList.size() == 0) {
+                fab.callOnClick();
+                Toast.makeText(getBaseContext(), R.string.empty_products, Toast.LENGTH_SHORT).show();
+            }
             //
         } catch (Exception e) {
-            Toast.makeText(getBaseContext(),R.string.empty_products, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), R.string.empty_products, Toast.LENGTH_SHORT).show();
             //Log.e("Error", "loadProduct: " + e.getMessage(), null);
         }
     }
