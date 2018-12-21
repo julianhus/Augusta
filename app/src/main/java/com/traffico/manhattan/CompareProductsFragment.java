@@ -106,19 +106,19 @@ public class CompareProductsFragment extends Fragment {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             if (db != null) {
                 ArrayList<Producto> productoList = dbHelper.getProductos(db, flagProduct, i);
-                if(productoList.size() > 0){
+                if (productoList.size() > 0) {
                     Fragment selectProductFragment = new SelectProductFragment();
                     Bundle arg = new Bundle();
                     arg.putSerializable("Llamada", "CompareProductsFragment");
                     arg.putSerializable("ProductoList", productoList);
                     selectProductFragment.setArguments(arg);
                     ((MenuActivity) getActivity()).loadFragment(selectProductFragment);
-                }else{
+                } else {
                     Toast.makeText(getApplicationContext(), R.string.product_no_found, Toast.LENGTH_SHORT).show();
                 }
             }
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT);
+            Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -168,7 +168,8 @@ public class CompareProductsFragment extends Fragment {
                 //
 
                 if (producto.getId() != 0) {
-                    tvProduct.setText(producto.getDescripcion() + " " + producto.getMarca() + " " + producto.getValorMedida() + " " + producto.getMedida());
+                    //tvProduct.setText(producto.getDescripcion() + " " + producto.getMarca() + " " + producto.getValorMedida() + " " + producto.getMedida());
+                    tvProduct.setText(producto.getDescripcion().concat(" ").concat(producto.getMarca()).concat(" ").concat(String.valueOf(producto.getValorMedida())).concat(" ").concat(producto.getMedida()));
                     Iterator<TiendaProducto> iTiendaProducto = producto.getTiendaProductos().iterator();
                     ValorProducto valorProductoHigher = new ValorProducto();
                     ValorProducto valorProductolower = null;
@@ -250,7 +251,7 @@ public class CompareProductsFragment extends Fragment {
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
-                    }finally {
+                    } finally {
                         etBarCode.setText("");
                         ettrademark.setText("");
                         etProduct.setText("");
@@ -274,7 +275,7 @@ public class CompareProductsFragment extends Fragment {
             //
             if (productos.size() == 0) {
                 Toast.makeText(getApplicationContext(), R.string.empty_products, Toast.LENGTH_SHORT).show();
-                ((MenuActivity)getActivity()).loadFragment(new NotificationFragment());
+                ((MenuActivity) getActivity()).loadFragment(new NotificationFragment());
             }
             //
             Set<String> barcode = new HashSet<>();
@@ -288,19 +289,67 @@ public class CompareProductsFragment extends Fragment {
             //
             String[] marcas = new String[marca.size()];
             marcas = marca.toArray(marcas);
-            ArrayAdapter<String> aTrademark = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, marcas);
+            ArrayAdapter<String> aTrademark = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, marcas)
+                    //
+            {
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    // Get the Item from ListView
+                    View view = super.getView(position, convertView, parent);
+
+                    // Initialize a TextView for ListView each Item
+                    TextView tv = (TextView) view.findViewById(android.R.id.text1);
+
+                    // Set the text color of TextView (ListView Item)
+                    tv.setTextColor(Color.BLACK);
+
+                    // Generate ListView Item using TextView
+                    return view;
+                }
+            };
+            //
             AutoCompleteTextView ettrademark = (AutoCompleteTextView) view.findViewById(R.id.ettrademark);
             ettrademark.setAdapter(aTrademark);
             //
             String[] sProductos = new String[producto.size()];
             sProductos = producto.toArray(sProductos);
-            ArrayAdapter<String> aProduct = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, sProductos);
+            ArrayAdapter<String> aProduct = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, sProductos) {
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    // Get the Item from ListView
+                    View view = super.getView(position, convertView, parent);
+
+                    // Initialize a TextView for ListView each Item
+                    TextView tv = (TextView) view.findViewById(android.R.id.text1);
+
+                    // Set the text color of TextView (ListView Item)
+                    tv.setTextColor(Color.BLACK);
+
+                    // Generate ListView Item using TextView
+                    return view;
+                }
+            };
             AutoCompleteTextView etProduct = (AutoCompleteTextView) view.findViewById(R.id.etProduct);
             etProduct.setAdapter(aProduct);
             //
             String[] sBarcode = new String[barcode.size()];
             sBarcode = barcode.toArray(sBarcode);
-            ArrayAdapter<String> abarcode = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, sBarcode);
+            ArrayAdapter<String> abarcode = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, sBarcode) {
+                @Override
+                public View getView(int position, View convertView, ViewGroup parent) {
+                    // Get the Item from ListView
+                    View view = super.getView(position, convertView, parent);
+
+                    // Initialize a TextView for ListView each Item
+                    TextView tv = (TextView) view.findViewById(android.R.id.text1);
+
+                    // Set the text color of TextView (ListView Item)
+                    tv.setTextColor(Color.BLACK);
+
+                    // Generate ListView Item using TextView
+                    return view;
+                }
+            };
             AutoCompleteTextView etBarCode = (AutoCompleteTextView) view.findViewById(R.id.etBarCode);
             etBarCode.setAdapter(abarcode);
         }
