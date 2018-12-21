@@ -33,7 +33,6 @@ import java.util.Set;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
-
 public class CompareProductsFragment extends Fragment {
 
     View view;
@@ -272,6 +271,11 @@ public class CompareProductsFragment extends Fragment {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         if (db != null) {
             ArrayList<Producto> productos = dbHelper.getProductos(db);
+            //
+            if (productos.size() == 0) {
+                Toast.makeText(getApplicationContext(), R.string.empty_products, Toast.LENGTH_SHORT).show();
+                ((MenuActivity)getActivity()).loadFragment(new NotificationFragment());
+            }
             //
             Set<String> barcode = new HashSet<>();
             Set<String> marca = new HashSet<>();

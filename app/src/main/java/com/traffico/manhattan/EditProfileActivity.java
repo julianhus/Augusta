@@ -1,5 +1,6 @@
 package com.traffico.manhattan;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -7,9 +8,11 @@ import android.media.Image;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -96,6 +99,13 @@ public class EditProfileActivity extends AppCompatActivity {
             }
             //
         }
+        eTName.setInputType(InputType.TYPE_NULL);
+        eTName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eTName.setInputType(InputType.TYPE_CLASS_TEXT);
+            }
+        });
     }
 
     @Override

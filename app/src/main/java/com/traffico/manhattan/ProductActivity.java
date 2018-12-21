@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -66,6 +67,14 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
         ibClean.setBackgroundColor(Color.parseColor("#FF008577"));
         ibClean.setOnClickListener((View.OnClickListener) this);
         autocomplete();
+        //
+        etBarCode.setInputType(InputType.TYPE_NULL);
+        etBarCode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etBarCode.setInputType(InputType.TYPE_CLASS_NUMBER);
+            }
+        });
     }
 
     @Override
@@ -111,16 +120,12 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
             Producto producto = dbHelper.getProducto(db, etBarCode.getText().toString());
             if (producto.getId() != 0) {
                 etBarCode.setEnabled(false);
-                EditText ettrademark = findViewById(R.id.ettrademark);
                 ettrademark.setText(producto.getMarca());
                 ettrademark.setEnabled(false);
-                EditText etDescription = findViewById(R.id.etProduct);
-                etDescription.setText(producto.getDescripcion());
-                etDescription.setEnabled(false);
-                EditText etMeasure = findViewById(R.id.etMeasure);
+                etDescripcion.setText(producto.getDescripcion());
+                etDescripcion.setEnabled(false);
                 etMeasure.setText(producto.getMedida());
                 etMeasure.setEnabled(false);
-                EditText etWeight = findViewById(R.id.etWeight);
                 etWeight.setText("" + producto.getValorMedida());
                 etWeight.setEnabled(false);
                 bProduct.setEnabled(false);

@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -76,6 +77,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //
+        eTName = findViewById(R.id.etName);
+        eTLastName = findViewById(R.id.etLastName);
+        eTAddress = findViewById(R.id.etAddress);
+        eTLocation = findViewById(R.id.etLocation);
+        eTEMail = findViewById(R.id.etMail);
+        //
         bSingIn = findViewById(R.id.bSingIn);
         bSingIn.setEnabled(false);
         cbPolicy = findViewById(R.id.cbPolicy);
@@ -122,6 +129,13 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             Toast.makeText(getBaseContext(), R.string.fail, Toast.LENGTH_SHORT).show();
         }
+        eTName.setInputType(InputType.TYPE_NULL);
+        eTName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eTName.setInputType(InputType.TYPE_CLASS_TEXT);
+            }
+        });
     }
 
     private void loginWithFacebook() {
@@ -273,12 +287,6 @@ public class MainActivity extends AppCompatActivity {
         tVName = findViewById(R.id.tvName);
         tVLastName = findViewById(R.id.tvLastName);
         tVEMail = findViewById(R.id.tvMail);
-        //
-        eTName = findViewById(R.id.etName);
-        eTLastName = findViewById(R.id.etLastName);
-        eTAddress = findViewById(R.id.etAddress);
-        eTLocation = findViewById(R.id.etLocation);
-        eTEMail = findViewById(R.id.etMail);
         //
         boolean flagName, flagLastName, flagEMail = true;
         if (eTName.getText().toString().isEmpty()) {
