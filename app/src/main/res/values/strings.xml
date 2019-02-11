@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Cheap</string>
-    <string name="version" translatable="false">1.1.4</string>
+    <string name="version" translatable="false">1.0.0</string>
     <string name="facebook_app_id" translatable="false">245836276287371</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb245836276287371</string>
     <string name="Tell_us">Tell us who you are ...</string>
@@ -84,7 +84,6 @@
     <string name="this_product_can_be_cheaper">This product can be cheaper($ %1$s) in %2$s</string>
     <string name="i_have_read_and_accept">I have read and accept the privacy policy and data processing</string>
     <string name="title_activity_maps">Map</string>
-    <!--    Permissions    -->
     <string name="permission_rationale_location" translatable="false">Access to the location service is required to demonstrate the \'my location\' feature, which shows your current location on the map.</string>
     <string name="location_permission_denied" translatable="false">This sample requires location permission to enable the \'my location\' layer. Please try again and grant access to use the location.\nIf the permission has been permanently denied, it can be enabled from the System Settings &gt; Apps &gt; \'Google Maps API Demos\'.</string>
     <string name="permission_required_toast" translatable="false">Location permission is required for this demo.</string>
@@ -96,5 +95,18 @@
     <string name="required">Required</string>
     <string name="optional">Optional</string>
     <string name="location_without_address">Location without address</string>
+    <string name="same_address">Remember ... there can not be two stores with the same address.</string>
+    <string name="profileD">Edit your personal information</string>
+    <string name="storeD">Create and edit the stores in which you buy</string>
+    <string name="productD">Create and edit the products you buy</string>
+    <string name="record_priceD">Register prices for your products in the stores where you buy</string>
+    <string name="shoppingD">Take control of your purchases</string>
+    <string name="compare_price_by_productD">Find who sells cheapest</string>
+    <string name="shopping_listD">What have you bought ... where ... when</string>
+    <string name="title_activity_mapsD">Where are you? Where are your stores?</string>
+    <string name="title_desk">Desk</string>
+    <string name="title_comparisons">Comparisons</string>
+    <string name="we_will_not_be" translatable="true">We will not be able to take your information when you buy the rest of the components</string>
+
 
 </resources>

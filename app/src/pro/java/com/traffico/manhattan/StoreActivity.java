@@ -179,13 +179,13 @@ public class StoreActivity extends AppCompatActivity {
                         }, 1000); // Millisecon
                         //
                     } else {
-                        Toast.makeText(getBaseContext(), "Fail", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), R.string.same_address, Toast.LENGTH_SHORT).show();
                     }
                 }
 
             }
         } catch (Exception e) {
-            Toast.makeText(getBaseContext(), "Fail", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), R.string.fail, Toast.LENGTH_SHORT).show();
         }
     }
 

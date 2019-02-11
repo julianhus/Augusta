@@ -18,12 +18,21 @@
             android:gravity="center"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:text="@string/profileD"
+                android:textAlignment="center" />
+
             <Button
                 android:id="@+id/bProfile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/profile" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -32,6 +41,14 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:text="@string/storeD"
+                android:textAlignment="center" />
 
             <Button
                 android:id="@+id/bStore"
@@ -47,6 +64,14 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:text="@string/productD"
+                android:textAlignment="center" />
 
             <Button
                 android:id="@+id/bProduct"

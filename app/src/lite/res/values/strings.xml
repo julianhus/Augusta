@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Cheap Lite</string>
+    <string name="version" translatable="false">1.0.0</string>
+    <string name="component_not_available" translatable="true">Component not available </string>
+    <string name="the_full_version_has" translatable="true">The full version has this component. Do you want to buy it?</string>
+    <string name="we_will_not_be" translatable="true">We will not be able to take your information when you buy the rest of the components</string>
+</resources>

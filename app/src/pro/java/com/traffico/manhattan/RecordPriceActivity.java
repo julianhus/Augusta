@@ -5,9 +5,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -51,7 +53,7 @@ public class RecordPriceActivity extends AppCompatActivity {
 
         final float weight;
         weight = producto.getValorMedida();
-        EditText etPrice = (EditText) findViewById(R.id.etPrice);
+        etPrice = (EditText) findViewById(R.id.etPrice);
         //
         etPrice.setOnKeyListener(new EditText.OnKeyListener() {
             @Override
@@ -73,6 +75,14 @@ public class RecordPriceActivity extends AppCompatActivity {
             }
         });
 
+        etPrice.setInputType(InputType.TYPE_NULL);
+        etPrice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                etPrice.setInputType(InputType.TYPE_CLASS_NUMBER);
+            }
+        });
+
 
     }
 
@@ -90,7 +100,6 @@ public class RecordPriceActivity extends AppCompatActivity {
             ListView lvValorProducto = findViewById(R.id.lvProductPrice);
             ArrayAdapter<ValorProducto> aValorProducto = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, valorProductoList);
             lvValorProducto.setAdapter(aValorProducto);
-
         } catch (Exception e) {
             Toast.makeText(getBaseContext(), R.string.product_without_price, Toast.LENGTH_SHORT).show();
             //Log.e("Error", "loadProductPrice: " + e.getMessage(), null);

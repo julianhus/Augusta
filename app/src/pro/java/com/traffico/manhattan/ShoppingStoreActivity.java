@@ -5,10 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -30,6 +28,10 @@ public class ShoppingStoreActivity extends AppCompatActivity {
         MyOpenHelper dbHelper = new MyOpenHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
+        if (db != null) {
+            loadStores(db, dbHelper);
+        }
+
         fab = (FloatingActionButton) findViewById(R.id.fabAddProduct);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,10 +41,6 @@ public class ShoppingStoreActivity extends AppCompatActivity {
                 startActivity(iStore);
             }
         });
-
-        if (db != null) {
-            loadStores(db, dbHelper);
-        }
     }
 
     @Override

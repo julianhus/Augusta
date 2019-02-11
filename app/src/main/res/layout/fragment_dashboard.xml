@@ -16,6 +16,14 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:text="@string/record_priceD"
+                android:textAlignment="center" />
+
             <Button
                 android:id="@+id/bRecordPrice"
                 android:layout_width="match_parent"
@@ -29,6 +37,14 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView24"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:text="@string/shoppingD"
+                android:textAlignment="center" />
 
             <Button
                 android:id="@+id/bShopping"

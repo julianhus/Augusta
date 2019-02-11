@@ -1,16 +1,23 @@
 package com.traffico.manhattan;
 
-import android.content.DialogInterface;
+import android.Manifest;
+
 import android.content.Intent;
 
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
-import android.support.v7.app.AlertDialog;
+
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
+
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -40,6 +47,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.traffico.manhattan.clases.MyOpenHelper;
 import com.traffico.manhattan.entidades.Usuario;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
 import java.util.regex.Pattern;
 
 import static com.traffico.manhattan.R.color.colorPrimary;
@@ -77,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //
+        externalEstorage();
+        //
         eTName = findViewById(R.id.etName);
         eTLastName = findViewById(R.id.etLastName);
         eTAddress = findViewById(R.id.etAddress);
@@ -91,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         eTAddress = findViewById(R.id.etAddress);
         eTLocation = findViewById(R.id.etLocation);
         eTLocation.setEnabled(false);
-        ivCheckMap =findViewById(R.id.ivCheckMap);
+        ivCheckMap = findViewById(R.id.ivCheckMap);
         //
         Intent iMaps = getIntent();
         latLng = (LatLng) iMaps.getExtras().get("Ubicacion");
@@ -102,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
             eTLocation.setEnabled(false);
         }
         //
-        if(address != null){
+        if (address != null) {
             eTAddress.setText(address);
         }
         //
@@ -349,5 +362,86 @@ public class MainActivity extends AppCompatActivity {
         iMaps.putExtra("LlamadaMaps", "MainActivity");
         startActivity(iMaps);
         finish();
+    }
+
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+
+
+    private void externalEstorage() {
+        try {
+
+            int permissionCheck = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (permissionCheck < 0) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+            } else {
+                /*
+                Path origenPath = FileSystems.getDefault().getPath("/storage/emulated/0/manhattan.sqlite");
+                Path destinoPath = FileSystems.getDefault().getPath("/data/data/com.traffico.mercabarato/databases/manhattan.sqlite");
+                Files.copy(origenPath, destinoPath, StandardCopyOption.REPLACE_EXISTING);
+                Files.deleteIfExists(origenPath);
+                //
+                Intent intent = new Intent("android.intent.action.DELETE");
+                intent.setData(Uri.parse("package:" + "com.traffico.mercabaratolite"));
+                startActivity(intent);
+                */
+            }
+
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                } else {
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+
+                }
+            }
+        } catch (Exception e) {
+            //Error
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
+                try {
+                    // If request is cancelled, the result arrays are empty.
+                    if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        // permission was granted, yay! Do the
+                        // contacts-related task you need to do.
+                        //
+                        File origen = new File("/sdcard/manhattan.sqlite");
+                        File destino = new File("/data/data/com.traffico.mercabarato/databases/manhattan.sqlite");
+                        FileChannel inChannel = new FileInputStream(origen).getChannel();
+                        FileChannel outChannel = new FileOutputStream(destino).getChannel();
+                        try
+                        {
+                            inChannel.transferTo(0, inChannel.size(), outChannel);
+                            origen.delete();
+
+                        }
+                        finally
+                        {
+                            if (inChannel != null)
+                                inChannel.close();
+                            if (outChannel != null)
+                                outChannel.close();
+                        }
+                        //
+                        Intent main = new Intent(this, MainActivity.class);
+                        startActivity(main);
+                        finish();
+                        //
+                    } else {
+                        // permission denied, boo! Disable the
+                        // functionality that depends on this permission.
+                        Toast.makeText(getApplicationContext(), R.string.we_will_not_be, Toast.LENGTH_LONG).show();
+                    }
+                    } catch (Exception e) {
+                }
+                return;
+
+            }
+        }
     }
 }

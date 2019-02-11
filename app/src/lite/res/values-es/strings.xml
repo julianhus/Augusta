@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MercaBarato Lite</string>
+    <string name="component_not_available">Componente no disponible</string>
+    <string name="the_full_version_has">La versión completa tiene este componente. ¿Quieres comprarla?</string>
+    <string name="we_will_not_be" translatable="true">No podremos tomar su información cuando compre el resto de los componentes</string>
+</resources>

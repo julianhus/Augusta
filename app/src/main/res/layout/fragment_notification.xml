@@ -15,6 +15,14 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/textView25"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:text="@string/compare_price_by_productD"
+                android:textAlignment="center" />
+
             <Button
                 android:id="@+id/bCompareBy"
                 android:layout_width="match_parent"
@@ -28,6 +36,14 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:text="@string/shopping_listD"
+                android:textAlignment="center" />
 
             <Button
                 android:id="@+id/bShoppingList"
@@ -43,6 +59,14 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView27"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:text="@string/title_activity_mapsD"
+                android:textAlignment="center" />
 
             <Button
                 android:id="@+id/bMaps"

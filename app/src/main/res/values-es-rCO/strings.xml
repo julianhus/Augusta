@@ -88,4 +88,16 @@
     <string name="required">Requerido</string>
     <string name="optional">Opcional</string>
     <string name="location_without_address">Ubicación sin dirección</string>
+    <string name="same_address">Recuerda ... no puede haber dos tiendas con la misma dirección.</string>
+    <string name="profileD">Edita tu información personal</string>
+    <string name="storeD">Crea y edita las tiendas en las que compras</string>
+    <string name="productD">Crea y edita los productos que compras</string>
+    <string name="record_priceD">Registra los precios de tus productos en las tiendas donde compras</string>
+    <string name="shoppingD">Lleva control de tus compras</string>
+    <string name="compare_price_by_productD">Encuentra quién vende más barato</string>
+    <string name="shopping_listD">Que has comprado ... donde ... cuando</string>
+    <string name="title_activity_mapsD">¿Dónde estás? ¿Dónde están tus tiendas?</string>
+    <string name="title_desk">Escritorio</string>
+    <string name="title_comparisons">Comparaciones</string>
+    <string name="we_will_not_be" translatable="true">No podremos tomar su información de la versión lite</string>
 </resources>

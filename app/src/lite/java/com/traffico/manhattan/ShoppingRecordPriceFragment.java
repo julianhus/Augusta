@@ -1,11 +1,20 @@
 package com.traffico.manhattan;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.Fragment;
+
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +33,11 @@ import com.traffico.manhattan.entidades.Tienda;
 import com.traffico.manhattan.entidades.TiendaProducto;
 import com.traffico.manhattan.entidades.ValorProducto;
 
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -43,6 +57,7 @@ public class ShoppingRecordPriceFragment extends Fragment {
     ImageButton ibBack;
     //
     LayoutInflater inflaterTemp;
+    boolean flagLite = false;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
@@ -116,6 +131,10 @@ public class ShoppingRecordPriceFragment extends Fragment {
             final ListView lvValorProducto = view.findViewById(R.id.lvProductPrice);
             adapter = new CustomAdapterListViewShoppingRecordPrice(view.getContext(), valorProductoList, imageEdit);
             lvValorProducto.setAdapter(adapter);
+            //
+            if (valorProductoList.size() == 2) {
+                flagLite = true;
+            }
             /*
             ArrayList<ValorProducto> valorProductoList = dbHelper.getValorProductos(db, tienda, producto);
             final ListView lvValorProducto = view.findViewById(R.id.lvProductPrice);
@@ -198,7 +217,7 @@ public class ShoppingRecordPriceFragment extends Fragment {
                     }
                 }
             }
-            if (valorProductolower.getValor() < valorProductoSelected.getValor()) {
+            if (valorProductolower.getValor() < valorProductoSelected.getValor() && valorProductolower.getValor() != 0) {
                 String message = valorProductolower.getIdTiendaProducto().getTienda().getDescripcion() + " " +
                         valorProductolower.getIdTiendaProducto().getTienda().getDireccion();
                 return getString(R.string.this_product_can_be_cheaper, NumberFormat.getInstance().format(valorProductolower.getValor()), message);
@@ -230,35 +249,60 @@ public class ShoppingRecordPriceFragment extends Fragment {
 
     public void recordPrice() {
         try {
-            if (validate()) {
-                EditText etPrice = (EditText) view.findViewById(R.id.etPrice);
-                EditText etEquivalentPrice = (EditText) view.findViewById(R.id.etEquivalentPrice);
-                ValorProducto valorProducto = new ValorProducto();
-                float valor = Float.parseFloat(etPrice.getText().toString());
-                valorProducto.setValor(valor);
-                //
-                float valorEquivalente = Float.parseFloat(etEquivalentPrice.getText().toString());
-                valorProducto.setValorEquivalente(valorEquivalente);
-                //
-                MyOpenHelper dbHelper = new MyOpenHelper(getApplicationContext());
-                SQLiteDatabase db = dbHelper.getWritableDatabase();
-                TiendaProducto tiendaProducto = new TiendaProducto();
-                if (db != null) {
-                    tiendaProducto = dbHelper.getTiendaProducto(db, tienda, producto);
-                    valorProducto.setIdTiendaProducto(tiendaProducto);
-                    long flagVP = dbHelper.insertValorProducto(db, valorProducto);
-                    if (flagVP > 0) {
-                        loadProductPrice(db, dbHelper);
-                        etPrice.setText(String.valueOf(0));
-                        etEquivalentPrice.setText(String.valueOf(0));
-                        //
-                        Toast.makeText(getApplicationContext(), R.string.created, Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT).show();
+            if (!flagLite) {
+                if (validate()) {
+                    EditText etPrice = (EditText) view.findViewById(R.id.etPrice);
+                    EditText etEquivalentPrice = (EditText) view.findViewById(R.id.etEquivalentPrice);
+                    ValorProducto valorProducto = new ValorProducto();
+                    float valor = Float.parseFloat(etPrice.getText().toString());
+                    valorProducto.setValor(valor);
+                    //
+                    float valorEquivalente = Float.parseFloat(etEquivalentPrice.getText().toString());
+                    valorProducto.setValorEquivalente(valorEquivalente);
+                    //
+                    MyOpenHelper dbHelper = new MyOpenHelper(getApplicationContext());
+                    SQLiteDatabase db = dbHelper.getWritableDatabase();
+                    TiendaProducto tiendaProducto = new TiendaProducto();
+                    if (db != null) {
+                        tiendaProducto = dbHelper.getTiendaProducto(db, tienda, producto);
+                        valorProducto.setIdTiendaProducto(tiendaProducto);
+                        long flagVP = dbHelper.insertValorProducto(db, valorProducto);
+                        if (flagVP > 0) {
+                            loadProductPrice(db, dbHelper);
+                            etPrice.setText(String.valueOf(0));
+                            etEquivalentPrice.setText(String.valueOf(0));
+                            //
+                            Toast.makeText(getApplicationContext(), R.string.created, Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT).show();
+                        }
                     }
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.redInfo, Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(getApplicationContext(), R.string.redInfo, Toast.LENGTH_SHORT).show();
+                android.app.AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+                dialog.setTitle(R.string.component_not_available);
+
+                dialog.setMessage(R.string.the_full_version_has);
+                dialog.setCancelable(false);
+                dialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        externalEstorageLite();
+                        Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.traffico.mercabarato");
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+                    }
+                });
+                dialog.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                dialog.show();
             }
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(), R.string.fail, Toast.LENGTH_SHORT).show();
@@ -282,5 +326,65 @@ public class ShoppingRecordPriceFragment extends Fragment {
             }
         }
         return flag;
+    }
+
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+
+
+    private void externalEstorageLite() {
+        try {
+
+            int permissionCheck = ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            if (permissionCheck < 0) {
+                ActivityCompat.requestPermissions(((MenuActivity) getActivity()), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+            } else {
+                File origen = new File("/data/data/com.traffico.mercabaratolite/databases/manhattan.sqlite");
+                File destino = new File("/sdcard/manhattan.sqlite");
+                FileChannel inChannel = new FileInputStream(origen).getChannel();
+                FileChannel outChannel = new FileOutputStream(destino).getChannel();
+                try
+                {
+                    inChannel.transferTo(0, inChannel.size(), outChannel);
+                }
+                finally
+                {
+                    if (inChannel != null)
+                        inChannel.close();
+                    if (outChannel != null)
+                        outChannel.close();
+                }
+            }
+
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(((MenuActivity) getActivity()), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                } else {
+                    ActivityCompat.requestPermissions(((MenuActivity) getActivity()), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("MainActivity", "onCreate: ", e.getCause());
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                    Toast.makeText(getApplicationContext(), R.string.we_will_not_be, Toast.LENGTH_LONG).show();
+                }
+                return;
+
+            }
+        }
     }
 }
